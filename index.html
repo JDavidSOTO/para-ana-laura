@@ -530,6 +530,56 @@ Te amo de una forma tan sincera… que incluso mis silencios llevan tu nombre. �
       <textarea class="rec-input" id="r6" placeholder="Lo que más te gusta de lo que tenemos…" oninput="guardarRec('r6','g6')"></textarea>
       <p class="rec-saved" id="g6">💛 Guardado</p>
     </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌙 ¿Cuál es ese pensamiento que tienes de mí y nunca me has dicho?</p>
+      <textarea class="rec-input" id="r7" placeholder="Ese que guardas para ti…" oninput="guardarRec('r7','g7')"></textarea>
+      <p class="rec-saved" id="g7">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💭 ¿Qué es lo que más miedo te da de lo que sentimos?</p>
+      <textarea class="rec-input" id="r8" placeholder="Puedes ser honesta, aquí estás segura…" oninput="guardarRec('r8','g8')"></textarea>
+      <p class="rec-saved" id="g8">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌸 ¿Cómo te imaginas nuestra vida en unos años?</p>
+      <textarea class="rec-input" id="r9" placeholder="Cuéntame ese sueño que tienes…" oninput="guardarRec('r9','g9')"></textarea>
+      <p class="rec-saved" id="g9">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🔥 ¿Hay algo que quisieras que yo hiciera más seguido?</p>
+      <textarea class="rec-input" id="r10" placeholder="Algo que te haga sentir especial…" oninput="guardarRec('r10','g10')"></textarea>
+      <p class="rec-saved" id="g10">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💔 ¿Ha habido algún momento en que te haya fallado sin darme cuenta?</p>
+      <textarea class="rec-input" id="r11" placeholder="Quiero saberlo para no repetirlo…" oninput="guardarRec('r11','g11')"></textarea>
+      <p class="rec-saved" id="g11">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌟 ¿Qué fue lo que te hizo confiar en mí?</p>
+      <textarea class="rec-input" id="r12" placeholder="Ese instante en que algo cambió…" oninput="guardarRec('r12','g12')"></textarea>
+      <p class="rec-saved" id="g12">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🤍 ¿Qué parte de ti sientes que solo yo conozco?</p>
+      <textarea class="rec-input" id="r13" placeholder="Esa parte que no muestras fácilmente…" oninput="guardarRec('r13','g13')"></textarea>
+      <p class="rec-saved" id="g13">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🎯 ¿Qué es lo que más valoras de lo que tenemos?</p>
+      <textarea class="rec-input" id="r14" placeholder="Lo que no cambiarías por nada…" oninput="guardarRec('r14','g14')"></textarea>
+      <p class="rec-saved" id="g14">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌊 ¿Cómo te sientes cuando estamos en silencio juntos?</p>
+      <textarea class="rec-input" id="r15" placeholder="Ese silencio que no necesita palabras…" oninput="guardarRec('r15','g15')"></textarea>
+      <p class="rec-saved" id="g15">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💛 Si pudieras decirme algo que nunca te has atrevido, ¿qué sería?</p>
+      <textarea class="rec-input" id="r16" placeholder="Este es tu momento, aquí no hay miedo…" oninput="guardarRec('r16','g16')"></textarea>
+      <p class="rec-saved" id="g16">💛 Guardado</p>
+    </div>
     <div class="send-wrap">
       <button class="send-btn" id="sbtn" onclick="enviar()">Enviar mis recuerdos 💌</button>
       <p class="send-status" id="sstatus"></p>
@@ -763,15 +813,32 @@ function guardarRec(id,gid){
     setTimeout(()=>g.classList.remove('show'),2000);
   },600);
 }
-['r1','r2','r3','r4','r5','r6'].forEach(id=>{
+['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11','r12','r13','r14','r15','r16'].forEach(id=>{
   const v=localStorage.getItem('r_'+id);if(v)document.getElementById(id).value=v;
 });
 
 // ENVIAR
 function enviar(){
-  const preg=['🛍️ ¿Qué recuerdas de nuestra primera cita?','💌 ¿Cómo te sentiste cuando leíste mi carta?','⭐ ¿Cuál es tu momento favorito?','🌸 ¿Qué fue lo primero que pensaste de mí?','❤️ ¿En qué momento supiste que te gustaba?','✨ ¿Qué es lo que más amas de nosotros?'];
+  const preg=[
+    '🛍️ ¿Qué recuerdas de nuestra primera cita?',
+    '💌 ¿Cómo te sentiste cuando leíste mi carta?',
+    '⭐ ¿Cuál es tu momento favorito?',
+    '🌸 ¿Qué fue lo primero que pensaste de mí?',
+    '❤️ ¿En qué momento supiste que te gustaba?',
+    '✨ ¿Qué es lo que más amas de nosotros?',
+    '🌙 ¿Cuál es ese pensamiento que tienes de mí y nunca me has dicho?',
+    '💭 ¿Qué es lo que más miedo te da de lo que sentimos?',
+    '🌸 ¿Cómo te imaginas nuestra vida en unos años?',
+    '🔥 ¿Hay algo que quisieras que yo hiciera más seguido?',
+    '💔 ¿Ha habido algún momento en que te haya fallado sin darme cuenta?',
+    '🌟 ¿Qué fue lo que te hizo confiar en mí?',
+    '🤍 ¿Qué parte de ti sientes que solo yo conozco?',
+    '🎯 ¿Qué es lo que más valoras de lo que tenemos?',
+    '🌊 ¿Cómo te sientes cuando estamos en silencio juntos?',
+    '💛 Si pudieras decirme algo que nunca te has atrevido, ¿qué sería?',
+  ];
   let hay=false,body='💌 Ana Laura respondió sus recuerdos:\n\n';
-  ['r1','r2','r3','r4','r5','r6'].forEach((id,i)=>{
+  ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11','r12','r13','r14','r15','r16'].forEach((id,i)=>{
     const v=document.getElementById(id).value.trim();
     if(v)hay=true;
     body+=(i+1)+'. '+preg[i]+'\n'+(v||'(sin respuesta)')+'\n\n';
