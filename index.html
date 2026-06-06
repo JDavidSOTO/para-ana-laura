@@ -44,12 +44,192 @@ section{position:relative;z-index:1;padding:3.5rem 1.2rem 2rem;}
 .cnt-l{font-size:.7rem;letter-spacing:.1rem;text-transform:uppercase;color:var(--oro);margin-top:.3rem;}
 .fi-txt{text-align:center;margin-top:1.5rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--txt);font-size:.9rem;opacity:.7;}
 /* CARTA */
-#carta{background:var(--crema);}
-.crt{background:var(--w);border-radius:20px;padding:1.8rem 1.4rem;box-shadow:0 16px 50px rgba(232,129,138,.13);border:1px solid rgba(247,197,197,.5);position:relative;overflow:hidden;}
-.crt::before{content:'❤';position:absolute;top:-20px;right:-20px;font-size:9rem;color:rgba(247,197,197,.12);pointer-events:none;}
-.crt-sal{font-family:'Dancing Script',cursive;font-size:1.7rem;color:var(--rosa-d);margin-bottom:1.2rem;}
-.crt-txt{font-family:'Playfair Display',serif;font-size:.97rem;line-height:1.95;color:var(--txt);white-space:pre-line;}
-.crt-fir{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--oro);text-align:right;margin-top:1.5rem;}
+#carta{background:radial-gradient(ellipse at 50% 0%,#fdf0f5 0%,#fef9f0 50%,#fdf5ec 100%);}
+
+/* Flores flotantes de fondo */
+.carta-flores-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.flor-bg{position:absolute;opacity:0;animation:floatFlor linear infinite;}
+@keyframes floatFlor{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.7);}10%{opacity:.22;}90%{opacity:.12;}100%{opacity:0;transform:translateY(-120vh) rotate(360deg) scale(1.1);}}
+
+/* Envelope intro */
+.carta-sobre-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:2rem;}
+.carta-sobre{cursor:pointer;position:relative;width:200px;height:130px;filter:drop-shadow(0 8px 24px rgba(232,129,138,.3));transition:transform .3s;animation:sobrePulse 2s ease-in-out infinite;}
+@keyframes sobrePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.carta-sobre:hover{transform:scale(1.07);}
+.carta-sobre.abierto{animation:none;transform:scale(1);}
+.sobre-hint{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:var(--oro);margin-top:.7rem;letter-spacing:.05rem;opacity:.85;}
+
+/* Carta pergamino */
+.carta-pergamino{
+  display:none;
+  position:relative;
+  background:linear-gradient(170deg,#fdfaf3 0%,#fef6e4 40%,#fdf8ed 70%,#fefaf2 100%);
+  border-radius:4px 4px 20px 20px;
+  padding:2.5rem 1.8rem 2rem;
+  box-shadow:0 20px 60px rgba(139,90,43,.18),0 2px 8px rgba(139,90,43,.1),inset 0 0 40px rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.25);
+  overflow:hidden;
+  animation:pergaminoAppear .8s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pergaminoAppear{from{opacity:0;transform:translateY(-30px) scaleY(.92)}to{opacity:1;transform:translateY(0) scaleY(1)}}
+
+/* Textura pergamino */
+.carta-pergamino::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(201,168,76,.06) 31px,rgba(201,168,76,.06) 32px);
+  pointer-events:none;border-radius:inherit;
+}
+/* Borde ornamental */
+.carta-pergamino::after{
+  content:'';position:absolute;inset:8px;
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:2px 2px 16px 16px;
+  pointer-events:none;
+}
+
+/* Sello lacre */
+.carta-sello{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  width:52px;height:52px;
+  background:radial-gradient(circle at 40% 35%,#e8818a,#c0525c 60%,#8b2a35);
+  border-radius:50%;
+  box-shadow:0 4px 14px rgba(139,42,53,.4),inset 0 -2px 4px rgba(0,0,0,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;z-index:2;
+}
+
+/* Flores decorativas SVG en esquinas */
+.flores-esquina{position:absolute;width:90px;height:90px;opacity:.65;pointer-events:none;}
+.flores-esquina.tl{top:30px;left:-10px;transform:rotate(-15deg);}
+.flores-esquina.tr{top:30px;right:-10px;transform:rotate(15deg) scaleX(-1);}
+.flores-esquina.bl{bottom:10px;left:-10px;transform:rotate(10deg);}
+.flores-esquina.br{bottom:10px;right:-10px;transform:rotate(-10deg) scaleX(-1);}
+
+/* Separador ornamental */
+.carta-ornamento{
+  text-align:center;font-size:.9rem;color:var(--oro);
+  letter-spacing:.4rem;margin:.8rem 0;opacity:.7;
+  font-family:'Playfair Display',serif;
+}
+
+/* Fecha estampada */
+.carta-fecha{
+  text-align:center;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:.75rem;color:rgba(139,90,43,.6);
+  letter-spacing:.12rem;margin-bottom:1.2rem;
+  text-transform:uppercase;
+}
+
+/* Contenido carta */
+.carta-sal{
+  font-family:'Dancing Script',cursive;font-size:1.9rem;
+  color:var(--rosa-d);margin-bottom:1rem;
+  text-shadow:0 1px 3px rgba(232,129,138,.15);
+}
+.carta-cuerpo{
+  font-family:'Playfair Display',serif;
+  font-size:.97rem;line-height:2.1;
+  color:#3a2020;
+  white-space:pre-line;
+  position:relative;z-index:1;
+}
+.carta-cuerpo p{margin-bottom:1.2rem;}
+.carta-cuerpo p:last-child{margin-bottom:0;}
+
+/* Primera letra capital */
+.carta-capital{
+  float:left;
+  font-family:'Dancing Script',cursive;
+  font-size:3.8rem;
+  line-height:.75;
+  color:var(--rosa-d);
+  margin:.05em .12em 0 0;
+  text-shadow:0 2px 8px rgba(232,129,138,.25);
+}
+
+.carta-firma{
+  font-family:'Dancing Script',cursive;font-size:1.6rem;
+  color:var(--oro);text-align:right;
+  margin-top:1.8rem;position:relative;z-index:1;
+}
+.carta-firma::before{
+  content:'';display:block;
+  width:60%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--oro),transparent);
+  margin:0 0 .5rem auto;
+  opacity:.4;
+}
+
+/* Flores ramilletes al pie */
+.carta-flores-pie{
+  display:flex;justify-content:center;gap:.4rem;
+  margin-top:1.5rem;position:relative;z-index:1;
+}
+.flor-pie{font-size:1.4rem;animation:florMece .8s ease-in-out infinite alternate;}
+.flor-pie:nth-child(1){animation-delay:0s;}
+.flor-pie:nth-child(2){animation-delay:.12s;}
+.flor-pie:nth-child(3){animation-delay:.24s;}
+.flor-pie:nth-child(4){animation-delay:.36s;}
+.flor-pie:nth-child(5){animation-delay:.48s;}
+.flor-pie:nth-child(6){animation-delay:.6s;}
+.flor-pie:nth-child(7){animation-delay:.72s;}
+@keyframes florMece{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(4deg) translateY(-3px)}}
+
+/* Botón sobre */
+.sobre-btn{
+  display:none;
+  margin:1.5rem auto 0;
+  background:linear-gradient(135deg,var(--rosa-d),var(--oro));
+  color:white;border:none;border-radius:50px;
+  padding:.8rem 2rem;font-family:'Dancing Script',cursive;
+  font-size:1.2rem;cursor:pointer;
+  box-shadow:0 4px 16px rgba(232,129,138,.3);
+}
+/* SEGUNDA CARTA — pergamino oscuro estilo caballero */
+.carta-pergamino-2{
+  background:linear-gradient(170deg,#fdf6e8 0%,#faefd4 40%,#f5e8c0 70%,#fdf3de 100%);
+  border:1px solid rgba(139,42,53,.2);
+  box-shadow:0 20px 60px rgba(139,42,53,.2),0 2px 8px rgba(139,42,53,.1),inset 0 0 40px rgba(139,90,43,.07);
+}
+.carta-pergamino-2::before{
+  background:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(139,42,53,.05) 31px,rgba(139,42,53,.05) 32px);
+}
+.carta-pergamino-2::after{
+  border:1px solid rgba(139,42,53,.15);
+}
+.carta-sal2{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;font-style:italic;
+  color:#5a2020;margin-bottom:1.2rem;
+  letter-spacing:.03rem;
+}
+
+/* Cita destacada */
+.carta-cita{
+  position:relative;z-index:1;
+  margin:1.4rem 0;
+  padding:1rem 1.4rem;
+  background:rgba(139,42,53,.06);
+  border-left:3px solid #8b2a35;
+  border-radius:0 12px 12px 0;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:1.05rem;
+  line-height:1.8;
+  color:#5a2020;
+  text-align:center;
+}
+.carta-cita-comilla{
+  font-family:'Dancing Script',cursive;
+  font-size:2.2rem;
+  color:#8b2a35;
+  line-height:0;
+  vertical-align:-.5rem;
+  opacity:.6;
+  margin:0 .2rem;
+}
+
 /* MOMENTOS */
 #momentos{background:linear-gradient(180deg,#fff0f3,var(--crema));}
 .mom{background:var(--w);border-radius:18px;padding:1.5rem;box-shadow:0 8px 30px rgba(232,129,138,.1);border-left:4px solid var(--rosa-d);margin-bottom:1.2rem;}
@@ -343,21 +523,387 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
 </section>
 
 <!-- CARTA -->
-<section id="carta">
+<section id="carta" style="position:relative;">
+  <div class="carta-flores-bg" id="cartaFloresBg"></div>
   <p class="ttl rv">Mi carta para ti</p>
   <p class="sub rv">Palabras que salen del alma</p>
-  <div class="crt rv">
-    <p class="crt-sal">Mi amor… ❤️</p>
-    <p class="crt-txt">No sé en qué momento te volviste tan importante para mí, pero hoy siento que ya eres parte de todo lo que soy. Te metiste en mi corazón de una forma tan profunda, tan bonita, que ahora hasta mis días tienen tu nombre.
 
-A veces quisiera que pudieras ver cómo te miro desde mi alma… para que entendieras lo mucho que te amo. Porque no eres solo la mujer que amo, eres también mi tranquilidad, mi alegría y ese lugar al que siempre quiero volver.
+  <!-- Sobre animado -->
+  <div class="carta-sobre-wrap rv" id="sobreWrap">
+    <svg class="carta-sobre" id="sobreSvg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" onclick="abrirCarta()" aria-label="Abrir carta">
+      <!-- Fondo sobre -->
+      <defs>
+        <linearGradient id="sgFondo" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#fde8c8"/>
+          <stop offset="100%" style="stop-color:#f7c5c5"/>
+        </linearGradient>
+        <linearGradient id="sgSolapa" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#f0d080"/>
+          <stop offset="100%" style="stop-color:#c9a84c"/>
+        </linearGradient>
+      </defs>
+      <!-- Cuerpo del sobre -->
+      <rect x="2" y="35" width="196" height="92" rx="6" ry="6" fill="url(#sgFondo)" stroke="#c9a84c" stroke-width="1.2"/>
+      <!-- Líneas diagonales interiores -->
+      <line x1="2" y1="127" x2="100" y2="78" stroke="#e8818a" stroke-width=".8" opacity=".4"/>
+      <line x1="198" y1="127" x2="100" y2="78" stroke="#e8818a" stroke-width=".8" opacity=".4"/>
+      <!-- Solapa superior (cerrada) -->
+      <path id="sobreSolapa" d="M2,35 L100,85 L198,35 Z" fill="url(#sgSolapa)" stroke="#c9a84c" stroke-width="1.2"/>
+      <!-- Corazón en el sello -->
+      <circle cx="100" cy="68" r="12" fill="#e8818a" opacity=".9"/>
+      <text x="100" y="73" text-anchor="middle" font-size="13">❤️</text>
+      <!-- Flores pequeñas decorativas -->
+      <text x="18" y="62" font-size="14" opacity=".7">🌹</text>
+      <text x="168" y="62" font-size="14" opacity=".7">🌸</text>
+      <text x="16" y="118" font-size="12" opacity=".6">🌻</text>
+      <text x="170" y="118" font-size="12" opacity=".6">🌺</text>
+    </svg>
+    <p class="sobre-hint">✦ Toca para abrir tu carta ✦</p>
+  </div>
 
-Contigo aprendí que el amor verdadero no hace ruido… se siente. Se siente en la forma en que te extraño, en cómo pienso en ti incluso en medio del día, en las ganas inmensas que tengo de abrazarte y quedarme contigo olvidándome del mundo.
+  <!-- Carta pergamino (oculta al inicio) -->
+  <div class="carta-pergamino rv" id="cartaPergamino">
+    <div class="carta-sello">💌</div>
 
-Y aunque la vida a veces nos ponga distancia o momentos difíciles, mi corazón siempre termina eligiéndote a ti. Porque contigo encontré algo que nunca quiero perder.
+    <!-- Flores SVG esquina superior izquierda -->
+    <svg class="flores-esquina tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rosa -->
+      <g transform="translate(30,55) rotate(-20)">
+        <line x1="0" y1="0" x2="0" y2="28" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <path d="M0,0 C-6,-4 -10,-10 -6,-14 C-2,-18 2,-14 0,-10 C-2,-6 2,-2 0,0Z" fill="#e8818a"/>
+        <path d="M0,0 C6,-4 10,-10 6,-14 C2,-18 -2,-14 0,-10 C2,-6 -2,-2 0,0Z" fill="#f0a0a8"/>
+        <path d="M0,0 C-4,-8 -8,-10 -8,-14 C-8,-18 -2,-18 0,-14 C2,-10 -2,-4 0,0Z" fill="#d06070"/>
+        <path d="M0,0 C4,-8 8,-10 8,-14 C8,-18 2,-18 0,-14 C-2,-10 2,-4 0,0Z" fill="#f5b8be"/>
+        <ellipse cx="-4" cy="14" rx="6" ry="3" fill="#66bb6a" transform="rotate(-30,-4,14)"/>
+        <ellipse cx="4" cy="18" rx="6" ry="3" fill="#4caf50" transform="rotate(20,4,18)"/>
+      </g>
+      <!-- Lirio -->
+      <g transform="translate(58,50) rotate(15)">
+        <line x1="0" y1="0" x2="0" y2="24" stroke="#4caf50" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M0,-18 C-8,-12 -10,-4 0,0 C10,-4 8,-12 0,-18Z" fill="#ce93d8" opacity=".9"/>
+        <path d="M0,-18 C-14,-8 -12,2 0,0 C12,2 14,-8 0,-18Z" fill="#ba68c8" opacity=".85" transform="rotate(60,0,0)"/>
+        <path d="M0,-18 C-14,-8 -12,2 0,0 C12,2 14,-8 0,-18Z" fill="#ab47bc" opacity=".8" transform="rotate(-60,0,0)"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fff176"/>
+      </g>
+      <!-- Pequeñas florecitas -->
+      <circle cx="15" cy="30" r="4" fill="#fff176" opacity=".7"/>
+      <circle cx="15" cy="30" r="2" fill="#fdd835"/>
+      <circle cx="72" cy="70" r="3.5" fill="#f48fb1" opacity=".7"/>
+      <circle cx="72" cy="70" r="1.8" fill="#e91e8c"/>
+    </svg>
 
-Te amo de una forma tan sincera… que incluso mis silencios llevan tu nombre. ❤️</p>
-    <p class="crt-fir">— Jesús David 💛</p>
+    <!-- Flores SVG esquina superior derecha -->
+    <svg class="flores-esquina tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Gerbera -->
+      <g transform="translate(32,52) rotate(10)">
+        <line x1="0" y1="0" x2="0" y2="26" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="0" cy="-2" r="5" fill="#fdd835"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(30,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(60,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(90,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(120,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(150,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(180,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(210,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(240,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(270,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(300,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(330,0,-2)"/>
+        <circle cx="0" cy="-2" r="5" fill="#fdd835"/>
+        <circle cx="0" cy="-2" r="2.5" fill="#f57f17"/>
+        <ellipse cx="-5" cy="12" rx="6" ry="3" fill="#66bb6a" transform="rotate(-25,-5,12)"/>
+      </g>
+      <!-- Orquídea -->
+      <g transform="translate(60,48) rotate(-18)">
+        <line x1="0" y1="0" x2="0" y2="22" stroke="#4caf50" stroke-width="1.8" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#ce93d8" opacity=".8" transform="rotate(72,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85" transform="rotate(144,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#ce93d8" opacity=".8" transform="rotate(216,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85" transform="rotate(288,0,-5)"/>
+        <ellipse cx="0" cy="-5" rx="4" ry="5" fill="#fff" opacity=".6"/>
+        <circle cx="0" cy="-5" r="2" fill="#ffcc02"/>
+        <ellipse cx="4" cy="10" rx="5" ry="2.5" fill="#4caf50" transform="rotate(20,4,10)"/>
+      </g>
+    </svg>
+
+    <!-- Flores SVG esquina inferior izquierda -->
+    <svg class="flores-esquina bl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Girasol -->
+      <g transform="translate(35,32) rotate(5)">
+        <line x1="0" y1="0" x2="0" y2="30" stroke="#4caf50" stroke-width="2.2" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(22.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(45,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(67.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(90,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(112.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(135,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(157.5,0,0)"/>
+        <circle cx="0" cy="0" r="9" fill="#5d4037"/>
+        <circle cx="0" cy="0" r="6.5" fill="#3e2723"/>
+        <!-- Semillas girasol -->
+        <circle cx="-2" cy="-2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="2" cy="-2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="0" cy="2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="-3" cy="1" r="1" fill="#795548" opacity=".5"/>
+        <circle cx="3" cy="1" r="1" fill="#795548" opacity=".5"/>
+        <ellipse cx="-5" cy="16" rx="7" ry="3.5" fill="#66bb6a" transform="rotate(-30,-5,16)"/>
+        <ellipse cx="5" cy="20" rx="7" ry="3.5" fill="#4caf50" transform="rotate(15,5,20)"/>
+      </g>
+      <circle cx="62" cy="22" r="4" fill="#f48fb1" opacity=".65"/>
+      <circle cx="62" cy="22" r="2" fill="#ad1457"/>
+    </svg>
+
+    <!-- Flores SVG esquina inferior derecha -->
+    <svg class="flores-esquina br" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rosa blanca/crema -->
+      <g transform="translate(30,35) rotate(-8)">
+        <line x1="0" y1="0" x2="0" y2="30" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <path d="M0,0 C-6,-4 -10,-10 -6,-15 C-2,-19 2,-15 0,-11 C-2,-7 2,-3 0,0Z" fill="#f0d080"/>
+        <path d="M0,0 C6,-4 10,-10 6,-15 C2,-19 -2,-15 0,-11 C2,-7 -2,-3 0,0Z" fill="#f5e090"/>
+        <path d="M0,0 C-4,-8 -8,-10 -8,-15 C-8,-19 -2,-19 0,-15 C2,-11 -2,-5 0,0Z" fill="#c9a84c"/>
+        <path d="M0,0 C4,-8 8,-10 8,-15 C8,-19 2,-19 0,-15 C-2,-11 2,-5 0,0Z" fill="#f0e0a0"/>
+        <ellipse cx="-4" cy="14" rx="6" ry="3" fill="#66bb6a" transform="rotate(-30,-4,14)"/>
+        <ellipse cx="4" cy="19" rx="6" ry="3" fill="#4caf50" transform="rotate(20,4,19)"/>
+      </g>
+      <!-- Lirio pequeño -->
+      <g transform="translate(60,38) rotate(12)">
+        <line x1="0" y1="0" x2="0" y2="22" stroke="#4caf50" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#b39ddb" opacity=".9"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#9575cd" opacity=".8" transform="rotate(60,0,0)"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#b39ddb" opacity=".9" transform="rotate(-60,0,0)"/>
+        <circle cx="0" cy="0" r="2" fill="#fff176"/>
+      </g>
+    </svg>
+
+    <!-- Contenido de la carta -->
+    <p class="carta-fecha">Riohacha, 7 de junio de 2026 · 9 meses juntos</p>
+    <div class="carta-ornamento">✦ · ✦ · ✦</div>
+    <p class="carta-sal">Mi amor… 💛</p>
+    <div class="carta-cuerpo">
+      <p><span class="carta-capital">N</span>o sé en qué momento te volviste tan importante para mí, pero hoy siento que ya eres parte de todo lo que soy. Te metiste en mi corazón de una forma tan profunda, tan bonita, que ahora hasta mis días tienen tu nombre.</p>
+      <p>A veces quisiera que pudieras ver cómo te miro desde mi alma… para que entendieras lo mucho que te amo. Porque no eres solo la mujer que amo, eres también mi tranquilidad, mi alegría y ese lugar al que siempre quiero volver.</p>
+      <p>Contigo aprendí que el amor verdadero no hace ruido… se siente. Se siente en la forma en que te extraño, en cómo pienso en ti incluso en medio del día, en las ganas inmensas que tengo de abrazarte y quedarme contigo olvidándome del mundo.</p>
+      <p>Y aunque la vida a veces nos ponga distancia o momentos difíciles, mi corazón siempre termina eligiéndote a ti. Porque contigo encontré algo que nunca quiero perder.</p>
+      <p>Te amo de una forma tan sincera… que incluso mis silencios llevan tu nombre. ❤️</p>
+    </div>
+    <div class="carta-ornamento">· · · · ·</div>
+    <p class="carta-firma">Con todo mi amor,<br/>— Jesús David 💛</p>
+
+    <!-- Ramillete de flores al pie -->
+    <div class="carta-flores-pie">
+      <span class="flor-pie">🌹</span>
+      <span class="flor-pie">🌸</span>
+      <span class="flor-pie">🌻</span>
+      <span class="flor-pie">🌷</span>
+      <span class="flor-pie">🌺</span>
+      <span class="flor-pie">🪷</span>
+      <span class="flor-pie">🌹</span>
+    </div>
+  </div>
+
+  <button class="sobre-btn" id="sobreBtn" onclick="cerrarCarta()">Cerrar carta 💌</button>
+
+  <!-- ══ SEGUNDA CARTA ══ -->
+  <div style="margin-top:2.5rem;">
+    <p class="sub rv" style="margin-bottom:1.2rem;">✦ Una carta de caballero ✦</p>
+
+    <!-- Sobre 2 -->
+    <div class="carta-sobre-wrap rv" id="sobreWrap2">
+      <svg class="carta-sobre" id="sobreSvg2" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" onclick="abrirCarta2()" aria-label="Abrir segunda carta">
+        <defs>
+          <linearGradient id="sg2Fondo" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2c1810"/>
+            <stop offset="50%" style="stop-color:#4a2c1a"/>
+            <stop offset="100%" style="stop-color:#3d1f10"/>
+          </linearGradient>
+          <linearGradient id="sg2Solapa" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8b2a35"/>
+            <stop offset="100%" style="stop-color:#c0525c"/>
+          </linearGradient>
+        </defs>
+        <!-- Cuerpo oscuro del sobre -->
+        <rect x="2" y="35" width="196" height="92" rx="6" ry="6" fill="url(#sg2Fondo)" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Marco dorado interior -->
+        <rect x="8" y="41" width="184" height="80" rx="4" ry="4" fill="none" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+        <!-- Líneas V interiores -->
+        <line x1="2" y1="127" x2="100" y2="80" stroke="#c9a84c" stroke-width=".8" opacity=".3"/>
+        <line x1="198" y1="127" x2="100" y2="80" stroke="#c9a84c" stroke-width=".8" opacity=".3"/>
+        <!-- Solapa roja -->
+        <path id="sobreSolapa2" d="M2,35 L100,87 L198,35 Z" fill="url(#sg2Solapa)" stroke="#c9a84c" stroke-width="1.2"/>
+        <!-- Sello de cera con escudo -->
+        <circle cx="100" cy="70" r="14" fill="#8b2a35"/>
+        <circle cx="100" cy="70" r="12" fill="#a33040"/>
+        <circle cx="100" cy="70" r="10" fill="#8b2a35"/>
+        <text x="100" y="75" text-anchor="middle" font-size="13">⚜️</text>
+        <!-- Flores en los lados -->
+        <text x="14" y="65" font-size="13" opacity=".8">🌹</text>
+        <text x="170" y="65" font-size="13" opacity=".8">🌺</text>
+        <text x="14" y="115" font-size="11" opacity=".7">🌻</text>
+        <text x="170" y="115" font-size="11" opacity=".7">🪷</text>
+        <!-- Texto sobre -->
+        <text x="100" y="110" text-anchor="middle" font-family="serif" font-size="9" fill="#c9a84c" opacity=".7" letter-spacing="2">PARA MI PRINCESA</text>
+      </svg>
+      <p class="sobre-hint" style="color:#8b2a35;">⚜️ Toca para leer tu carta especial ⚜️</p>
+    </div>
+
+    <!-- Pergamino 2 — estilo oscuro/antiguo -->
+    <div class="carta-pergamino carta-pergamino-2 rv" id="cartaPergamino2">
+      <div class="carta-sello" style="background:radial-gradient(circle at 40% 35%,#a33040,#6b1e28 60%,#3d0c12);">⚜️</div>
+
+      <!-- Flores esquina sup izq — variante -->
+      <svg class="flores-esquina tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rosa roja oscura -->
+        <g transform="translate(28,58) rotate(-18)">
+          <line x1="0" y1="0" x2="0" y2="28" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,0 C-7,-5 -11,-12 -7,-16 C-3,-20 3,-16 0,-12 C-3,-8 3,-3 0,0Z" fill="#c62828"/>
+          <path d="M0,0 C7,-5 11,-12 7,-16 C3,-20 -3,-16 0,-12 C3,-8 -3,-3 0,0Z" fill="#e53935"/>
+          <path d="M0,0 C-5,-9 -9,-11 -9,-16 C-9,-20 -3,-20 0,-16 C3,-12 -3,-5 0,0Z" fill="#b71c1c"/>
+          <path d="M0,0 C5,-9 9,-11 9,-16 C9,-20 3,-20 0,-16 C-3,-12 3,-5 0,0Z" fill="#ef9a9a"/>
+          <ellipse cx="-4" cy="14" rx="7" ry="3" fill="#388e3c" transform="rotate(-30,-4,14)"/>
+          <ellipse cx="5" cy="19" rx="6" ry="3" fill="#2e7d32" transform="rotate(20,5,19)"/>
+          <!-- Espinas -->
+          <path d="M-1,6 L-5,4" stroke="#2e7d32" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M1,10 L5,8" stroke="#2e7d32" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <!-- Girasol pequeño -->
+        <g transform="translate(60,46) rotate(12)">
+          <line x1="0" y1="0" x2="0" y2="20" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#f9a825"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#fdd835" transform="rotate(45,0,0)"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#f9a825" transform="rotate(90,0,0)"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#fdd835" transform="rotate(135,0,0)"/>
+          <circle cx="0" cy="0" r="5.5" fill="#4e342e"/>
+          <circle cx="0" cy="0" r="3.5" fill="#3e2723"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina sup der -->
+      <svg class="flores-esquina tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Orquídea morada intensa -->
+        <g transform="translate(30,50) rotate(8)">
+          <line x1="0" y1="0" x2="0" y2="25" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#9c27b0" opacity=".85" transform="rotate(72,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9" transform="rotate(144,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#9c27b0" opacity=".85" transform="rotate(216,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9" transform="rotate(288,0,-5)"/>
+          <ellipse cx="0" cy="-6" rx="5" ry="6" fill="#fff" opacity=".5"/>
+          <ellipse cx="0" cy="-6" rx="2.5" ry="3" fill="#e040fb" opacity=".8"/>
+          <circle cx="0" cy="-6" r="1.5" fill="#ffcc02"/>
+          <ellipse cx="4" cy="12" rx="5" ry="2.5" fill="#388e3c" transform="rotate(20,4,12)"/>
+        </g>
+        <!-- Lirio blanco -->
+        <g transform="translate(60,46) rotate(-15)">
+          <line x1="0" y1="0" x2="0" y2="22" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff9c4" opacity=".95"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff59d" opacity=".9" transform="rotate(60,0,0)"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff9c4" opacity=".95" transform="rotate(-60,0,0)"/>
+          <circle cx="0" cy="0" r="2.2" fill="#f57f17"/>
+          <!-- Estambres -->
+          <line x1="0" y1="0" x2="-3" y2="-5" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="3" y2="-5" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="0" y2="-6" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina inf izq -->
+      <svg class="flores-esquina bl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gerbera coral -->
+        <g transform="translate(32,30) rotate(6)">
+          <line x1="0" y1="0" x2="0" y2="28" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(30,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(60,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(90,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(120,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(150,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(180,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(210,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(240,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(270,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(300,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(330,0,-2)"/>
+          <circle cx="0" cy="-2" r="5.5" fill="#bf360c"/>
+          <circle cx="0" cy="-2" r="3" fill="#4e342e"/>
+          <ellipse cx="-5" cy="14" rx="6" ry="3" fill="#388e3c" transform="rotate(-25,-5,14)"/>
+        </g>
+        <!-- Rosa pequeña -->
+        <g transform="translate(60,42) rotate(-10)">
+          <line x1="0" y1="0" x2="0" y2="18" stroke="#2e7d32" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M0,0 C-5,-3 -8,-8 -5,-11 C-2,-14 2,-11 0,-8 C-2,-5 2,-2 0,0Z" fill="#e53935"/>
+          <path d="M0,0 C5,-3 8,-8 5,-11 C2,-14 -2,-11 0,-8 C2,-5 -2,-2 0,0Z" fill="#ef9a9a"/>
+          <path d="M0,0 C-3,-6 -6,-7 -6,-11 C-6,-14 -2,-14 0,-11 C2,-8 -2,-4 0,0Z" fill="#c62828"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina inf der -->
+      <svg class="flores-esquina br" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rosa dorada -->
+        <g transform="translate(28,32) rotate(-6)">
+          <line x1="0" y1="0" x2="0" y2="30" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,0 C-6,-4 -10,-10 -6,-15 C-2,-19 2,-15 0,-11 C-2,-7 2,-3 0,0Z" fill="#f0d080"/>
+          <path d="M0,0 C6,-4 10,-10 6,-15 C2,-19 -2,-15 0,-11 C2,-7 -2,-3 0,0Z" fill="#f5e090"/>
+          <path d="M0,0 C-4,-8 -8,-10 -8,-15 C-8,-19 -2,-19 0,-15 C2,-11 -2,-5 0,0Z" fill="#c9a84c"/>
+          <path d="M0,0 C4,-8 8,-10 8,-15 C8,-19 2,-19 0,-15 C-2,-11 2,-5 0,0Z" fill="#fff9c4"/>
+          <ellipse cx="-4" cy="15" rx="6" ry="3" fill="#388e3c" transform="rotate(-30,-4,15)"/>
+          <ellipse cx="4" cy="20" rx="6" ry="3" fill="#2e7d32" transform="rotate(20,4,20)"/>
+        </g>
+        <!-- Orquídea pequeña -->
+        <g transform="translate(62,44) rotate(14)">
+          <line x1="0" y1="0" x2="0" y2="18" stroke="#2e7d32" stroke-width="1.4" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#c2185b" opacity=".85" transform="rotate(72,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9" transform="rotate(144,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#c2185b" opacity=".85" transform="rotate(216,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9" transform="rotate(288,0,-4)"/>
+          <circle cx="0" cy="-4" r="2" fill="#ffcc02"/>
+        </g>
+      </svg>
+
+      <!-- Contenido -->
+      <p class="carta-fecha" style="color:rgba(139,90,43,.7);">Riohacha, 7 de junio de 2026 · Nuestros 9 meses ❤️</p>
+      <div class="carta-ornamento">⚜ · ❧ · ⚜</div>
+      <p class="carta-sal" style="font-size:1.6rem;">Para mi amada,<br/><span style="font-size:1.1rem;color:var(--oro);">en nuestros 9 meses de amor ❤️</span></p>
+      <p class="carta-sal2">Mi querida princesa:</p>
+      <div class="carta-cuerpo">
+        <p><span class="carta-capital" style="color:#8b2a35;">S</span>i los caballeros de antaño escribían cartas para inmortalizar sus sentimientos, hoy tomo prestada esa costumbre para dejar por escrito lo que mi corazón siente por ti en este día tan especial.</p>
+        <p>Hoy celebramos nueve meses de ser novios, nueve meses desde que nuestras vidas comenzaron a caminar de la mano, y no puedo evitar mirar hacia atrás y sonreír al recordar todo lo que hemos vivido juntos.</p>
+        <p>Recuerdo nuestras conversaciones interminables, nuestras risas, nuestros abrazos, nuestros besos y cada uno de esos momentos que fueron construyendo esta historia tan hermosa que hoy compartimos. Recuerdo especialmente los días que pudimos estar juntos, aquellos momentos en los que el tiempo parecía detenerse y donde entendí que la felicidad, para mí, tenía tu nombre.</p>
+        <p>Amor mío, cada día que pasa estoy más seguro de lo que siento por ti. No es una emoción pasajera ni una ilusión momentánea. Es un amor que crece, madura y se fortalece con el paso del tiempo. Un amor que me hace admirarte más, extrañarte más y desear compartir contigo cada capítulo de mi vida.</p>
+        <p>Te amo por tu noble corazón, por tu ternura, por tu paciencia conmigo y por la forma tan especial en que logras iluminar mis días. Te amo porque contigo puedo ser yo mismo, porque me haces sentir amado, escuchado y comprendido. Te amo porque incluso en la distancia logras estar presente en cada uno de mis pensamientos.</p>
+        <p>No hay noche en la que no imagine volver a tenerte entre mis brazos. No hay mañana en la que no despierte pensando en tu sonrisa. Y no hay futuro en el que no aparezcas tú cuando cierro los ojos y sueño con la vida que quiero construir.</p>
+        <p>Si alguna vez me preguntan qué deseo para los próximos años, mi respuesta seguirá siendo la misma: seguir amándote. Seguir celebrando meses, años y momentos a tu lado. Seguir siendo la persona que te tome de la mano cuando la vida sea fácil y también cuando sea difícil.</p>
+        <p>Porque tú no eres solamente la mujer que amo; eres también mi tranquilidad, mi felicidad y uno de los sueños más hermosos que Dios puso en mi camino.</p>
+        <p>Hoy, al cumplir nueve meses juntos, quiero darte las gracias. Gracias por quedarte, por creer en nosotros, por permitirme entrar en tu vida y por regalarme tu amor.</p>
+        <p>Y mientras escribo estas líneas, mi corazón me recuerda una verdad que quiero que nunca olvides:</p>
+      </div>
+      <div class="carta-cita">
+        <span class="carta-cita-comilla">❝</span>
+        De todas las historias que pude vivir, mi favorita sigue siendo aquella en la que apareciste tú.
+        <span class="carta-cita-comilla">❞</span>
+      </div>
+      <div class="carta-cuerpo">
+        <p style="text-align:center;font-style:italic;font-size:1rem;color:#8b2a35;font-weight:bold;">Feliz 9 meses, mi amor. ❤️</p>
+      </div>
+      <div class="carta-ornamento">· · ⚜ · ·</div>
+      <p class="carta-firma" style="color:#8b2a35;">Con todo el amor, la admiración y la ternura<br/>que habitan en mi corazón,<br/><span style="font-size:1.8rem;color:#c9a84c;">Tu hombre enamorado ❤️</span></p>
+
+      <!-- Ramillete pie -->
+      <div class="carta-flores-pie">
+        <span class="flor-pie">🌹</span>
+        <span class="flor-pie">🌺</span>
+        <span class="flor-pie">🌸</span>
+        <span class="flor-pie">🌻</span>
+        <span class="flor-pie">🪷</span>
+        <span class="flor-pie">🌷</span>
+        <span class="flor-pie">🌹</span>
+      </div>
+    </div>
+
+    <button class="sobre-btn" id="sobreBtn2" onclick="cerrarCarta2()" style="background:linear-gradient(135deg,#8b2a35,#c9a84c);">Cerrar carta ⚜️</button>
   </div>
 </section>
 
@@ -1146,6 +1692,108 @@ const jdEl=document.getElementById('jardinCanvas');if(jdEl)jdObs.observe(jdEl);
 // REVEAL
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}})  ,{threshold:.1});
 document.querySelectorAll('.rv').forEach(r=>obs.observe(r));
+
+// ══ CARTA CON FLORES ══
+function abrirCarta(){
+  const sobre=document.getElementById('sobreWrap');
+  const pergamino=document.getElementById('cartaPergamino');
+  const btn=document.getElementById('sobreBtn');
+  const solapa=document.getElementById('sobreSolapa');
+
+  // Animar apertura del sobre
+  if(solapa){
+    solapa.style.transition='transform .5s ease, opacity .4s ease';
+    solapa.style.transformOrigin='50% 0%';
+    solapa.style.transform='rotateX(180deg) scaleY(-1)';
+    solapa.style.opacity='0';
+  }
+
+  setTimeout(()=>{
+    sobre.style.transition='opacity .4s ease, transform .4s ease';
+    sobre.style.opacity='0';
+    sobre.style.transform='scale(.85) translateY(-10px)';
+    setTimeout(()=>{
+      sobre.style.display='none';
+      pergamino.style.display='block';
+      pergamino.classList.add('vis');
+      btn.style.display='block';
+      // Lanzar flores flotantes
+      lanzarFloresCarta();
+    },400);
+  },350);
+}
+
+function cerrarCarta(){
+  const sobre=document.getElementById('sobreWrap');
+  const pergamino=document.getElementById('cartaPergamino');
+  const btn=document.getElementById('sobreBtn');
+  const solapa=document.getElementById('sobreSolapa');
+  pergamino.style.display='none';
+  btn.style.display='none';
+  sobre.style.display='flex';
+  sobre.style.opacity='1';
+  sobre.style.transform='none';
+  if(solapa){solapa.style.transform='none';solapa.style.opacity='1';}
+  document.getElementById('cartaFloresBg').innerHTML='';
+}
+
+// ══ SEGUNDA CARTA ══
+function abrirCarta2(){
+  const sobre=document.getElementById('sobreWrap2');
+  const pergamino=document.getElementById('cartaPergamino2');
+  const btn=document.getElementById('sobreBtn2');
+  const solapa=document.getElementById('sobreSolapa2');
+  if(solapa){
+    solapa.style.transition='transform .5s ease, opacity .4s ease';
+    solapa.style.transformOrigin='50% 0%';
+    solapa.style.transform='rotateX(180deg) scaleY(-1)';
+    solapa.style.opacity='0';
+  }
+  setTimeout(()=>{
+    sobre.style.transition='opacity .4s ease, transform .4s ease';
+    sobre.style.opacity='0';
+    sobre.style.transform='scale(.85) translateY(-10px)';
+    setTimeout(()=>{
+      sobre.style.display='none';
+      pergamino.style.display='block';
+      pergamino.classList.add('vis');
+      btn.style.display='block';
+      lanzarFloresCarta();
+    },400);
+  },350);
+}
+
+function cerrarCarta2(){
+  const sobre=document.getElementById('sobreWrap2');
+  const pergamino=document.getElementById('cartaPergamino2');
+  const btn=document.getElementById('sobreBtn2');
+  const solapa=document.getElementById('sobreSolapa2');
+  pergamino.style.display='none';
+  btn.style.display='none';
+  sobre.style.display='flex';
+  sobre.style.opacity='1';
+  sobre.style.transform='none';
+  if(solapa){solapa.style.transform='none';solapa.style.opacity='1';}
+  document.getElementById('cartaFloresBg').innerHTML='';
+}
+
+function lanzarFloresCarta(){
+  const contenedor=document.getElementById('cartaFloresBg');
+  if(!contenedor)return;
+  contenedor.innerHTML='';
+  const flores=['🌹','🌸','🌻','🌷','🌺','🪷','💮','🌼','🌹','🌸','🌻'];
+  for(let i=0;i<18;i++){
+    const el=document.createElement('div');
+    el.className='flor-bg';
+    el.textContent=flores[Math.floor(Math.random()*flores.length)];
+    const tam=14+Math.random()*14;
+    const dur=7+Math.random()*9;
+    const delay=Math.random()*6;
+    const left=Math.random()*100;
+    el.style.cssText=`font-size:${tam}px;left:${left}%;bottom:-40px;animation-duration:${dur}s;animation-delay:${delay}s;`;
+    contenedor.appendChild(el);
+  }
+}
 </script>
 </body>
 </html>
