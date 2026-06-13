@@ -8,7 +8,70 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 :root{--rosa:#f7c5c5;--rosa-d:#e8818a;--oro:#c9a84c;--oro-l:#f0d080;--crema:#fff8f0;--txt:#3a2a2a;--w:#ffffff;}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+/* ══ MODO NOCHE ══ */
+body.noche{
+  --rosa:#c97d96;--rosa-d:#d4607a;--oro:#e0b860;--oro-l:#f5d070;
+  --crema:#0d0812;--txt:#e8d5c4;--w:#1a1025;
+}
+body.noche{background:#0d0812;}
+body.noche #mainNav{background:rgba(13,8,18,.96);border-top:1px solid rgba(212,96,122,.2);}
+body.noche #masPanel{background:linear-gradient(170deg,#1a1025,#120e1e);}
+body.noche section{background:none!important;}
+body.noche .carta-pergamino{background:linear-gradient(170deg,#1e1430,#180f2a,#1a1230)!important;color:#e8d5c4;}
+body.noche .carta-cuerpo{color:#d8c8b8;}
+body.noche .qbox,.noche .ctbox{background:#1a1025!important;}
+body.noche .qopt,.noche .ct-opt{background:#2a1535!important;border-color:#c97d96!important;color:#e8d5c4!important;}
+body.noche .pz-tablero{background:#1a0e22!important;}
+body.noche .rec-card,.noche .prom,.noche .foto-card{background:#1a1025!important;border-color:#c97d96!important;}
+body.noche .rres,.noche .mwin,.noche .pzwin-inner{background:#1a1025!important;}
+body.noche .mas-item{background:#1a1025!important;border-color:#c97d96!important;color:#e8d5c4!important;}
+
+/* Estrellas modo noche */
+#estrellas{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  opacity:0;transition:opacity 1s ease;
+}
+body.noche #estrellas{opacity:1;}
+.estrella{
+  position:absolute;border-radius:50%;
+  background:white;
+  animation:twinkle linear infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:.2;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.4);}
+}
+
+/* Botón modo noche */
+#btnNoche{
+  position:fixed;top:14px;right:14px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  border:1.5px solid rgba(201,168,76,.3);
+  font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:150;
+  box-shadow:0 2px 12px rgba(232,129,138,.15);
+  transition:background .3s,transform .3s,box-shadow .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+body.noche #btnNoche{
+  background:rgba(26,16,37,.95);
+  border-color:rgba(212,96,122,.3);
+  box-shadow:0 2px 16px rgba(212,96,122,.25);
+}
+#btnNoche:active{transform:scale(.9);}
+
+/* ══ LLUVIA DE PÉTALOS ══ */
+#petals-canvas{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:5;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+#petals-canvas.activo{opacity:1;}
 html{scroll-behavior:smooth;}
 body{background:var(--crema);color:var(--txt);font-family:'Lato',sans-serif;overflow-x:hidden;}
 #ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
@@ -638,6 +701,13 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
 </head>
 <body>
 
+<!-- MODO NOCHE -->
+<button id="btnNoche" onclick="toggleNoche()" title="Modo noche">🌙</button>
+<!-- Estrellas -->
+<div id="estrellas"></div>
+<!-- Canvas pétalos -->
+<canvas id="petals-canvas"></canvas>
+
 <!-- BIENVENIDA -->
 <div id="bienvenida">
   <div class="bv-petals" id="bvPetals"></div>
@@ -657,6 +727,7 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
   <div class="dvd"></div>
   <p class="p-nom"><span>Jesús David</span> &amp; <span>Ana Laura</span></p>
   <p class="p-hint" onclick="irA('cuenta')" style="cursor:pointer;">↓ descubre nuestra historia</p>
+  <button onclick="iniciarPetalos()" style="margin-top:1.2rem;background:none;border:1.5px solid var(--rosa-d);border-radius:50px;padding:.45rem 1.2rem;font-family:'Dancing Script',cursive;font-size:1rem;color:var(--rosa-d);cursor:pointer;opacity:.75;">🌸 Lluvia de pétalos</button>
 </section>
 
 <!-- NAV TABS -->
@@ -2253,6 +2324,156 @@ function ctMostrarResultado(){
 // Init juegos nuevos al cargar
 ctInit();
 pzInit();
+
+// ══════════════════════════════════
+// MODO NOCHE 🌙
+// ══════════════════════════════════
+let nocheActivo=false;
+
+function toggleNoche(){
+  nocheActivo=!nocheActivo;
+  document.body.classList.toggle('noche',nocheActivo);
+  document.getElementById('btnNoche').textContent=nocheActivo?'☀️':'🌙';
+  if(nocheActivo){
+    crearEstrellas();
+    document.getElementById('estrellas').style.opacity='1';
+  } else {
+    document.getElementById('estrellas').style.opacity='0';
+  }
+  // Actualizar meta theme-color
+  document.querySelector('meta[name=theme-color]').content=nocheActivo?'#0d0812':'#f7c5c5';
+}
+
+function crearEstrellas(){
+  const cont=document.getElementById('estrellas');
+  if(cont.children.length>0)return; // ya creadas
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');
+    s.className='estrella';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${1.5+Math.random()*3}s;
+      animation-delay:${Math.random()*4}s;
+      opacity:${.1+Math.random()*.5};
+    `;
+    cont.appendChild(s);
+  }
+}
+
+// ══════════════════════════════════
+// LLUVIA DE PÉTALOS 🌸
+// ══════════════════════════════════
+const petalCanvas=document.getElementById('petals-canvas');
+const petalCtx=petalCanvas.getContext('2d');
+let petalos=[];
+let petalRAF=null;
+let petalActivo=false;
+
+function initPetalCanvas(){
+  petalCanvas.width=window.innerWidth;
+  petalCanvas.height=window.innerHeight;
+}
+window.addEventListener('resize',initPetalCanvas);
+initPetalCanvas();
+
+// Formas de pétalos
+const PETAL_COLORS=[
+  '#f7a8b8','#f4c2cc','#e8818a','#fce4ec',
+  '#ffb3c1','#ff8fab','#f48fb1','#ffd6e0',
+  '#ffccd5','#e8b4bc','#d4a0a8','#c9a84c'
+];
+
+function crearPetalo(){
+  const x=Math.random()*petalCanvas.width;
+  return {
+    x,y:-20,
+    vx:(Math.random()-.5)*1.5,
+    vy:1.2+Math.random()*2.2,
+    rot:Math.random()*Math.PI*2,
+    vrot:(Math.random()-.5)*.06,
+    w:8+Math.random()*14,
+    h:5+Math.random()*8,
+    color:PETAL_COLORS[Math.floor(Math.random()*PETAL_COLORS.length)],
+    alpha:0,
+    fadeIn:true,
+    swing:Math.random()*Math.PI*2,
+    swingSpeed:.02+Math.random()*.02,
+    swingAmp:1+Math.random()*1.5,
+  };
+}
+
+function dibujarPetalo(p){
+  petalCtx.save();
+  petalCtx.globalAlpha=p.alpha;
+  petalCtx.translate(p.x,p.y);
+  petalCtx.rotate(p.rot);
+  petalCtx.beginPath();
+  // Forma de pétalo con bezier
+  petalCtx.moveTo(0,-p.h/2);
+  petalCtx.bezierCurveTo(p.w/2,-p.h/2,p.w/2,p.h/2,0,p.h/2);
+  petalCtx.bezierCurveTo(-p.w/2,p.h/2,-p.w/2,-p.h/2,0,-p.h/2);
+  petalCtx.fillStyle=p.color;
+  petalCtx.fill();
+  // Brillo suave
+  petalCtx.beginPath();
+  petalCtx.moveTo(0,-p.h/2);
+  petalCtx.bezierCurveTo(p.w*.15,-p.h*.3,p.w*.1,0,0,p.h*.1);
+  petalCtx.strokeStyle='rgba(255,255,255,.35)';
+  petalCtx.lineWidth=1;
+  petalCtx.stroke();
+  petalCtx.restore();
+}
+
+function animarPetalos(){
+  petalCtx.clearRect(0,0,petalCanvas.width,petalCanvas.height);
+
+  // Añadir nuevos pétalos gradualmente
+  if(petalActivo && petalos.length<80 && Math.random()<.3){
+    petalos.push(crearPetalo());
+  }
+
+  petalos=petalos.filter(p=>{
+    // Movimiento
+    p.swing+=p.swingSpeed;
+    p.x+=p.vx+Math.sin(p.swing)*p.swingAmp;
+    p.y+=p.vy;
+    p.rot+=p.vrot;
+
+    // Fade in
+    if(p.fadeIn){p.alpha=Math.min(p.alpha+.04,.85);if(p.alpha>=.85)p.fadeIn=false;}
+
+    // Fade out al salir
+    if(p.y>petalCanvas.height-60){p.alpha=Math.max(p.alpha-.04,0);}
+
+    dibujarPetalo(p);
+    return p.y<petalCanvas.height+30&&p.alpha>0;
+  });
+
+  // Si se apagó pero aún hay pétalos, seguir hasta limpiar
+  if(petalos.length>0||petalActivo){
+    petalRAF=requestAnimationFrame(animarPetalos);
+  } else {
+    petalCanvas.classList.remove('activo');
+    cancelAnimationFrame(petalRAF);
+    petalRAF=null;
+  }
+}
+
+function iniciarPetalos(){
+  petalActivo=true;
+  petalCanvas.classList.add('activo');
+  if(!petalRAF)petalRAF=requestAnimationFrame(animarPetalos);
+  // Parar de crear pétalos nuevos después de 8s, dejar caer los existentes
+  setTimeout(()=>{petalActivo=false;},8000);
+}
+
+// Lanzar pétalos al abrir la página
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(iniciarPetalos, 1200);
+});
 
 // ══════════════════════════════════
 // SISTEMA DE PESTAÑAS / TABS
