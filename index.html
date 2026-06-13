@@ -14,14 +14,120 @@ body{background:var(--crema);color:var(--txt);font-family:'Lato',sans-serif;over
 #ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .hp{position:absolute;bottom:-40px;opacity:0;animation:fup linear infinite;}
 @keyframes fup{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-110vh)}}
-/* NAV */
-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,248,240,.97);backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,.2);display:flex;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));z-index:100;}
-nav a{display:flex;flex-direction:column;align-items:center;gap:.1rem;font-size:.58rem;color:var(--txt);text-decoration:none;padding:.3rem .2rem;flex:1;transition:color .2s;}
-nav a:active{color:var(--rosa-d);}
-nav a .ico{font-size:1.2rem;line-height:1;}
-/* SECTIONS */
-section{position:relative;z-index:1;padding:3.5rem 1.2rem 2rem;}
-.pbn{padding-bottom:5rem;}
+/* ══════════════════════════════════
+   NAV TABS — sistema de pestañas
+══════════════════════════════════ */
+#mainNav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,248,240,.97);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid rgba(201,168,76,.18);
+  display:flex;justify-content:space-around;align-items:stretch;
+  padding:0 0 calc(env(safe-area-inset-bottom));
+  z-index:100;height:60px;
+  box-shadow:0 -4px 24px rgba(232,129,138,.08);
+}
+.ntab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:1px;
+  background:none;border:none;cursor:pointer;
+  padding:.35rem .1rem .5rem;
+  font-size:.52rem;color:rgba(58,42,42,.45);
+  letter-spacing:.02rem;font-family:'Lato',sans-serif;
+  position:relative;transition:color .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ntab .ico{font-size:1.15rem;line-height:1;transition:transform .25s cubic-bezier(.34,1.56,.64,1);}
+.ntab .nlbl{font-size:.52rem;margin-top:1px;transition:color .22s;}
+.ntab::after{
+  content:'';position:absolute;bottom:0;left:25%;right:25%;
+  height:2.5px;border-radius:2px 2px 0 0;
+  background:linear-gradient(90deg,var(--rosa-d),var(--oro));
+  transform:scaleX(0);transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+}
+.ntab.activo{color:var(--rosa-d);}
+.ntab.activo .nlbl{color:var(--rosa-d);}
+.ntab.activo .ico{transform:scale(1.22) translateY(-2px);}
+.ntab.activo::after{transform:scaleX(1);}
+.ntab:active .ico{transform:scale(1.1);}
+.mas-btn.activo{color:var(--oro);}
+.mas-btn.activo .nlbl{color:var(--oro);}
+.mas-btn.activo::after{background:linear-gradient(90deg,var(--oro),var(--oro-l));}
+
+/* Drawer "Más" */
+#masOverlay{
+  position:fixed;inset:0;background:rgba(58,42,42,.45);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;z-index:200;
+}
+#masPanel{
+  position:fixed;left:0;right:0;bottom:-100%;
+  background:linear-gradient(170deg,#fff8f0,#fef6e4);
+  border-radius:24px 24px 0 0;
+  padding:1.2rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom));
+  z-index:201;
+  box-shadow:0 -8px 40px rgba(232,129,138,.18);
+  transition:bottom .38s cubic-bezier(.16,1,.3,1);
+  border-top:2px solid rgba(201,168,76,.2);
+}
+#masDrawer.open #masOverlay{opacity:1;pointer-events:auto;}
+#masDrawer.open #masPanel{bottom:0;}
+.mas-titulo{
+  font-family:'Dancing Script',cursive;font-size:1.4rem;
+  color:var(--rosa-d);text-align:center;margin-bottom:1.1rem;
+}
+.mas-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;
+}
+.mas-item{
+  display:flex;flex-direction:column;align-items:center;gap:.35rem;
+  background:white;border:1.5px solid rgba(247,197,197,.5);
+  border-radius:16px;padding:.8rem .3rem .7rem;
+  font-size:.62rem;color:var(--txt);cursor:pointer;
+  font-family:'Lato',sans-serif;
+  box-shadow:0 3px 12px rgba(232,129,138,.08);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mas-item span:first-child{font-size:1.5rem;line-height:1;}
+.mas-item:active{transform:scale(.94);box-shadow:0 1px 6px rgba(232,129,138,.12);}
+
+/* ══ SECCIONES como páginas ══ */
+section{
+  position:fixed;inset:0;bottom:60px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:3rem 1.2rem 2rem;
+  opacity:0;pointer-events:none;
+  transform:translateY(18px) scale(.985);
+  transition:opacity .38s cubic-bezier(.16,1,.3,1),
+             transform .38s cubic-bezier(.16,1,.3,1);
+  z-index:1;
+}
+section.visible{
+  opacity:1;pointer-events:auto;
+  transform:translateY(0) scale(1);
+}
+section.salida-up{
+  opacity:0;transform:translateY(-20px) scale(.98);
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;
+}
+section.salida-down{
+  opacity:0;transform:translateY(20px) scale(.98);
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;
+}
+/* Portada especial — siempre full */
+#portada{
+  position:fixed;inset:0;bottom:60px;
+  background:linear-gradient(160deg,#fff0f3,#fde8c8 55%,#fce4ec);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  padding:2rem 1.5rem 4rem;
+  z-index:2;
+}
+#portada.visible{opacity:1;pointer-events:auto;transform:none;}
+
 .ttl{text-align:center;font-family:'Dancing Script',cursive;font-size:clamp(2rem,8vw,3rem);color:var(--rosa-d);margin-bottom:.3rem;}
 .sub{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--oro);margin-bottom:2rem;}
 .dvd{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:1rem auto;}
@@ -230,6 +336,10 @@ section{position:relative;z-index:1;padding:3.5rem 1.2rem 2rem;}
   margin:0 .2rem;
 }
 
+/* OCULTAR elementos no usados en el tab system */
+#final,footer{display:none!important;}
+.pbn{padding-bottom:2rem;}
+
 /* MOMENTOS */
 #momentos{background:linear-gradient(180deg,#fff0f3,var(--crema));}
 .mom{background:var(--w);border-radius:18px;padding:1.5rem;box-shadow:0 8px 30px rgba(232,129,138,.1);border-left:4px solid var(--rosa-d);margin-bottom:1.2rem;}
@@ -296,6 +406,59 @@ section{position:relative;z-index:1;padding:3.5rem 1.2rem 2rem;}
 .mwin h3{font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--rosa-d);}
 .mwin p{font-family:'Playfair Display',serif;font-style:italic;font-size:.93rem;color:var(--txt);margin-top:.5rem;line-height:1.6;}
 .mreset{margin-top:.8rem;background:var(--rosa-d);color:white;border:none;border-radius:12px;padding:.75rem 1.2rem;font-family:'Dancing Script',cursive;font-size:1.1rem;cursor:pointer;width:100%;}
+/* PUZZLE */
+.pzwrap{position:relative;}
+.pzinst{font-family:'Dancing Script',cursive;font-size:1.25rem;color:var(--rosa-d);text-align:center;margin-bottom:1rem;}
+.pzlbl{font-family:'Playfair Display',serif;font-size:.82rem;color:var(--oro);text-align:center;margin-bottom:.6rem;letter-spacing:.06rem;}
+.pz-fotos{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem;flex-wrap:wrap;}
+.pz-opcion{background:white;border:2px solid var(--rosa);border-radius:50px;padding:.4rem 1rem;font-size:.8rem;font-family:'Lato',sans-serif;color:var(--rosa-d);cursor:pointer;transition:all .2s;}
+.pz-opcion.activa{background:var(--rosa-d);color:white;border-color:var(--rosa-d);}
+.pz-area{display:flex;justify-content:center;margin:0 auto 1rem;}
+.pz-tablero{display:grid;gap:3px;width:300px;height:300px;background:#f5e6e8;border-radius:12px;padding:4px;box-shadow:0 8px 30px rgba(232,129,138,.18);border:2px solid rgba(201,168,76,.2);}
+.pz-pieza{cursor:pointer;border-radius:4px;overflow:hidden;position:relative;transition:transform .12s,box-shadow .12s;background:#ffe0e8;}
+.pz-pieza:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(232,129,138,.3);z-index:2;}
+.pz-pieza.vacia{background:rgba(247,197,197,.15);cursor:default;border:2px dashed rgba(201,168,76,.3);}
+.pz-pieza.vacia:hover{transform:none;box-shadow:none;}
+.pz-pieza canvas{width:100%;height:100%;display:block;}
+.pz-stats{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.5rem;}
+#pzMovs{font-family:'Playfair Display',serif;font-size:.82rem;color:var(--oro);font-style:italic;}
+.pzreset,.pzver{background:white;border:1.5px solid var(--rosa);border-radius:10px;padding:.4rem .9rem;font-size:.82rem;color:var(--rosa-d);cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;}
+.pzreset:active,.pzver:active{background:var(--rosa-d);color:white;}
+.pz-preview{display:none;position:fixed;inset:0;background:rgba(58,32,32,.65);z-index:300;align-items:center;justify-content:center;}
+.pz-preview.show{display:flex;}
+.pz-prev-inner{background:white;border-radius:20px;padding:1.5rem;text-align:center;max-width:280px;}
+.pz-prev-inner p{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--rosa-d);margin-bottom:.8rem;}
+.pz-prev-inner canvas{border-radius:12px;max-width:240px;width:100%;}
+.pz-prev-inner button{margin-top:.8rem;background:none;border:1.5px solid var(--rosa);border-radius:10px;padding:.4rem 1rem;color:var(--rosa-d);cursor:pointer;font-size:.9rem;}
+.pzwin{display:none;position:fixed;inset:0;background:rgba(58,32,32,.7);z-index:300;align-items:center;justify-content:center;}
+.pzwin.show{display:flex;}
+.pzwin-inner{background:linear-gradient(160deg,#fff0f5,#fef6e4);border-radius:24px;padding:1.8rem 1.4rem;text-align:center;max-width:280px;box-shadow:0 20px 60px rgba(232,129,138,.25);}
+.pzwin-ico{font-size:3rem;margin-bottom:.5rem;}
+.pzwin-inner h3{font-family:'Dancing Script',cursive;font-size:1.9rem;color:var(--rosa-d);}
+.pzwin-inner p{font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--txt);line-height:1.6;margin:.5rem 0 .8rem;}
+
+/* CUÁNTO ME AMAS */
+.ctbox{background:var(--w);border-radius:20px;padding:1.5rem;box-shadow:0 8px 30px rgba(232,129,138,.12);}
+.ct-corazon{text-align:center;font-size:3.5rem;margin-bottom:.6rem;animation:latir .8s ease-in-out infinite;}
+@keyframes latir{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.ct-prog{font-size:.75rem;color:var(--oro);text-align:center;letter-spacing:.1rem;text-transform:uppercase;margin-bottom:.6rem;}
+.ct-barra-wrap{background:#ffe0e8;border-radius:10px;height:7px;margin-bottom:1.2rem;overflow:hidden;}
+.ct-barra{height:100%;background:linear-gradient(90deg,var(--rosa-d),var(--oro));border-radius:10px;transition:width .4s ease;}
+.ct-preg{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--txt);line-height:1.65;text-align:center;margin-bottom:1.2rem;font-weight:700;}
+.ct-opts{display:flex;flex-direction:column;gap:.65rem;}
+.ct-opt{background:#fff0f3;border:2px solid var(--rosa);border-radius:14px;padding:.85rem 1rem;font-family:'Playfair Display',serif;font-style:italic;font-size:.93rem;color:var(--txt);cursor:pointer;transition:all .2s;text-align:left;width:100%;}
+.ct-opt.correcta{background:linear-gradient(135deg,#d4edda,#c8f7c5);border-color:#28a745;color:#155724;}
+.ct-opt.incorrecta{background:linear-gradient(135deg,#f8d7da,#fce4e4);border-color:#dc3545;color:#721c24;}
+.ct-opt.mostrar{background:linear-gradient(135deg,#d4edda,#c8f7c5);border-color:#28a745;color:#155724;}
+.ct-fb{min-height:2.2rem;text-align:center;font-family:'Dancing Script',cursive;font-size:1.25rem;color:var(--rosa-d);margin-top:.8rem;padding:.2rem;}
+.ct-nxt{display:block;margin:1rem auto 0;background:linear-gradient(135deg,var(--rosa-d),var(--oro));color:white;border:none;border-radius:14px;padding:.85rem 1.5rem;font-family:'Dancing Script',cursive;font-size:1.25rem;cursor:pointer;width:100%;box-shadow:0 4px 16px rgba(232,129,138,.25);}
+.ct-res{display:none;text-align:center;padding:.5rem;}
+.ct-res-corazon{font-size:4rem;margin-bottom:.6rem;}
+.ct-res h3{font-family:'Dancing Script',cursive;font-size:2.1rem;color:var(--rosa-d);margin:.3rem 0;}
+.ct-res p{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:var(--txt);line-height:1.7;margin-bottom:1rem;}
+.ct-puntos{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--oro);font-weight:700;margin-bottom:.8rem;}
+.ct-reset{background:linear-gradient(135deg,var(--rosa-d),var(--oro));color:white;border:none;border-radius:14px;padding:.85rem 1.5rem;font-family:'Dancing Script',cursive;font-size:1.25rem;cursor:pointer;width:100%;}
+
 /* PROMESAS */
 #promesas{background:linear-gradient(160deg,#fff0f3,#fdf6e3);}
 .prom{background:var(--w);border-radius:18px;padding:1.5rem;text-align:center;margin-bottom:1.2rem;box-shadow:0 6px 24px rgba(232,129,138,.1);border-top:4px solid var(--oro);}
@@ -493,21 +656,36 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
   <p class="p-sub">Un pequeño mundo construido solo para nosotros</p>
   <div class="dvd"></div>
   <p class="p-nom"><span>Jesús David</span> &amp; <span>Ana Laura</span></p>
-  <p class="p-hint">↓ descubre nuestra historia</p>
+  <p class="p-hint" onclick="irA('cuenta')" style="cursor:pointer;">↓ descubre nuestra historia</p>
 </section>
 
-<!-- NAV -->
-<nav>
-  <a href="#cuenta"><span class="ico">⏳</span>Tiempo</a>
-  <a href="#carta"><span class="ico">💌</span>Carta</a>
-  <a href="#galaxia"><span class="ico">🌌</span>Galaxia</a>
-  <a href="#fotos"><span class="ico">📷</span>Fotos</a>
-  <a href="#cartas-sorpresa"><span class="ico">💌</span>Cartas</a>
-  <a href="#jardin"><span class="ico">🌸</span>Jardín</a>
-  <a href="#juegos"><span class="ico">🎮</span>Juegos</a>
-  <a href="#promesas"><span class="ico">🌹</span>Promesas</a>
-  <a href="#secreto"><span class="ico">🔐</span>Secreto</a>
+<!-- NAV TABS -->
+<nav id="mainNav">
+  <button class="ntab" onclick="irA('cuenta')" data-tab="cuenta"><span class="ico">⏳</span><span class="nlbl">Tiempo</span></button>
+  <button class="ntab" onclick="irA('carta')" data-tab="carta"><span class="ico">💌</span><span class="nlbl">Cartas</span></button>
+  <button class="ntab" onclick="irA('fotos')" data-tab="fotos"><span class="ico">📷</span><span class="nlbl">Fotos</span></button>
+  <button class="ntab" onclick="irA('galaxia')" data-tab="galaxia"><span class="ico">🌌</span><span class="nlbl">Galaxia</span></button>
+  <button class="ntab" onclick="irA('jardin')" data-tab="jardin"><span class="ico">🌸</span><span class="nlbl">Jardín</span></button>
+  <button class="ntab" onclick="irA('juegos')" data-tab="juegos"><span class="ico">🎮</span><span class="nlbl">Juegos</span></button>
+  <button class="ntab mas-btn" onclick="toggleMas()" id="masBtn"><span class="ico">✦</span><span class="nlbl">Más</span></button>
 </nav>
+
+<!-- MÁS OPCIONES (drawer) -->
+<div id="masDrawer">
+  <div id="masOverlay" onclick="cerrarMas()"></div>
+  <div id="masPanel">
+    <p class="mas-titulo">Descubre más ✨</p>
+    <div class="mas-grid">
+      <button class="mas-item" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
+      <button class="mas-item" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
+      <button class="mas-item" onclick="irA('momentos');cerrarMas()"><span>🌙</span><span>Momentos</span></button>
+      <button class="mas-item" onclick="irA('cartas-sorpresa');cerrarMas()"><span>💝</span><span>Sorpresas</span></button>
+      <button class="mas-item" onclick="irA('carta-viva');cerrarMas()"><span>✍️</span><span>Carta viva</span></button>
+      <button class="mas-item" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
+      <button class="mas-item" onclick="irA('secreto');cerrarMas()"><span>🔐</span><span>Secreto</span></button>
+    </div>
+  </div>
+</div>
 
 <!-- CONTADOR -->
 <section id="cuenta" class="pbn">
@@ -1046,6 +1224,8 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
     <button class="jtab on" onclick="showJ('quiz',this)">🧠 ¿Me conoces?</button>
     <button class="jtab" onclick="showJ('ruleta',this)">🎯 Ruleta</button>
     <button class="jtab" onclick="showJ('memoria',this)">📷 Memoria</button>
+    <button class="jtab" onclick="showJ('puzzle',this)">🧩 Puzzle</button>
+    <button class="jtab" onclick="showJ('cuanto',this)">💛 ¿Cuánto?</button>
   </div>
   <!-- QUIZ -->
   <div id="j-quiz" class="jpanel on rv">
@@ -1091,6 +1271,66 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
       <h3>¡Lo lograste! 🎉</h3>
       <p>Igual que en la vida… cada pieza tuya encaja perfectamente conmigo. ❤️</p>
       <button class="mreset" onclick="mInit()">Jugar de nuevo 🔄</button>
+    </div>
+  </div>
+  <!-- PUZZLE -->
+  <div id="j-puzzle" class="jpanel rv">
+    <div class="pzwrap">
+      <p class="pzinst">Arrastra las piezas y arma nuestra foto 💛</p>
+      <div class="pz-sel rv">
+        <p class="pzlbl">Elige una foto:</p>
+        <div class="pz-fotos">
+          <div class="pz-opcion activa" onclick="selPuzzle(0,this)">🌹 Foto 1</div>
+          <div class="pz-opcion" onclick="selPuzzle(1,this)">💛 Foto 2</div>
+          <div class="pz-opcion" onclick="selPuzzle(2,this)">✨ Foto 3</div>
+        </div>
+      </div>
+      <div class="pz-area">
+        <div class="pz-tablero" id="pzTablero"></div>
+      </div>
+      <div class="pz-stats">
+        <span id="pzMovs">Movimientos: 0</span>
+        <button onclick="pzInit()" class="pzreset">🔀 Mezclar</button>
+        <button onclick="pzVer()" class="pzver" id="pzVerBtn">👁 Ver foto</button>
+      </div>
+      <div class="pz-preview" id="pzPreview">
+        <div class="pz-prev-inner">
+          <p>La foto original 💛</p>
+          <canvas id="pzPrevCanvas"></canvas>
+          <button onclick="cerrarPrev()">Cerrar ✕</button>
+        </div>
+      </div>
+      <div class="pzwin" id="pzWin">
+        <div class="pzwin-inner">
+          <div class="pzwin-ico">🎉</div>
+          <h3>¡Lo lograste, amor!</h3>
+          <p>Igual que nosotros… cada pieza en su lugar perfecto. 💛</p>
+          <canvas id="pzWinCanvas" style="border-radius:12px;margin:.8rem 0;max-width:200px;"></canvas>
+          <button onclick="pzInit();document.getElementById('pzWin').classList.remove('show')" class="pzreset" style="background:var(--rosa-d);">Jugar de nuevo 🔄</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUÁNTO ME AMAS -->
+  <div id="j-cuanto" class="jpanel rv">
+    <div class="ctbox">
+      <div id="ctjuego">
+        <div class="ct-corazon" id="ctCorazon">❤️</div>
+        <p class="ct-prog" id="ctProg">Pregunta 1 de 10</p>
+        <div class="ct-barra-wrap"><div class="ct-barra" id="ctBarra"></div></div>
+        <p class="ct-preg" id="ctPreg"></p>
+        <div class="ct-opts" id="ctOpts"></div>
+        <div class="ct-fb" id="ctFb"></div>
+        <button class="ct-nxt" id="ctNxt" onclick="ctNext()" style="display:none">Siguiente 💛</button>
+      </div>
+      <div class="ct-res" id="ctRes">
+        <div class="ct-res-corazon" id="ctResCorazon"></div>
+        <h3 id="ctResTit"></h3>
+        <p id="ctResDesc"></p>
+        <div class="ct-puntos" id="ctPuntos"></div>
+        <button class="ct-reset" onclick="ctInit()">Jugar de nuevo 💛</button>
+      </div>
     </div>
   </div>
 </section>
@@ -1508,7 +1748,11 @@ document.getElementById('sinput').addEventListener('keydown',e=>{if(e.key==='Ent
 function abrirPagina(){
   const bv=document.getElementById('bienvenida');
   bv.classList.add('hide');
-  setTimeout(()=>bv.style.display='none',850);
+  setTimeout(()=>{
+    bv.style.display='none';
+    const p=document.getElementById('portada');
+    if(p){p.classList.add('visible');p.querySelectorAll('.rv').forEach(r=>r.classList.add('vis'));}
+  },850);
 }
 
 // CARTAS SORPRESA
@@ -1689,7 +1933,407 @@ function jdInit(){
 const jdObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){jdInit();jdObs.unobserve(e.target);}})  ,{threshold:.15});
 const jdEl=document.getElementById('jardinCanvas');if(jdEl)jdObs.observe(jdEl);
 
-// REVEAL
+// ══════════════════════════════════
+// PUZZLE 🧩
+// ══════════════════════════════════
+const PZ_GRID=3;// 3x3 = 8 piezas + 1 vacía
+let pzPiezas=[];
+let pzVacia={r:2,c:2};
+let pzMovs=0;
+let pzImgActual=0;
+let pzResuelto=false;
+let pzImg=null;
+const PZ_SIZE=300;
+const PZ_PIECE=Math.floor((PZ_SIZE-4*(PZ_GRID-1))/PZ_GRID);
+
+// Imágenes del puzzle — se dibujan con canvas con gradientes y flores
+// (si el usuario tiene fotos reales las puede reemplazar)
+const PZ_IMAGENES=[
+  {label:'🌹 Foto 1', draw:(ctx,w,h)=>{
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#ff8a9b');g.addColorStop(.5,'#ffd1a3');g.addColorStop(1,'#ff6b9d');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    ctx.font=`${w*.35}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('🌹',w/2,h*.38);
+    ctx.font=`bold ${w*.1}px 'Dancing Script',cursive`;
+    ctx.fillStyle='rgba(255,255,255,.9)';
+    ctx.fillText('Ana Laura',w/2,h*.72);
+    ctx.font=`${w*.08}px serif`;
+    ctx.fillText('& Jesús David',w/2,h*.85);
+    ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=3;
+    ctx.strokeRect(8,8,w-16,h-16);
+  }},
+  {label:'💛 Foto 2', draw:(ctx,w,h)=>{
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#ffe066');g.addColorStop(.5,'#ffb347');g.addColorStop(1,'#ff8c69');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    ctx.font=`${w*.32}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('🌻',w/2,h*.38);
+    ctx.font=`bold ${w*.1}px serif`;ctx.fillStyle='rgba(255,255,255,.9)';
+    ctx.fillText('9 Meses',w/2,h*.72);
+    ctx.font=`${w*.08}px serif`;ctx.fillText('juntos 💛',w/2,h*.85);
+    ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=3;ctx.strokeRect(8,8,w-16,h-16);
+  }},
+  {label:'✨ Foto 3', draw:(ctx,w,h)=>{
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,'#ce93d8');g.addColorStop(.5,'#f48fb1');g.addColorStop(1,'#80cbc4');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    ctx.font=`${w*.32}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('🌸',w/2,h*.38);
+    ctx.font=`bold ${w*.1}px serif`;ctx.fillStyle='rgba(255,255,255,.9)';
+    ctx.fillText('Te amo',w/2,h*.72);
+    ctx.font=`${w*.08}px serif`;ctx.fillText('infinito ✨',w/2,h*.85);
+    ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=3;ctx.strokeRect(8,8,w-16,h-16);
+  }}
+];
+
+function pzDibujarImagen(img,size){
+  const cv=document.createElement('canvas');
+  cv.width=size;cv.height=size;
+  const ctx=cv.getContext('2d');
+  img.draw(ctx,size,size);
+  return cv;
+}
+
+function selPuzzle(idx,el){
+  document.querySelectorAll('.pz-opcion').forEach(o=>o.classList.remove('activa'));
+  el.classList.add('activa');
+  pzImgActual=idx;
+  pzInit();
+}
+
+function pzInit(){
+  pzMovs=0;pzResuelto=false;
+  document.getElementById('pzMovs').textContent='Movimientos: 0';
+  document.getElementById('pzWin').classList.remove('show');
+  const img=PZ_IMAGENES[pzImgActual];
+  const fullCanvas=pzDibujarImagen(img,PZ_SIZE);
+  pzImg=fullCanvas;
+
+  const n=PZ_GRID*PZ_GRID;
+  pzPiezas=[];
+  for(let i=0;i<n-1;i++)pzPiezas.push(i);
+  pzPiezas.push(null);// vacía al final
+
+  // Mezclar (solo mezclas válidas)
+  for(let i=0;i<200;i++){
+    const vi=pzPiezas.indexOf(null);
+    const vecinos=pzVecinos(vi);
+    const rnd=vecinos[Math.floor(Math.random()*vecinos.length)];
+    pzPiezas[vi]=pzPiezas[rnd];
+    pzPiezas[rnd]=null;
+  }
+  pzVacia={r:Math.floor(pzPiezas.indexOf(null)/PZ_GRID),c:pzPiezas.indexOf(null)%PZ_GRID};
+  pzRenderizar();
+}
+
+function pzVecinos(i){
+  const r=Math.floor(i/PZ_GRID),c=i%PZ_GRID,v=[];
+  if(r>0)v.push(i-PZ_GRID);
+  if(r<PZ_GRID-1)v.push(i+PZ_GRID);
+  if(c>0)v.push(i-1);
+  if(c<PZ_GRID-1)v.push(i+1);
+  return v;
+}
+
+function pzEsVecino(i,j){return pzVecinos(i).includes(j);}
+
+function pzRenderizar(){
+  const tablero=document.getElementById('pzTablero');
+  tablero.style.gridTemplateColumns=`repeat(${PZ_GRID},1fr)`;
+  tablero.innerHTML='';
+  const sz=Math.floor((PZ_SIZE-4*(PZ_GRID-1))/PZ_GRID);
+
+  pzPiezas.forEach((val,idx)=>{
+    const div=document.createElement('div');
+    div.className='pz-pieza'+(val===null?' vacia':'');
+    if(val!==null){
+      const cv=document.createElement('canvas');
+      cv.width=sz;cv.height=sz;
+      const ctx=cv.getContext('2d');
+      const sr=Math.floor(val/PZ_GRID),sc=val%PZ_GRID;
+      ctx.drawImage(pzImg,sc*sz,sr*sz,sz,sz,0,0,sz,sz);
+      div.appendChild(cv);
+      div.onclick=()=>pzTap(idx);
+    }
+    tablero.appendChild(div);
+  });
+}
+
+function pzTap(idx){
+  if(pzResuelto)return;
+  const vi=pzPiezas.indexOf(null);
+  if(!pzEsVecino(idx,vi))return;
+  pzPiezas[vi]=pzPiezas[idx];
+  pzPiezas[idx]=null;
+  pzMovs++;
+  document.getElementById('pzMovs').textContent=`Movimientos: ${pzMovs}`;
+  pzRenderizar();
+  if(pzComprobar())pzGanar();
+}
+
+function pzComprobar(){
+  for(let i=0;i<PZ_GRID*PZ_GRID-1;i++)if(pzPiezas[i]!==i)return false;
+  return pzPiezas[PZ_GRID*PZ_GRID-1]===null;
+}
+
+function pzGanar(){
+  pzResuelto=true;
+  const win=document.getElementById('pzWin');
+  const wc=document.getElementById('pzWinCanvas');
+  wc.width=200;wc.height=200;
+  const img=PZ_IMAGENES[pzImgActual];
+  img.draw(wc.getContext('2d'),200,200);
+  setTimeout(()=>win.classList.add('show'),400);
+}
+
+function pzVer(){
+  const prev=document.getElementById('pzPreview');
+  const pc=document.getElementById('pzPrevCanvas');
+  pc.width=240;pc.height=240;
+  const img=PZ_IMAGENES[pzImgActual];
+  img.draw(pc.getContext('2d'),240,240);
+  prev.classList.add('show');
+}
+function cerrarPrev(){
+  document.getElementById('pzPreview').classList.remove('show');
+}
+
+// ══════════════════════════════════
+// ¿CUÁNTO ME AMAS? 💛
+// ══════════════════════════════════
+const CT_PREGUNTAS=[
+  {
+    p:'¿Cuántas veces al día piensas en mí?',
+    opts:['Solo cuando me escribes','A veces, de vez en cuando','Muchas veces, casi siempre','Todo el tiempo, no puedo evitarlo 💛'],
+    ok:3,
+    fb:['Ay… 😅','¡Ahí vamos!','¡Me alegra! 🥺','¡Eso es lo que quería escuchar! 💛']
+  },
+  {
+    p:'Cuando estamos lejos, ¿qué sientes?',
+    opts:['Nada especial','Un poco de nostalgia','Te extraño mucho','Me duele el pecho de extrañarte 💔'],
+    ok:3,
+    fb:['Mmm… 🤔','¡Eso es algo!','¡Qué bonito! 🥺','¡Eso es amor de verdad! ❤️']
+  },
+  {
+    p:'¿Con qué me compararías?',
+    opts:['Con algo normal del día a día','Con un libro favorito','Con el sol en un día nublado','Con el hogar al que siempre quieres volver 🏠💛'],
+    ok:3,
+    fb:['Hmm…','¡Bonita comparación!','¡Qué dulce! ☀️','¡Eso me derritió el corazón! 💛']
+  },
+  {
+    p:'¿Qué harías si un día me pongo triste sin razón?',
+    opts:['Esperar a que se me pase','Preguntarte qué pasó','Abrazarte sin preguntar nada','Quedarme contigo todo el tiempo que necesites 🤗'],
+    ok:3,
+    fb:['Eh… 😬','¡Bien!','¡Eso es amor! 🥺','¡Perfecto! Eso es exactamente lo que necesito. 💛']
+  },
+  {
+    p:'¿Cómo describirías nuestro amor?',
+    opts:['Como algo nuevo que estoy conociendo','Como algo bonito pero con dudas','Como algo especial y hermoso','Como lo más lindo que me ha pasado en la vida 💛'],
+    ok:3,
+    fb:['Vamos descubriendo…','¡Ya vamos bien!','¡Me encanta! 🌹','¡Eso me llena el corazón de alegría! 💛']
+  },
+  {
+    p:'Cuando me ves, ¿qué es lo primero que sientes?',
+    opts:['Normalidad','Alegría','Mariposas en el estómago','Que el mundo se detiene y solo existes tú 🌍💛'],
+    ok:3,
+    fb:['Ay no…','¡Bien!','¡Qué lindo! 🦋','¡Eso es lo que siento yo también! 💛']
+  },
+  {
+    p:'¿Cuánto me amas?',
+    opts:['Un poquito','Bastante','Mucho','Más de lo que las palabras pueden decir 💛'],
+    ok:3,
+    fb:['😅','¡Algo es algo!','¡Qué bien! 🥺','¡Esa es la respuesta correcta siempre! 💛']
+  },
+  {
+    p:'¿Qué significa para ti que llevemos 9 meses juntos?',
+    opts:['Es tiempo que ha pasado','Algo importante que celebro','Nueve meses de aprender a amarte','Nueve meses que cambiarían todo si pudiera vivirlos de nuevo contigo 💛'],
+    ok:3,
+    fb:['…','¡Muy bien!','¡Hermoso! 🌹','¡Eso me llegó al alma! 💛']
+  },
+  {
+    p:'¿Cómo te imaginas el futuro?',
+    opts:['No pienso tan lejos','Con incertidumbre','Con esperanza y contigo','Construyendo cada día algo hermoso a tu lado 💛'],
+    ok:3,
+    fb:['Tomemos las cosas con calma 😊','¡Ya veremos!','¡Qué bonito! 🥺','¡Ese es nuestro futuro! 💛']
+  },
+  {
+    p:'¿Cuánto tiempo quieres seguir a mi lado?',
+    opts:['Lo que sea necesario','Mucho tiempo más','Para siempre si tú quieres','El resto de mi vida, y si hay más, también 💛'],
+    ok:3,
+    fb:['Hmm…','¡Bien!','¡Me derrites! 🥺','¡Esa respuesta me hace el ser más feliz del mundo! 💛']
+  }
+];
+
+let ctIdx=0,ctPuntos=0,ctRespondida=false;
+
+function ctInit(){
+  ctIdx=0;ctPuntos=0;ctRespondida=false;
+  document.getElementById('ctjuego').style.display='block';
+  document.getElementById('ctRes').style.display='none';
+  ctMostrarPregunta();
+}
+
+function ctMostrarPregunta(){
+  ctRespondida=false;
+  const q=CT_PREGUNTAS[ctIdx];
+  const total=CT_PREGUNTAS.length;
+  document.getElementById('ctProg').textContent=`Pregunta ${ctIdx+1} de ${total}`;
+  document.getElementById('ctBarra').style.width=`${(ctIdx/total)*100}%`;
+  document.getElementById('ctPreg').textContent=q.p;
+  document.getElementById('ctFb').textContent='';
+  document.getElementById('ctNxt').style.display='none';
+
+  // Animación corazón
+  const cor=document.getElementById('ctCorazon');
+  cor.style.transform='scale(1.3)';
+  setTimeout(()=>cor.style.transform='scale(1)',300);
+
+  const opts=document.getElementById('ctOpts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='ct-opt';btn.textContent=o;
+    btn.onclick=()=>ctResponder(i,btn);
+    opts.appendChild(btn);
+  });
+}
+
+function ctResponder(i,btn){
+  if(ctRespondida)return;
+  ctRespondida=true;
+  const q=CT_PREGUNTAS[ctIdx];
+  const todos=document.querySelectorAll('.ct-opt');
+
+  todos.forEach((b,j)=>{
+    b.disabled=true;
+    if(j===q.ok)b.classList.add('correcta');
+    else if(j===i&&i!==q.ok)b.classList.add('incorrecta');
+  });
+
+  const puntos=q.ok-i;// más cerca de ok = más puntos
+  if(i===q.ok)ctPuntos+=10;
+  else if(i===q.ok-1)ctPuntos+=6;
+  else if(i===q.ok-2)ctPuntos+=3;
+
+  document.getElementById('ctFb').textContent=q.fb[i]||'';
+  document.getElementById('ctNxt').style.display='block';
+  document.getElementById('ctNxt').textContent=ctIdx<CT_PREGUNTAS.length-1?'Siguiente 💛':'Ver resultado 💛';
+}
+
+function ctNext(){
+  ctIdx++;
+  if(ctIdx<CT_PREGUNTAS.length){
+    ctMostrarPregunta();
+  } else {
+    ctMostrarResultado();
+  }
+}
+
+function ctMostrarResultado(){
+  document.getElementById('ctjuego').style.display='none';
+  const res=document.getElementById('ctRes');
+  res.style.display='block';
+  const max=CT_PREGUNTAS.length*10;
+  const pct=Math.round((ctPuntos/max)*100);
+
+  let ico,tit,desc;
+  if(pct>=90){ico='💛💛💛';tit='¡Amor infinito!';desc='Lo sabía… me amas con todo tu corazón. Este resultado me hace la persona más feliz del mundo. 💛';}
+  else if(pct>=70){ico='❤️💛';tit='¡Me amas muchísimo!';desc='Casi perfecto… y ese "casi" también es precioso porque lo seguiremos construyendo juntos. 🌹';}
+  else if(pct>=50){ico='💕';tit='¡Me amas de verdad!';desc='Nuestro amor está creciendo cada día y eso es lo más bonito que podría pedirle a la vida. 🌸';}
+  else{ico='🌱';tit='Nuestro amor crece';desc='Estamos aprendiendo a amarnos y eso también es hermoso. Lo mejor está por venir. ✨';}
+
+  document.getElementById('ctResCorazon').textContent=ico;
+  document.getElementById('ctResTit').textContent=tit;
+  document.getElementById('ctResDesc').textContent=desc;
+  document.getElementById('ctPuntos').textContent=`${ctPuntos} / ${max} puntos (${pct}%)`;
+  document.getElementById('ctBarra').style.width='100%';
+}
+
+// Init juegos nuevos al cargar
+ctInit();
+pzInit();
+
+// ══════════════════════════════════
+// SISTEMA DE PESTAÑAS / TABS
+// ══════════════════════════════════
+const ORDEN=['portada','cuenta','carta','fotos','galaxia','jardin','juegos','promesas','razones','momentos','cartas-sorpresa','carta-viva','recuerdos','secreto'];
+let tabActual='portada';
+let transicionando=false;
+
+function irA(id,desde){
+  if(transicionando||id===tabActual)return;
+  transicionando=true;
+
+  const secActual=document.getElementById(tabActual);
+  const secNueva=document.getElementById(id);
+  if(!secNueva){transicionando=false;return;}
+
+  const iActual=ORDEN.indexOf(tabActual);
+  const iNueva=ORDEN.indexOf(id);
+  const subiendo=iNueva>iActual;
+
+  // Salida de la sección actual
+  if(secActual){
+    secActual.classList.remove('visible');
+    secActual.classList.add(subiendo?'salida-up':'salida-down');
+    setTimeout(()=>{
+      secActual.classList.remove('salida-up','salida-down');
+    },260);
+  }
+
+  // Entrada de la sección nueva
+  secNueva.style.transform=subiendo?'translateY(28px) scale(.985)':'translateY(-28px) scale(.985)';
+  secNueva.style.opacity='0';
+
+  setTimeout(()=>{
+    secNueva.classList.add('visible');
+    secNueva.style.transform='';
+    secNueva.style.opacity='';
+    secNueva.scrollTop=0;
+    tabActual=id;
+    actualizarTabs();
+    transicionando=false;
+    // Activar reveal de elementos dentro de la sección
+    secNueva.querySelectorAll('.rv:not(.vis)').forEach(r=>r.classList.add('vis'));
+    // Inicializar canvases si aplica
+    if(id==='galaxia')setTimeout(gxInit,120);
+    if(id==='jardin')setTimeout(jdInit,120);
+    if(id==='juegos')setTimeout(()=>{mInit();},120);
+  },120);
+}
+
+function actualizarTabs(){
+  document.querySelectorAll('.ntab').forEach(b=>{
+    b.classList.remove('activo');
+    if(b.dataset.tab===tabActual)b.classList.add('activo');
+  });
+}
+
+function toggleMas(){
+  const d=document.getElementById('masDrawer');
+  d.classList.toggle('open');
+}
+function cerrarMas(){
+  document.getElementById('masDrawer').classList.remove('open');
+}
+
+// Mostrar portada al inicio
+window.addEventListener('DOMContentLoaded',()=>{
+  // Ocultar todas las secciones excepto portada
+  document.querySelectorAll('section').forEach(s=>{
+    if(s.id!=='portada')s.classList.remove('visible');
+    else s.classList.add('visible');
+  });
+  tabActual='portada';
+  // Reveal portada
+  document.querySelectorAll('#portada .rv').forEach(r=>r.classList.add('vis'));
+
+  // Init quiz y ruleta en background
+  setTimeout(()=>{qInit();mInit();},600);
+});
+
+// REVEAL para elementos dentro de secciones activas
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}})  ,{threshold:.1});
 document.querySelectorAll('.rv').forEach(r=>obs.observe(r));
 
