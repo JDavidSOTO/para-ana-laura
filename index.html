@@ -7,7 +7,7 @@
 <title>Para Ana Laura 💛</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
-:root{--rosa:#f7c5c5;--rosa-d:#e8818a;--oro:#c9a84c;--oro-l:#f0d080;--crema:#fff8f0;--txt:#3a2a2a;--w:#ffffff;}
+:root{--rosa:#f7c5c5;--rosa-d:#e8818a;--oro:#c9a84c;--oro-l:#f0d080;--crema:#fff8f0;--txt:#3a2a2a;--w:#ffffff;--turq:#4dd0e1;--turq-d:#00838f;--coral:#ff8a65;--arena:#fdf6e8;}
 
 /* ══ MODO NOCHE ══ */
 body.noche{
@@ -695,6 +695,155 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
 .jd-popup-nombre{font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--rosa-d);margin-bottom:.6rem;}
 .jd-popup-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:.97rem;color:var(--txt);line-height:1.75;}
 .jd-popup-close{margin-top:1.2rem;background:linear-gradient(135deg,var(--rosa-d),var(--oro));color:white;border:none;border-radius:10px;padding:.75rem 1.5rem;font-family:'Dancing Script',cursive;font-size:1.1rem;cursor:pointer;width:100%;}
+
+/* ══════════════════════════════════
+   PLAYA — 10 MESES
+══════════════════════════════════ */
+#playa{background:linear-gradient(180deg,#e0f7fa 0%,var(--arena) 55%,#fff3e0 100%);}
+.playa-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;opacity:.5;}
+
+/* Cuenta regresiva playa */
+.pl-cuenta{text-align:center;margin-bottom:1.6rem;position:relative;z-index:1;}
+.pl-cuenta-lbl{font-family:'Dancing Script',cursive;font-size:1.3rem;color:var(--turq-d);margin-bottom:.8rem;}
+.pl-cnt-g{max-width:300px;}
+.pl-i{border-color:var(--turq);box-shadow:0 6px 20px rgba(77,208,225,.18);background:linear-gradient(160deg,#ffffff,#e0f7fa);}
+.pl-n{color:var(--coral);}
+.pl-l{color:var(--turq-d);}
+
+/* Olas decorativas */
+.olas-wrap{position:relative;height:90px;margin:0 -1.2rem 1.6rem;overflow:hidden;z-index:1;}
+.olas-svg{width:100%;height:100%;display:block;}
+.ola{opacity:.5;}
+.ola1{fill:var(--turq);animation:olaMove 9s ease-in-out infinite;}
+.ola2{fill:#80deea;animation:olaMove 7s ease-in-out infinite reverse;opacity:.45;}
+.ola3{fill:#4dd0e1;animation:olaMove 11s ease-in-out infinite;opacity:.35;}
+@keyframes olaMove{
+  0%,100%{transform:translateX(0) translateY(0);}
+  50%{transform:translateX(-15px) translateY(3px);}
+}
+.conchas{position:absolute;inset:0;pointer-events:none;}
+.concha{position:absolute;font-size:1.3rem;opacity:.7;animation:conchaFloat 4s ease-in-out infinite;}
+.concha.c1{left:8%;bottom:8px;animation-delay:0s;font-size:1.1rem;}
+.concha.c2{left:25%;bottom:18px;animation-delay:.6s;font-size:1rem;}
+.concha.c3{left:48%;bottom:5px;animation-delay:1.2s;font-size:1.3rem;}
+.concha.c4{left:65%;bottom:14px;animation-delay:1.8s;font-size:1.15rem;}
+.concha.c5{left:80%;bottom:6px;animation-delay:2.4s;font-size:.95rem;}
+.concha.c6{left:92%;bottom:16px;animation-delay:3s;font-size:1.2rem;}
+@keyframes conchaFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-6px) rotate(8deg);}}
+
+/* BOLETO / ITINERARIO */
+.boleto{
+  position:relative;z-index:1;
+  background:linear-gradient(165deg,#ffffff,#f0fdff);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 14px 40px rgba(77,208,225,.2);
+  border:1.5px solid rgba(77,208,225,.3);
+  margin-bottom:1.8rem;
+}
+.boleto-top{display:flex;align-items:center;gap:.8rem;padding:1.1rem 1.2rem;background:linear-gradient(135deg,var(--turq),var(--coral));color:white;}
+.boleto-aero{font-size:1.8rem;}
+.boleto-info{flex:1;}
+.boleto-titulo{font-family:'Dancing Script',cursive;font-size:1.35rem;line-height:1.1;}
+.boleto-sub{font-size:.7rem;opacity:.9;letter-spacing:.05rem;text-transform:uppercase;margin-top:.1rem;}
+.boleto-sello{font-size:.85rem;background:rgba(255,255,255,.25);border-radius:50px;padding:.3rem .65rem;font-weight:bold;white-space:nowrap;}
+.boleto-divider{display:flex;align-items:center;padding:0 1.2rem;position:relative;height:14px;}
+.boleto-divider span:first-child,.boleto-divider span:last-child{flex:1;height:1px;background:repeating-linear-gradient(90deg,rgba(0,131,143,.25) 0 6px,transparent 6px 12px);}
+.boleto-circ{width:14px;height:14px;border-radius:50%;background:var(--arena);box-shadow:inset 0 0 0 1.5px rgba(0,131,143,.2);}
+.boleto-circ:first-of-type{margin-right:auto;transform:translateX(-50%);}
+.boleto-circ:nth-of-type(2){margin-left:auto;transform:translateX(50%);}
+.boleto-body{padding:1rem 1.2rem;}
+.boleto-fila{display:flex;gap:.8rem;margin-bottom:.8rem;}
+.boleto-fila:last-child{margin-bottom:0;}
+.boleto-dato{flex:1;display:flex;flex-direction:column;}
+.boleto-full{flex:1 1 100%;}
+.bd-lbl{font-size:.62rem;letter-spacing:.08rem;text-transform:uppercase;color:var(--turq-d);opacity:.7;margin-bottom:.15rem;}
+.bd-val{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--txt);}
+.boleto-footer{padding:1rem 1.2rem 1.2rem;text-align:center;}
+.boleto-msg{font-family:'Playfair Display',serif;font-style:italic;font-size:.88rem;color:var(--txt);line-height:1.7;margin-bottom:1rem;}
+.boleto-btn{
+  background:linear-gradient(135deg,var(--turq-d),var(--turq));
+  color:white;border:none;border-radius:50px;
+  padding:.7rem 1.4rem;font-family:'Lato',sans-serif;font-size:.85rem;
+  cursor:pointer;width:100%;box-shadow:0 4px 14px rgba(77,208,225,.3);
+}
+
+/* SORPRESAS — raspa y descubre */
+.sorpresas-wrap{position:relative;z-index:1;margin-bottom:1.8rem;}
+.sorp-titulo{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--coral);text-align:center;margin-bottom:.9rem;}
+.sorp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;}
+.sorp-card{position:relative;aspect-ratio:1;border-radius:16px;cursor:pointer;overflow:hidden;box-shadow:0 6px 18px rgba(255,138,101,.18);}
+.sorp-cover{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;background:linear-gradient(145deg,var(--coral),#ffb74d);
+  transition:opacity .4s,transform .4s;color:white;
+}
+.sorp-content{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;
+  color:var(--turq-d);background:linear-gradient(160deg,#fff,#e0f7fa);
+  padding:.4rem;line-height:1.3;
+}
+.sorp-card.revelada .sorp-cover{opacity:0;transform:scale(1.3) rotate(15deg);pointer-events:none;}
+
+/* JUEGO ENCUENTRA CORAZONES */
+.hh-wrap{position:relative;z-index:1;margin-bottom:1.8rem;}
+.hh-titulo{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--turq-d);text-align:center;margin-bottom:.3rem;}
+.hh-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:var(--txt);text-align:center;margin-bottom:.9rem;}
+.hh-escena{
+  position:relative;width:100%;aspect-ratio:4/3;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,#bbeeff 0%,#fef3c7 45%,#f5deb3 100%);
+  box-shadow:0 10px 30px rgba(77,208,225,.2);
+  border:1.5px solid rgba(77,208,225,.25);
+}
+.hh-item{position:absolute;font-size:1.6rem;user-select:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.1));}
+.hh-corazon{
+  position:absolute;font-size:1.4rem;cursor:pointer;
+  opacity:.18;transition:opacity .2s,transform .2s;
+  filter:drop-shadow(0 0 4px rgba(255,255,255,.5));
+}
+.hh-corazon:hover{opacity:.4;}
+.hh-corazon.found{opacity:1;transform:scale(1.5);animation:hhPop .4s ease;filter:none;}
+@keyframes hhPop{0%{transform:scale(.5);}60%{transform:scale(1.8);}100%{transform:scale(1.5);}}
+.hh-reset{display:block;margin:.8rem auto 0;background:none;border:1.5px solid var(--turq);border-radius:50px;padding:.4rem 1.2rem;font-size:.82rem;color:var(--turq-d);cursor:pointer;}
+.hh-win{display:none;position:fixed;inset:0;background:rgba(0,60,70,.55);z-index:300;align-items:center;justify-content:center;padding:1.5rem;}
+.hh-win.show{display:flex;}
+.hh-win-inner{background:linear-gradient(160deg,#e0f7fa,#fff3e0);border-radius:24px;padding:1.8rem 1.4rem;text-align:center;max-width:300px;box-shadow:0 20px 60px rgba(77,208,225,.3);}
+.hh-win-ico{font-size:3rem;margin-bottom:.5rem;}
+.hh-win-inner h3{font-family:'Dancing Script',cursive;font-size:1.9rem;color:var(--coral);}
+.hh-win-inner p{font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--txt);line-height:1.6;margin:.5rem 0 1rem;}
+.hh-win-inner button{background:linear-gradient(135deg,var(--turq-d),var(--coral));color:white;border:none;border-radius:14px;padding:.75rem 1.4rem;font-family:'Dancing Script',cursive;font-size:1.15rem;cursor:pointer;width:100%;}
+
+/* CARTA 10 MESES — SELLADA */
+.carta10-wrap{position:relative;z-index:1;margin-bottom:1.8rem;}
+.carta10-card{
+  background:linear-gradient(160deg,#fff,#e0f7fa);
+  border-radius:20px;padding:1.8rem 1.4rem;text-align:center;
+  box-shadow:0 12px 36px rgba(77,208,225,.2);
+  border:1.5px solid rgba(77,208,225,.3);
+}
+.carta10-candado{font-size:2.6rem;margin-bottom:.6rem;animation:candadoSwing 3s ease-in-out infinite;}
+@keyframes candadoSwing{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-6deg);}75%{transform:rotate(6deg);}}
+.carta10-titulo{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--turq-d);margin-bottom:.4rem;}
+.carta10-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:.85rem;color:var(--txt);line-height:1.6;margin-bottom:.9rem;}
+.carta10-cuenta{font-family:'Playfair Display',serif;font-size:.8rem;color:var(--coral);font-weight:700;margin-bottom:1rem;letter-spacing:.05rem;}
+.carta10-btn{
+  background:linear-gradient(135deg,var(--turq-d),var(--turq));
+  color:white;border:none;border-radius:50px;
+  padding:.8rem 1.6rem;font-family:'Dancing Script',cursive;font-size:1.15rem;
+  cursor:pointer;width:100%;box-shadow:0 4px 14px rgba(77,208,225,.3);
+  transition:opacity .3s;
+}
+.carta10-btn:disabled{opacity:.55;cursor:not-allowed;}
+.carta10-btn.desbloqueada{background:linear-gradient(135deg,var(--coral),#ffb74d);animation:btnGlow 1.6s ease-in-out infinite;}
+@keyframes btnGlow{0%,100%{box-shadow:0 4px 14px rgba(255,138,101,.3);}50%{box-shadow:0 4px 26px rgba(255,138,101,.6);}}
+.carta10-pergamino{display:none;margin-top:1.2rem;background:linear-gradient(170deg,#fdfaf3 0%,#e0f7fa 50%,#fff3e0 100%)!important;}
+.carta10-pergamino.show{display:block;animation:pergaminoAppear .8s cubic-bezier(.16,1,.3,1) both;}
+
+/* MAPA */
+.pl-mapa{position:relative;z-index:1;}
+.pl-mapa-titulo{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--coral);text-align:center;margin-bottom:.8rem;}
+#mapaPlaya{border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(77,208,225,.2);min-height:220px;background:#e0f7fa;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-style:italic;color:var(--turq-d);text-align:center;padding:1rem;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("1ZuHc8hIU3i1Spg-a");</script>
@@ -733,6 +882,7 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
 <!-- NAV TABS -->
 <nav id="mainNav">
   <button class="ntab" onclick="irA('cuenta')" data-tab="cuenta"><span class="ico">⏳</span><span class="nlbl">Tiempo</span></button>
+  <button class="ntab" onclick="irA('playa')" data-tab="playa"><span class="ico">🏖️</span><span class="nlbl">Playa</span></button>
   <button class="ntab" onclick="irA('carta')" data-tab="carta"><span class="ico">💌</span><span class="nlbl">Cartas</span></button>
   <button class="ntab" onclick="irA('fotos')" data-tab="fotos"><span class="ico">📷</span><span class="nlbl">Fotos</span></button>
   <button class="ntab" onclick="irA('galaxia')" data-tab="galaxia"><span class="ico">🌌</span><span class="nlbl">Galaxia</span></button>
@@ -769,6 +919,157 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
     <div class="cnt-i"><div class="cnt-n" id="cs">00</div><div class="cnt-l">Segundos</div></div>
   </div>
   <p class="fi-txt rv">📅 7 de septiembre, 2025 — el día que comenzó todo ❤</p>
+</section>
+
+<!-- ══ PLAYA — 10 MESES ══ -->
+<section id="playa" class="pbn">
+  <div class="playa-bg" id="playaBg"></div>
+  <p class="ttl rv" style="color:var(--turq-d);">Nuestros 10 meses 🏖️</p>
+  <p class="sub rv" style="color:var(--turq);">Una escapada solo para nosotros dos</p>
+
+  <!-- Cuenta regresiva -->
+  <div class="pl-cuenta rv">
+    <p class="pl-cuenta-lbl">Faltan para el 7 de julio…</p>
+    <div class="cnt-g pl-cnt-g">
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="pld">0</div><div class="cnt-l pl-l">Días</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="plh">00</div><div class="cnt-l pl-l">Horas</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="plm">00</div><div class="cnt-l pl-l">Min</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="pls">00</div><div class="cnt-l pl-l">Seg</div></div>
+    </div>
+  </div>
+
+  <!-- Olas decorativas -->
+  <div class="olas-wrap rv">
+    <svg viewBox="0 0 400 80" class="olas-svg" preserveAspectRatio="none">
+      <path class="ola ola1" d="M0,40 C50,10 100,60 150,35 C200,10 250,55 300,30 C350,8 380,40 400,35 L400,80 L0,80 Z"/>
+      <path class="ola ola2" d="M0,50 C60,25 120,65 180,45 C240,25 300,60 360,40 C380,35 390,42 400,45 L400,80 L0,80 Z"/>
+      <path class="ola ola3" d="M0,60 C70,45 140,70 210,55 C280,42 340,68 400,55 L400,80 L0,80 Z"/>
+    </svg>
+    <!-- Conchas y estrellas de mar -->
+    <div class="conchas">
+      <span class="concha c1">🐚</span>
+      <span class="concha c2">⭐</span>
+      <span class="concha c3">🐚</span>
+      <span class="concha c4">🦀</span>
+      <span class="concha c5">⭐</span>
+      <span class="concha c6">🐚</span>
+    </div>
+  </div>
+
+  <!-- BOLETO / ITINERARIO -->
+  <div class="boleto rv">
+    <div class="boleto-top">
+      <div class="boleto-aero">✈️</div>
+      <div class="boleto-info">
+        <p class="boleto-titulo">Pase de Escapada</p>
+        <p class="boleto-sub">Jesús David &amp; Ana Laura</p>
+      </div>
+      <div class="boleto-sello">10🤍</div>
+    </div>
+    <div class="boleto-divider">
+      <span></span><span class="boleto-circ"></span><span class="boleto-circ"></span><span></span>
+    </div>
+    <div class="boleto-body">
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Destino</span><span class="bd-val">Coveñas, Sucre</span></div>
+        <div class="boleto-dato"><span class="bd-lbl">Sector</span><span class="bd-val">2ª Ensenada</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Hospedaje</span><span class="bd-val">Playa Dorada 🏨</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Entrada</span><span class="bd-val">7 de julio</span></div>
+        <div class="boleto-dato"><span class="bd-lbl">Salida</span><span class="bd-val">8 de julio</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato boleto-full"><span class="bd-lbl">Pasajeros</span><span class="bd-val">2 enamorados ❤️</span></div>
+      </div>
+    </div>
+    <div class="boleto-divider">
+      <span></span><span class="boleto-circ"></span><span class="boleto-circ"></span><span></span>
+    </div>
+    <div class="boleto-footer">
+      <p class="boleto-msg">"Va a ser uno de los mejores días de nuestras vidas. Vamos a disfrutar el sol, el mar, y sobre todo, el estar juntos. 🌅💛"</p>
+      <button class="boleto-btn" onclick="toggleSorpresas()">🎁 Sorpresas reveladas: <span id="sorpCount">0</span>/<span id="sorpTotal">3</span></button>
+    </div>
+  </div>
+
+  <!-- Lista de sorpresas (scratch reveal) -->
+  <div class="sorpresas-wrap rv" id="sorpresasWrap">
+    <p class="sorp-titulo">Raspa y descubre 🎁</p>
+    <div class="sorp-grid">
+      <div class="sorp-card" data-id="0" onclick="revelarSorpresa(this)">
+        <div class="sorp-cover">🎁</div>
+        <div class="sorp-content">🌅<br/>Atardecer en la playa</div>
+      </div>
+      <div class="sorp-card" data-id="1" onclick="revelarSorpresa(this)">
+        <div class="sorp-cover">🎁</div>
+        <div class="sorp-content">🍽️<br/>Una cena especial</div>
+      </div>
+      <div class="sorp-card" data-id="2" onclick="revelarSorpresa(this)">
+        <div class="sorp-cover">🎁</div>
+        <div class="sorp-content">💌<br/>Una carta que solo<br/>podrás abrir ese día</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUEGO: ENCUENTRA LOS CORAZONES -->
+  <div class="hh-wrap rv">
+    <p class="hh-titulo">🔍 Encuentra los corazones escondidos</p>
+    <p class="hh-sub">Hay 5 corazoncitos escondidos entre las conchas. ¡Encuéntralos todos! <span id="hhCount">0</span>/5</p>
+    <div class="hh-escena" id="hhEscena"></div>
+    <button class="hh-reset" onclick="hhInit()">🔄 Reiniciar</button>
+    <div class="hh-win" id="hhWin">
+      <div class="hh-win-inner">
+        <div class="hh-win-ico">🎉🏖️</div>
+        <h3>¡Los encontraste todos!</h3>
+        <p>Así de bien te conozco… y así de bien te voy a cuidar en cada minuto de nuestra escapada. Te amo. 💛</p>
+        <button onclick="hhInit();document.getElementById('hhWin').classList.remove('show')">Jugar de nuevo 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARTA SELLADA — 10 MESES -->
+  <div class="carta10-wrap rv">
+    <div class="carta10-card" id="carta10Card">
+      <div class="carta10-candado" id="carta10Icon">🔒</div>
+      <p class="carta10-titulo">Una carta para el 7 de julio</p>
+      <p class="carta10-sub" id="carta10Sub">Esta carta se desbloqueará automáticamente el día de nuestros 10 meses, en la playa. 🌅</p>
+      <div class="carta10-cuenta" id="carta10Cuenta"></div>
+      <button class="carta10-btn" id="carta10Btn" onclick="intentarAbrirCarta10()" disabled>Bloqueada hasta el 7 de julio 🔒</button>
+    </div>
+
+    <!-- Contenido de la carta (oculto hasta desbloqueo) -->
+    <div class="carta-pergamino carta10-pergamino" id="carta10Pergamino">
+      <div class="carta-sello" style="background:radial-gradient(circle at 40% 35%,#4dd0e1,#00838f 60%,#005662);">🌅</div>
+      <div class="carta-ornamento" style="color:var(--turq-d);">🐚 · ⭐ · 🐚</div>
+      <p class="carta-fecha" style="color:rgba(0,131,143,.7);">Coveñas, 7 de julio · Nuestros 10 meses</p>
+      <p class="carta-sal" style="color:var(--turq-d);">Mi amor… 🌊</p>
+      <div class="carta-cuerpo">
+        <p><span class="carta-capital" style="color:var(--turq-d);">S</span>i estás leyendo esto, significa que ya estamos aquí… en la playa, celebrando 10 meses juntos. Espero que en este momento el sol esté cayendo, que tengas la arena entre los dedos de los pies y que, sobre todo, estés sonriendo.</p>
+        <p>Quiero que este viaje sea de los mejores recuerdos que tengamos juntos. Que cada ola que veamos romper en la orilla sea un recordatorio de lo afortunado que soy de tenerte a mi lado.</p>
+        <p>Diez meses ya, mi amor… y siento que apenas estamos empezando a escribir esta historia tan hermosa. Gracias por ser mi compañera de aventuras, mi calma y mi alegría.</p>
+        <p>Hoy quiero que disfrutes, que descanses, que te sientas amada como te lo mereces. Esta escapada es para ti, para nosotros, para celebrar lo que somos.</p>
+        <p>Te amo más que ayer, y mañana te amaré aún más. 🌅💛</p>
+      </div>
+      <p class="carta-firma" style="color:var(--turq-d);">Con todo mi amor, en la arena y en el alma,<br/>— Jesús David 🌊</p>
+      <div class="carta-flores-pie">
+        <span class="flor-pie">🐚</span>
+        <span class="flor-pie">⭐</span>
+        <span class="flor-pie">🌅</span>
+        <span class="flor-pie">🌊</span>
+        <span class="flor-pie">🐚</span>
+        <span class="flor-pie">⭐</span>
+        <span class="flor-pie">🐚</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPA -->
+  <div class="pl-mapa rv">
+    <p class="pl-mapa-titulo">📍 A dónde vamos</p>
+    <div id="mapaPlaya"></div>
+  </div>
 </section>
 
 <!-- CARTA -->
@@ -2476,9 +2777,160 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ══════════════════════════════════
-// SISTEMA DE PESTAÑAS / TABS
+// PLAYA — 10 MESES JS
 // ══════════════════════════════════
-const ORDEN=['portada','cuenta','carta','fotos','galaxia','jardin','juegos','promesas','razones','momentos','cartas-sorpresa','carta-viva','recuerdos','secreto'];
+
+// Cuenta regresiva hacia el 7 de julio 2026
+function playaCountdown(){
+  const meta=new Date('2026-07-07T00:00:00');
+  function tick(){
+    const ahora=new Date();
+    const diff=meta-ahora;
+    if(diff<=0){
+      document.getElementById('pld').textContent='0';
+      document.getElementById('plh').textContent='00';
+      document.getElementById('plm').textContent='00';
+      document.getElementById('pls').textContent='00';
+      desbloquearCarta10();
+      return;
+    }
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    document.getElementById('pld').textContent=d;
+    document.getElementById('plh').textContent=String(h).padStart(2,'0');
+    document.getElementById('plm').textContent=String(m).padStart(2,'0');
+    document.getElementById('pls').textContent=String(s).padStart(2,'0');
+    // Texto cuenta carta
+    const cc=document.getElementById('carta10Cuenta');
+    if(cc) cc.textContent=`Faltan ${d} días, ${h}h ${m}m ${s}s para abrirla ⏳`;
+  }
+  tick();
+  setInterval(tick,1000);
+}
+playaCountdown();
+
+// Desbloquear carta el 7 de julio
+function desbloquearCarta10(){
+  const btn=document.getElementById('carta10Btn');
+  const icon=document.getElementById('carta10Icon');
+  const sub=document.getElementById('carta10Sub');
+  const cc=document.getElementById('carta10Cuenta');
+  if(btn){
+    btn.disabled=false;
+    btn.textContent='¡Abrir mi carta especial! 🌅';
+    btn.classList.add('desbloqueada');
+  }
+  if(icon) icon.textContent='💌';
+  if(sub) sub.textContent='¡Hoy es el día! Ya puedes abrir tu carta especial de 10 meses. 🌅';
+  if(cc) cc.textContent='';
+}
+
+function intentarAbrirCarta10(){
+  const hoy=new Date();
+  const meta=new Date('2026-07-07T00:00:00');
+  // Verificar si ya llegó el día
+  if(hoy>=meta){
+    const card=document.getElementById('carta10Card');
+    const perg=document.getElementById('carta10Pergamino');
+    card.style.display='none';
+    perg.classList.add('show');
+    iniciarPetalos();
+  }
+}
+
+// Sorpresas raspa y descubre
+let sorpReveled=0;
+function toggleSorpresas(){
+  const w=document.getElementById('sorpresasWrap');
+  w.style.display=w.style.display==='none'?'block':'none';
+}
+function revelarSorpresa(el){
+  if(el.classList.contains('revelada'))return;
+  el.classList.add('revelada');
+  sorpReveled++;
+  document.getElementById('sorpCount').textContent=sorpReveled;
+  // Pequeña vibración háptica si disponible
+  if(navigator.vibrate) navigator.vibrate(60);
+}
+
+// ══ JUEGO: ENCUENTRA LOS CORAZONES ══
+const HH_ITEMS=[
+  {emoji:'🐚',sx:8,sy:62},{emoji:'🐚',sx:22,sy:70},{emoji:'🐚',sx:65,sy:68},
+  {emoji:'🐚',sx:80,sy:72},{emoji:'🐚',sx:45,sy:66},{emoji:'🐚',sx:90,sy:60},
+  {emoji:'⭐',sx:15,sy:74},{emoji:'⭐',sx:55,sy:72},{emoji:'⭐',sx:75,sy:78},
+  {emoji:'🦀',sx:35,sy:65},{emoji:'🦀',sx:85,sy:68},
+  {emoji:'🌊',sx:10,sy:20},{emoji:'🌊',sx:50,sy:15},{emoji:'🌊',sx:85,sy:22},
+  {emoji:'☀️',sx:50,sy:8},
+  {emoji:'⛵',sx:25,sy:28},{emoji:'⛵',sx:72,sy:32},
+  {emoji:'🐦',sx:15,sy:12},{emoji:'🐦',sx:80,sy:10},
+];
+const HH_CORAZONES_POS=[
+  {x:12,y:55},{x:38,y:70},{x:60,y:60},{x:82,y:52},{x:55,y:30}
+];
+let hhFound=0;
+
+function hhInit(){
+  hhFound=0;
+  document.getElementById('hhCount').textContent='0';
+  document.getElementById('hhWin').classList.remove('show');
+  const escena=document.getElementById('hhEscena');
+  escena.innerHTML='';
+
+  // Elementos decorativos
+  HH_ITEMS.forEach(it=>{
+    const el=document.createElement('span');
+    el.className='hh-item';
+    el.textContent=it.emoji;
+    el.style.left=it.sx+'%';
+    el.style.top=it.sy+'%';
+    escena.appendChild(el);
+  });
+
+  // Corazones ocultos
+  HH_CORAZONES_POS.forEach((pos,i)=>{
+    const el=document.createElement('span');
+    el.className='hh-corazon';
+    el.textContent='💛';
+    el.style.left=pos.x+'%';
+    el.style.top=pos.y+'%';
+    el.onclick=()=>{
+      if(el.classList.contains('found'))return;
+      el.classList.add('found');
+      hhFound++;
+      document.getElementById('hhCount').textContent=hhFound;
+      if(navigator.vibrate)navigator.vibrate(40);
+      if(hhFound===HH_CORAZONES_POS.length){
+        setTimeout(()=>document.getElementById('hhWin').classList.add('show'),600);
+      }
+    };
+    escena.appendChild(el);
+  });
+}
+hhInit();
+
+// Mostrar mapa de Coveñas
+function initMapaPlaya(){
+  const div=document.getElementById('mapaPlaya');
+  if(!div||div.dataset.init)return;
+  div.dataset.init='1';
+  div.innerHTML=`
+    <div style="width:100%;text-align:center;padding:1.5rem 1rem;">
+      <p style="font-size:2rem;margin-bottom:.5rem;">📍</p>
+      <p style="font-family:'Dancing Script',cursive;font-size:1.3rem;color:var(--turq-d);margin-bottom:.3rem;">Hotel Playa Dorada</p>
+      <p style="font-size:.8rem;color:var(--txt);opacity:.7;margin-bottom:.8rem;">Segunda Ensenada · Coveñas, Sucre, Colombia</p>
+      <a href="https://maps.google.com/?q=9.4402215,-75.6254714"
+         target="_blank"
+         style="background:linear-gradient(135deg,var(--turq-d),var(--coral));color:white;text-decoration:none;border-radius:50px;padding:.6rem 1.3rem;font-size:.85rem;display:inline-block;box-shadow:0 4px 14px rgba(77,208,225,.3);">
+         Ver en Google Maps 🗺️
+      </a>
+      <p style="margin-top:.9rem;font-size:.75rem;color:var(--turq-d);opacity:.7;">🏖️ 7 - 8 de julio, 2026</p>
+    </div>`;
+}
+
+// Inicializar mapa al entrar a la sección playa
+const ORDEN=['portada','cuenta','playa','carta','fotos','galaxia','jardin','juegos','promesas','razones','momentos','cartas-sorpresa','carta-viva','recuerdos','secreto'];
 let tabActual='portada';
 let transicionando=false;
 
@@ -2521,6 +2973,7 @@ function irA(id,desde){
     if(id==='galaxia')setTimeout(gxInit,120);
     if(id==='jardin')setTimeout(jdInit,120);
     if(id==='juegos')setTimeout(()=>{mInit();},120);
+    if(id==='playa')setTimeout(()=>{initMapaPlaya();},200);
   },120);
 }
 
