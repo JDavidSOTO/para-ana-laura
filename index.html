@@ -767,23 +767,93 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
   cursor:pointer;width:100%;box-shadow:0 4px 14px rgba(77,208,225,.3);
 }
 
-/* SORPRESAS — raspa y descubre */
+/* ══ SORPRESAS CINEMATOGRÁFICAS ══ */
 .sorpresas-wrap{position:relative;z-index:1;margin-bottom:1.8rem;}
-.sorp-titulo{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--coral);text-align:center;margin-bottom:.9rem;}
-.sorp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;}
-.sorp-card{position:relative;aspect-ratio:1;border-radius:16px;cursor:pointer;overflow:hidden;box-shadow:0 6px 18px rgba(255,138,101,.18);}
-.sorp-cover{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:2.2rem;background:linear-gradient(145deg,var(--coral),#ffb74d);
-  transition:opacity .4s,transform .4s;color:white;
+.sorp-titulo{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--coral);text-align:center;margin-bottom:1rem;}
+.sorp-fase{width:100%;}
+
+/* Mar animado */
+.sorp-mar{
+  position:relative;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,#87ceeb 0%,#4dd0e1 45%,#0097a7 100%);
+  height:220px;cursor:pointer;
+  box-shadow:0 12px 36px rgba(0,151,167,.25);
 }
-.sorp-content{
+#sorpOlasCanvas{position:absolute;inset:0;width:100%;height:100%;}
+.sorp-botella{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  text-align:center;font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;
-  color:var(--turq-d);background:linear-gradient(160deg,#fff,#e0f7fa);
-  padding:.4rem;line-height:1.3;
+  flex-direction:column;gap:.5rem;
 }
-.sorp-card.revelada .sorp-cover{opacity:0;transform:scale(1.3) rotate(15deg);pointer-events:none;}
+.sorp-bot-inner{display:flex;flex-direction:column;align-items:center;gap:.6rem;animation:botellaFlota 2.5s ease-in-out infinite;}
+@keyframes botellaFlota{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-14px) rotate(4deg);}}
+.sorp-bot-svg{font-size:3.2rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25));}
+.sorp-bot-msg{
+  font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;
+  color:white;text-align:center;line-height:1.5;
+  text-shadow:0 1px 6px rgba(0,0,0,.35);
+  background:rgba(0,0,0,.2);border-radius:12px;padding:.5rem .8rem;backdrop-filter:blur(4px);
+}
+.sorp-bot-msg span{display:block;font-size:.72rem;margin-top:.25rem;opacity:.8;letter-spacing:.05rem;}
+
+/* Pergamino sorpresas */
+.sorp-pergamino-wrap{animation:pergScrollDown .7s cubic-bezier(.16,1,.3,1) both;}
+@keyframes pergScrollDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.sorp-pergamino{
+  background:linear-gradient(170deg,#fefcf5 0%,#fef8e8 50%,#fefcf5 100%);
+  border-radius:16px;padding:1.4rem 1.2rem 1.6rem;
+  box-shadow:0 16px 48px rgba(139,90,43,.18),inset 0 0 30px rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.22);
+  position:relative;overflow:hidden;
+}
+.sorp-pergamino::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(201,168,76,.06) 27px,rgba(201,168,76,.06) 28px);
+  pointer-events:none;
+}
+.sorp-perg-header{text-align:center;margin-bottom:1.2rem;position:relative;z-index:1;}
+.sorp-perg-deco{font-family:'Playfair Display',serif;font-size:.75rem;color:var(--oro);letter-spacing:.15rem;text-transform:uppercase;margin-bottom:.6rem;}
+.sorp-perg-intro{font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:#3a2a2a;line-height:1.7;}
+
+/* Cajas raspables */
+.sorp-cajas{display:flex;flex-direction:column;gap:.9rem;position:relative;z-index:1;}
+.sorp-caja{
+  position:relative;border-radius:14px;overflow:hidden;
+  height:90px;min-height:90px;cursor:crosshair;
+  box-shadow:0 4px 16px rgba(201,168,76,.15);
+  transition:opacity .4s;
+}
+.sorp-scratch-canvas{
+  position:absolute;inset:0;width:100%;height:100%;z-index:2;
+  cursor:crosshair;border-radius:14px;
+}
+.sorp-caja-contenido{
+  position:absolute;inset:0;display:flex;align-items:center;gap:1rem;
+  padding:.8rem 1rem;z-index:1;
+  background:linear-gradient(135deg,#e0f7fa,#fff8e1);
+}
+.sorp-reveal-ico{font-size:2rem;flex-shrink:0;}
+.sorp-reveal-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:#2a4a4a;line-height:1.5;}
+.sorp-caja-hint{
+  position:absolute;bottom:4px;right:8px;z-index:3;
+  font-size:.6rem;color:rgba(255,255,255,.75);
+  font-family:'Lato',sans-serif;letter-spacing:.05rem;
+  pointer-events:none;
+}
+.sorp-caja.done .sorp-caja-hint{display:none;}
+.sorp-caja.done{cursor:default;}
+
+/* Final fuegos artificiales */
+.sorp-final{
+  position:relative;text-align:center;margin-top:1.2rem;
+  background:linear-gradient(135deg,var(--turq-d),var(--coral));
+  border-radius:16px;padding:1.2rem;overflow:hidden;
+  animation:sorpFinalIn .6s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes sorpFinalIn{from{opacity:0;transform:scale(.88);}to{opacity:1;transform:scale(1);}}
+#sorpFireworks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.sorp-final-txt{font-family:'Dancing Script',cursive;font-size:1.35rem;color:white;position:relative;z-index:1;line-height:1.4;}
+.sorp-final-firma{font-family:'Playfair Display',serif;font-style:italic;font-size:.85rem;color:rgba(255,255,255,.85);margin-top:.5rem;position:relative;z-index:1;}
+@keyframes sorpContenidoIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
 
 /* JUEGO ENCUENTRA CORAZONES */
 .hh-wrap{position:relative;z-index:1;margin-bottom:1.8rem;}
@@ -990,28 +1060,72 @@ footer{text-align:center;padding:1rem;font-size:.72rem;color:var(--oro);letter-s
     </div>
     <div class="boleto-footer">
       <p class="boleto-msg">"Va a ser uno de los mejores días de nuestras vidas. Vamos a disfrutar el sol, el mar, y sobre todo, el estar juntos. 🌅💛"</p>
-      <button class="boleto-btn" onclick="toggleSorpresas()">🎁 Sorpresas reveladas: <span id="sorpCount">0</span>/<span id="sorpTotal">3</span></button>
+      <button class="boleto-btn" onclick="document.getElementById('sorpresasWrap').scrollIntoView({behavior:'smooth'})">🎁 Ver mis sorpresas del viaje</button>
     </div>
   </div>
 
-  <!-- Lista de sorpresas (scratch reveal) -->
+
+  <!-- ══ SORPRESAS CINEMATOGRÁFICAS ══ -->
   <div class="sorpresas-wrap rv" id="sorpresasWrap">
-    <p class="sorp-titulo">Raspa y descubre 🎁</p>
-    <div class="sorp-grid">
-      <div class="sorp-card" data-id="0" onclick="revelarSorpresa(this)">
-        <div class="sorp-cover">🎁</div>
-        <div class="sorp-content">🌅<br/>Atardecer en la playa</div>
+    <p class="sorp-titulo">Tengo algo para ti… 🤫</p>
+
+    <!-- FASE 1: Botella en el mar -->
+    <div class="sorp-fase" id="sorpFase1">
+      <div class="sorp-mar">
+        <canvas id="sorpOlasCanvas"></canvas>
+        <div class="sorp-botella" id="sorpBotella" onclick="abrirBotella()">
+          <div class="sorp-bot-inner">
+            <div class="sorp-bot-svg">🍾</div>
+            <div class="sorp-bot-msg">Hay una botella con un mensaje flotando en el mar…<br/><span>Tócala para abrirla</span></div>
+          </div>
+        </div>
       </div>
-      <div class="sorp-card" data-id="1" onclick="revelarSorpresa(this)">
-        <div class="sorp-cover">🎁</div>
-        <div class="sorp-content">🍽️<br/>Una cena especial</div>
-      </div>
-      <div class="sorp-card" data-id="2" onclick="revelarSorpresa(this)">
-        <div class="sorp-cover">🎁</div>
-        <div class="sorp-content">💌<br/>Una carta que solo<br/>podrás abrir ese día</div>
+    </div>
+
+    <!-- FASE 2: Mensaje aparece -->
+    <div class="sorp-fase" id="sorpFase2" style="display:none;">
+      <div class="sorp-pergamino-wrap">
+        <div class="sorp-pergamino" id="sorpPergamino">
+          <div class="sorp-perg-header">
+            <div class="sorp-perg-deco">～ Para Ana Laura ～</div>
+            <p class="sorp-perg-intro">El 7 de julio va a ser un día que jamás vas a olvidar.<br/>Encontré 3 regalos especiales para ti… pero están escondidos.</p>
+          </div>
+          <div class="sorp-cajas">
+            <div class="sorp-caja" id="sorpCaja0">
+              <canvas class="sorp-scratch-canvas" id="scratch0"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido0">
+                <div class="sorp-reveal-ico">🌅</div>
+                <div class="sorp-reveal-txt">Vamos a ver el atardecer juntos, sentados en la arena, con los pies en el agua. Solo tú y yo.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+            <div class="sorp-caja" id="sorpCaja1" style="opacity:.4;pointer-events:none;">
+              <canvas class="sorp-scratch-canvas" id="scratch1"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido1">
+                <div class="sorp-reveal-ico">🕯️</div>
+                <div class="sorp-reveal-txt">Tengo preparada una cena romántica en la playa, solo para los dos, con velas y todo lo que mereces.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+            <div class="sorp-caja" id="sorpCaja2" style="opacity:.4;pointer-events:none;">
+              <canvas class="sorp-scratch-canvas" id="scratch2"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido2">
+                <div class="sorp-reveal-ico">💌</div>
+                <div class="sorp-reveal-txt">Esa noche te voy a leer una carta que escribí con todo lo que siento por ti. Una que nunca olvidarás.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+          </div>
+          <div class="sorp-final" id="sorpFinal" style="display:none;">
+            <canvas id="sorpFireworks"></canvas>
+            <p class="sorp-final-txt">¡Eso es todo! Va a ser la noche más especial de nuestras vidas. 🌊🕯️💛</p>
+            <p class="sorp-final-firma">— Tu hombre enamorado ❤️</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 
   <!-- JUEGO: ENCUENTRA LOS CORAZONES -->
   <div class="hh-wrap rv">
@@ -2840,20 +2954,219 @@ function intentarAbrirCarta10(){
   }
 }
 
-// Sorpresas raspa y descubre
-let sorpReveled=0;
-function toggleSorpresas(){
-  const w=document.getElementById('sorpresasWrap');
-  w.style.display=w.style.display==='none'?'block':'none';
+// ══════════════════════════════════
+// SORPRESAS CINEMATOGRÁFICAS
+// ══════════════════════════════════
+
+// — Olas animadas en el mar —
+function initSorpOlas(){
+  const canvas=document.getElementById('sorpOlasCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let t=0;
+  function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  function drawOlas(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const h=canvas.height,w=canvas.width;
+    // Ola 1
+    ctx.beginPath();
+    ctx.moveTo(0,h*.55);
+    for(let x=0;x<=w;x+=4){
+      const y=h*.55+Math.sin((x/w)*Math.PI*4+t)*12+Math.sin((x/w)*Math.PI*6+t*1.3)*6;
+      ctx.lineTo(x,y);
+    }
+    ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();
+    ctx.fillStyle='rgba(0,151,167,.35)';ctx.fill();
+    // Ola 2
+    ctx.beginPath();
+    ctx.moveTo(0,h*.65);
+    for(let x=0;x<=w;x+=4){
+      const y=h*.65+Math.sin((x/w)*Math.PI*3+t*1.2)*10+Math.sin((x/w)*Math.PI*5+t*.9)*5;
+      ctx.lineTo(x,y);
+    }
+    ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();
+    ctx.fillStyle='rgba(0,131,143,.45)';ctx.fill();
+    // Ola 3
+    ctx.beginPath();
+    ctx.moveTo(0,h*.78);
+    for(let x=0;x<=w;x+=4){
+      const y=h*.78+Math.sin((x/w)*Math.PI*5+t*1.5)*7;
+      ctx.lineTo(x,y);
+    }
+    ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();
+    ctx.fillStyle='rgba(0,97,120,.55)';ctx.fill();
+    t+=.025;
+    requestAnimationFrame(drawOlas);
+  }
+  drawOlas();
 }
-function revelarSorpresa(el){
-  if(el.classList.contains('revelada'))return;
-  el.classList.add('revelada');
-  sorpReveled++;
-  document.getElementById('sorpCount').textContent=sorpReveled;
-  // Pequeña vibración háptica si disponible
-  if(navigator.vibrate) navigator.vibrate(60);
+
+// — Abrir botella: transición a pergamino —
+function abrirBotella(){
+  const fase1=document.getElementById('sorpFase1');
+  const fase2=document.getElementById('sorpFase2');
+  // Efecto: botella se agita y sube
+  const botella=document.getElementById('sorpBotella');
+  botella.style.transition='transform .6s cubic-bezier(.34,1.56,.64,1),opacity .4s';
+  botella.style.transform='translateY(-80px) scale(1.2) rotate(10deg)';
+  botella.style.opacity='0';
+  if(navigator.vibrate)navigator.vibrate([30,20,60,20,30]);
+  setTimeout(()=>{
+    fase1.style.transition='opacity .4s';
+    fase1.style.opacity='0';
+    setTimeout(()=>{
+      fase1.style.display='none';
+      fase2.style.display='block';
+      // Inicializar scratch cards
+      setTimeout(()=>{
+        initScratch(0);
+      },400);
+    },400);
+  },500);
 }
+
+// — Scratch cards reales con canvas —
+const scratchDone=[false,false,false];
+let scratchCount=0;
+
+function initScratch(idx){
+  const canvas=document.getElementById('scratch'+idx);
+  if(!canvas)return;
+  const caja=document.getElementById('sorpCaja'+idx);
+  const w=caja.offsetWidth||300;
+  const h=caja.offsetHeight||90;
+  canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d');
+
+  // Fondo de la capa de raspar
+  const grad=ctx.createLinearGradient(0,0,w,h);
+  grad.addColorStop(0,'#e8818a');
+  grad.addColorStop(.5,'#c9a84c');
+  grad.addColorStop(1,'#e8818a');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,w,h);
+
+  // Texto "Raspa para revelar"
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.font=`bold ${Math.min(w*.045,14)}px Lato,sans-serif`;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText('✨ Raspa para revelar tu sorpresa ✨',w/2,h/2);
+  ctx.globalCompositeOperation='destination-out';
+
+  let isDrawing=false;
+  let revealed=0;
+  const totalPixels=w*h;
+
+  function getPos(e,canvas){
+    const rect=canvas.getBoundingClientRect();
+    const scaleX=canvas.width/rect.width;
+    const scaleY=canvas.height/rect.height;
+    const src=e.touches?e.touches[0]:e;
+    return{x:(src.clientX-rect.left)*scaleX,y:(src.clientY-rect.top)*scaleY};
+  }
+
+  function scratch(e){
+    if(!isDrawing)return;
+    e.preventDefault();
+    const pos=getPos(e,canvas);
+    ctx.beginPath();
+    ctx.arc(pos.x,pos.y,22,0,Math.PI*2);
+    ctx.fill();
+    // Comprobar % raspado
+    if(Math.random()<.08){
+      const data=ctx.getImageData(0,0,w,h).data;
+      let cleared=0;
+      for(let i=3;i<data.length;i+=4)if(data[i]===0)cleared++;
+      if(cleared/totalPixels>.45&&!scratchDone[idx]){
+        terminarScratch(idx,canvas,caja);
+      }
+    }
+  }
+
+  canvas.addEventListener('mousedown',e=>{isDrawing=true;scratch(e);});
+  canvas.addEventListener('mousemove',scratch);
+  canvas.addEventListener('mouseup',()=>isDrawing=false);
+  canvas.addEventListener('touchstart',e=>{isDrawing=true;scratch(e);},{passive:false});
+  canvas.addEventListener('touchmove',scratch,{passive:false});
+  canvas.addEventListener('touchend',()=>isDrawing=false);
+}
+
+function terminarScratch(idx,canvas,caja){
+  if(scratchDone[idx])return;
+  scratchDone[idx]=true;
+  scratchCount++;
+  // Desvanece el canvas
+  canvas.style.transition='opacity .6s';
+  canvas.style.opacity='0';
+  caja.classList.add('done');
+  if(navigator.vibrate)navigator.vibrate([50,30,80]);
+  // Animación de entrada del contenido
+  const contenido=document.getElementById('sorpContenido'+idx);
+  contenido.style.animation='sorpContenidoIn .5s cubic-bezier(.16,1,.3,1) both';
+  // Desbloquear siguiente caja
+  setTimeout(()=>{
+    if(idx<2){
+      const next=document.getElementById('sorpCaja'+(idx+1));
+      next.style.transition='opacity .5s,transform .5s';
+      next.style.opacity='1';
+      next.style.pointerEvents='auto';
+      next.style.transform='scale(1.02)';
+      setTimeout(()=>next.style.transform='scale(1)',300);
+      initScratch(idx+1);
+    }
+    if(scratchCount===3){
+      setTimeout(mostrarFinal,700);
+    }
+  },600);
+}
+
+function mostrarFinal(){
+  const final=document.getElementById('sorpFinal');
+  final.style.display='block';
+  iniciarPetalos();
+  // Mini fuegos artificiales en canvas
+  const canvas=document.getElementById('sorpFireworks');
+  const cont=canvas.parentElement;
+  canvas.width=cont.offsetWidth||300;
+  canvas.height=cont.offsetHeight||100;
+  const ctx=canvas.getContext('2d');
+  const particulas=[];
+  const colores=['#fff','#ffd700','#ff8a65','#4dd0e1','#f48fb1','#fff9c4'];
+  for(let i=0;i<60;i++){
+    particulas.push({
+      x:canvas.width*(.2+Math.random()*.6),
+      y:canvas.height*(.2+Math.random()*.6),
+      vx:(Math.random()-.5)*4,
+      vy:(Math.random()-.5)*4,
+      alpha:1,
+      color:colores[Math.floor(Math.random()*colores.length)],
+      r:1.5+Math.random()*2.5,
+    });
+  }
+  let frames=0;
+  function drawFW(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particulas.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.alpha-=.012;
+      ctx.globalAlpha=Math.max(0,p.alpha);
+      ctx.fillStyle=p.color;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    frames++;
+    if(frames<140)requestAnimationFrame(drawFW);
+  }
+  drawFW();
+}
+
+// Init olas cuando se entra a la sección playa
+function initPlayaExtras(){
+  initSorpOlas();
+}
+
 
 // ══ JUEGO: ENCUENTRA LOS CORAZONES ══
 const HH_ITEMS=[
@@ -2973,7 +3286,7 @@ function irA(id,desde){
     if(id==='galaxia')setTimeout(gxInit,120);
     if(id==='jardin')setTimeout(jdInit,120);
     if(id==='juegos')setTimeout(()=>{mInit();},120);
-    if(id==='playa')setTimeout(()=>{initMapaPlaya();},200);
+    if(id==='playa')setTimeout(()=>{initMapaPlaya();initPlayaExtras();},200);
   },120);
 }
 
