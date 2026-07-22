@@ -748,7 +748,6 @@ setTimeout(()=>{
 /* ──────────────────────────────────────────────────────
    12) ARRANQUE
    ────────────────────────────────────────────────────── */
-loop();
 
 /* ──────────────────────────────────────────────────────
    13) MODO CONSTELACIÓN PERSONALIZADA
@@ -940,3 +939,7 @@ document.getElementById('btnMisConstelaciones').addEventListener('click', ()=>{
 document.getElementById('cerrarModalLista').addEventListener('click', ()=>{
   document.getElementById('modalLista').classList.remove('open');document.getElementById('modalLista').setAttribute('aria-hidden','true');
 });
+
+/* Arrancamos el bucle solo hasta ahora, ya con todo declarado
+   (modo constelación incluido) para evitar errores de orden. */
+loop();
