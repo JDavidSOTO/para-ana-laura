@@ -60,9 +60,45 @@
   <button id="btnZoomIn" title="Acercar" aria-label="Acercar">+</button>
   <button id="btnRandom" title="Estrella aleatoria" aria-label="Buscar estrella aleatoria">🎲</button>
   <button id="btnCenter" title="Centro de la galaxia" aria-label="Ir al centro de la galaxia">◎</button>
+  <button id="btnConstelacion" title="Modo constelación" aria-label="Activar modo constelación">✏️</button>
+  <button id="btnMisConstelaciones" title="Mis constelaciones" aria-label="Ver mis constelaciones guardadas">🌠</button>
   <button id="btnFullscreen" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
   <button id="btnMusic" title="Música" aria-label="Activar o desactivar música">♪</button>
 </nav>
+
+<!-- ══════════════════════════════════
+     MODO CONSTELACIÓN — barra flotante
+     ══════════════════════════════════ -->
+<div id="barraConstelacion" class="barra-constelacion" aria-hidden="true">
+  <p class="bc-hint">Toca estrellas en orden para unirlas ✦</p>
+  <div class="bc-botones">
+    <button id="bcDeshacer">↩ Deshacer</button>
+    <button id="bcBorrar">🗑 Borrar</button>
+    <button id="bcGuardar">💾 Guardar</button>
+    <button id="bcSalir">✕ Salir</button>
+  </div>
+</div>
+
+<!-- Modal: guardar constelación con nombre -->
+<div id="modalGuardar" class="card" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="card-inner">
+    <button class="card-close" id="cerrarModalGuardar" aria-label="Cerrar">✕</button>
+    <p class="card-day">Nombra tu constelación</p>
+    <input id="nombreConstelacion" class="input-nombre" type="text" maxlength="40" placeholder="Ej: Nuestra sonrisa"/>
+    <div class="card-nav">
+      <button id="confirmarGuardar">Guardar ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: lista de constelaciones guardadas -->
+<div id="modalLista" class="card" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="card-inner">
+    <button class="card-close" id="cerrarModalLista" aria-label="Cerrar">✕</button>
+    <p class="card-day">Mis constelaciones</p>
+    <div id="listaConstelaciones" class="lista-constelaciones"></div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>

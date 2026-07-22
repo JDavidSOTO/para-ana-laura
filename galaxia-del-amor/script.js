@@ -493,6 +493,7 @@ function loop(){
   dibujarNebulosas();
   dibujarDecorativas();
   dibujarEstrellasPrincipales();
+  dibujarConstelaciones();
   dibujarParticulas();
   requestAnimationFrame(loop);
 }
@@ -597,7 +598,9 @@ function manejarTap(clientX,clientY){
     const radioToque = Math.max(22, s.pr*3);
     if(d<radioToque && d<mejorDist){ mejor=i; mejorDist=d; }
   });
-  if(mejor!==null) seleccionarEstrella(mejor);
+  if(mejor===null) return;
+  if(modoConstelacion){ agregarPuntoConstelacion(mejor); }
+  else { seleccionarEstrella(mejor); }
 }
 
 function seleccionarEstrella(indice){
@@ -746,3 +749,194 @@ setTimeout(()=>{
    12) ARRANQUE
    ────────────────────────────────────────────────────── */
 loop();
+
+/* ──────────────────────────────────────────────────────
+   13) MODO CONSTELACIÓN PERSONALIZADA
+   Permite tocar estrellas en orden para dibujar una figura
+   propia y guardarla con un nombre (se guarda en este
+   navegador con localStorage, para volver a verla después).
+   ────────────────────────────────────────────────────── */
+const LS_KEY = 'nuestra_galaxia_constelaciones';
+let modoConstelacion = false;
+let puntosConstelacion = []; // índices (en estrellasPrincipales) elegidos en orden
+let constelacionVisible = null; // {nombre, dias:[...]} que se está mostrando, o null
+
+function cargarConstelacionesGuardadas(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(err){ return []; }
+}
+function guardarConstelacionesEnStorage(lista){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(lista)); }
+  catch(err){ /* almacenamiento no disponible: no rompemos la experiencia */ }
+}
+
+function indicePorDia(dia){
+  return estrellasPrincipales.findIndex(s=>s.dia===dia);
+}
+
+/** Dibuja las líneas de la constelación en construcción (modo activo)
+ *  y la constelación guardada que se esté visualizando, si hay una. */
+function dibujarConstelaciones(){
+  // En construcción (mientras el modo está activo)
+  if(puntosConstelacion.length>1){
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,217,138,.85)';
+    ctx.lineWidth = Math.max(1, 1.6*camera.scale);
+    ctx.shadowColor = 'rgba(255,217,138,.6)';
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    puntosConstelacion.forEach((idx,i)=>{
+      const s = estrellasPrincipales[idx];
+      const p = mundoAPantalla(s.x,s.y,1);
+      if(i===0) ctx.moveTo(p.sx,p.sy); else ctx.lineTo(p.sx,p.sy);
+    });
+    ctx.stroke();
+    ctx.restore();
+  }
+  // Constelación guardada que se está viendo
+  if(constelacionVisible){
+    const indices = constelacionVisible.dias.map(indicePorDia).filter(i=>i>=0);
+    if(indices.length>1){
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,150,180,.85)';
+      ctx.lineWidth = Math.max(1, 1.6*camera.scale);
+      ctx.shadowColor = 'rgba(255,150,180,.55)';
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      indices.forEach((idx,i)=>{
+        const s = estrellasPrincipales[idx];
+        const p = mundoAPantalla(s.x,s.y,1);
+        if(i===0) ctx.moveTo(p.sx,p.sy); else ctx.lineTo(p.sx,p.sy);
+      });
+      ctx.stroke();
+      // Etiqueta con el nombre, centrada en el punto medio de la figura
+      const medio = indices[Math.floor(indices.length/2)];
+      const sMedio = estrellasPrincipales[medio];
+      const pMedio = mundoAPantalla(sMedio.x, sMedio.y - 40/camera.scale, 1);
+      ctx.font = `italic ${Math.max(12,14*camera.scale)}px 'Cormorant Garamond', serif`;
+      ctx.fillStyle = 'rgba(255,180,205,.95)';
+      ctx.textAlign = 'center';
+      ctx.fillText(constelacionVisible.nombre, pMedio.sx, pMedio.sy);
+      ctx.restore();
+    }
+  }
+}
+
+function agregarPuntoConstelacion(indice){
+  // Evita agregar la misma estrella dos veces seguidas
+  if(puntosConstelacion[puntosConstelacion.length-1]===indice) return;
+  puntosConstelacion.push(indice);
+  emitirParticulas(estrellasPrincipales[indice].px, estrellasPrincipales[indice].py, 45);
+}
+
+function actualizarBarraConstelacion(){
+  document.getElementById('barraConstelacion').classList.toggle('activa', modoConstelacion);
+  document.getElementById('btnConstelacion').classList.toggle('active', modoConstelacion);
+}
+
+document.getElementById('btnConstelacion').addEventListener('click', ()=>{
+  modoConstelacion = !modoConstelacion;
+  if(modoConstelacion){
+    constelacionVisible = null; // si estaba viendo una guardada, la ocultamos al empezar a dibujar
+    cerrarTarjeta();
+  } else {
+    puntosConstelacion = [];
+  }
+  actualizarBarraConstelacion();
+});
+
+document.getElementById('bcDeshacer').addEventListener('click', ()=>{
+  puntosConstelacion.pop();
+});
+document.getElementById('bcBorrar').addEventListener('click', ()=>{
+  puntosConstelacion = [];
+});
+document.getElementById('bcSalir').addEventListener('click', ()=>{
+  modoConstelacion = false;
+  puntosConstelacion = [];
+  actualizarBarraConstelacion();
+});
+
+/* ── Guardar constelación ── */
+document.getElementById('bcGuardar').addEventListener('click', ()=>{
+  if(puntosConstelacion.length<2) return; // necesita al menos 2 puntos para ser una figura
+  document.getElementById('modalGuardar').classList.add('open');document.getElementById('modalGuardar').setAttribute('aria-hidden','false');
+  document.getElementById('nombreConstelacion').value='';
+  setTimeout(()=>document.getElementById('nombreConstelacion').focus(),300);
+});
+document.getElementById('cerrarModalGuardar').addEventListener('click', ()=>{
+  document.getElementById('modalGuardar').classList.remove('open');document.getElementById('modalGuardar').setAttribute('aria-hidden','true');
+});
+document.getElementById('confirmarGuardar').addEventListener('click', ()=>{
+  const nombre = document.getElementById('nombreConstelacion').value.trim() || 'Sin nombre';
+  const lista = cargarConstelacionesGuardadas();
+  lista.push({ nombre, dias: puntosConstelacion.map(i=>estrellasPrincipales[i].dia) });
+  guardarConstelacionesEnStorage(lista);
+  document.getElementById('modalGuardar').classList.remove('open');document.getElementById('modalGuardar').setAttribute('aria-hidden','true');
+  modoConstelacion = false;
+  puntosConstelacion = [];
+  actualizarBarraConstelacion();
+});
+
+/* ── Ver / borrar constelaciones guardadas ── */
+function renderizarListaConstelaciones(){
+  const cont = document.getElementById('listaConstelaciones');
+  const lista = cargarConstelacionesGuardadas();
+  cont.innerHTML = '';
+  if(lista.length===0){
+    cont.innerHTML = '<p class="lc-vacio">Todavía no has guardado ninguna constelación.</p>';
+    return;
+  }
+  lista.forEach((c,i)=>{
+    const fila = document.createElement('div');
+    fila.className = 'lc-item';
+    fila.innerHTML = `<span class="lc-nombre">${c.nombre}</span>
+      <span class="lc-acciones">
+        <button class="lc-ver" data-ver="${i}">Ver ✨</button>
+        <button class="lc-borrar" data-borrar="${i}">🗑</button>
+      </span>`;
+    cont.appendChild(fila);
+  });
+  cont.querySelectorAll('[data-ver]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const c = cargarConstelacionesGuardadas()[Number(btn.dataset.ver)];
+      verConstelacionGuardada(c);
+    });
+  });
+  cont.querySelectorAll('[data-borrar]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = Number(btn.dataset.borrar);
+      const lista2 = cargarConstelacionesGuardadas();
+      lista2.splice(idx,1);
+      guardarConstelacionesEnStorage(lista2);
+      renderizarListaConstelaciones();
+    });
+  });
+}
+
+function verConstelacionGuardada(c){
+  constelacionVisible = c;
+  document.getElementById('modalLista').classList.remove('open');document.getElementById('modalLista').setAttribute('aria-hidden','true');
+  // Centramos la cámara para que la figura completa quepa en pantalla
+  const indices = c.dias.map(indicePorDia).filter(i=>i>=0);
+  if(indices.length){
+    const xs = indices.map(i=>estrellasPrincipales[i].x);
+    const ys = indices.map(i=>estrellasPrincipales[i].y);
+    const cx = (Math.min(...xs)+Math.max(...xs))/2;
+    const cy = (Math.min(...ys)+Math.max(...ys))/2;
+    const ancho = Math.max(...xs)-Math.min(...xs) || 200;
+    const alto = Math.max(...ys)-Math.min(...ys) || 200;
+    camera.targetX = cx; camera.targetY = cy;
+    camera.targetScale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, Math.min(W/(ancho+300), H/(alto+300))));
+  }
+}
+
+document.getElementById('btnMisConstelaciones').addEventListener('click', ()=>{
+  renderizarListaConstelaciones();
+  document.getElementById('modalLista').classList.add('open');document.getElementById('modalLista').setAttribute('aria-hidden','false');
+});
+document.getElementById('cerrarModalLista').addEventListener('click', ()=>{
+  document.getElementById('modalLista').classList.remove('open');document.getElementById('modalLista').setAttribute('aria-hidden','true');
+});

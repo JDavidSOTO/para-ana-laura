@@ -234,6 +234,71 @@ button:focus-visible{
 }
 
 /* ══════════════════════════════════
+   MODO CONSTELACIÓN
+   ══════════════════════════════════ */
+.barra-constelacion{
+  position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+  z-index:110;
+  background:rgba(10,4,25,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r-16);
+  padding:.7rem 1rem;text-align:center;
+  max-width:calc(100vw - 2rem);
+  opacity:0;pointer-events:none;transform:translateX(-50%) translateY(-10px);
+  transition:opacity var(--t-base) var(--ease),transform var(--t-base) var(--ease);
+}
+.barra-constelacion.activa{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.bc-hint{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.95rem;color:var(--gold);margin:0 0 .5rem;
+}
+.bc-botones{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;}
+.bc-botones button{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:.75rem;
+  padding:.45rem .7rem;border-radius:var(--r-pill);cursor:pointer;
+  transition:background var(--t-fast),transform var(--t-fast);
+}
+.bc-botones button:hover{background:rgba(255,255,255,.16);}
+.bc-botones button:active{transform:scale(.94);}
+
+.input-nombre{
+  width:100%;box-sizing:border-box;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--r-16);padding:.75rem 1rem;
+  color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:.95rem;
+  margin-bottom:1.2rem;
+}
+.input-nombre::placeholder{color:rgba(245,242,255,.4);}
+.input-nombre:focus{outline:none;border-color:var(--rose);}
+
+.lista-constelaciones{max-height:50vh;overflow-y:auto;text-align:left;}
+.lc-item{
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  padding:.7rem .3rem;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.lc-item:last-child{border-bottom:none;}
+.lc-nombre{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;
+  color:var(--white);flex:1;
+}
+.lc-acciones{display:flex;gap:.4rem;flex:0 0 auto;}
+.lc-acciones button{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  color:var(--white);font-size:.72rem;padding:.4rem .6rem;border-radius:var(--r-pill);
+  cursor:pointer;
+}
+.lc-acciones .lc-ver{
+  background:linear-gradient(135deg,var(--rose),var(--gold));
+  border:none;color:#2a0f1a;font-weight:600;
+}
+.lc-acciones button:active{transform:scale(.93);}
+.lc-vacio{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  color:rgba(245,242,255,.55);text-align:center;padding:1rem 0;
+}
+
+/* ══════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════ */
 @media (max-width:359px){
