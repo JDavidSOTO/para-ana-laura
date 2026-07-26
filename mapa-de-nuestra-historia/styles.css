@@ -1,0 +1,195 @@
+/* ══════════════════════════════════════════════════════
+   NUESTRA HISTORIA — mapa interactivo
+   Paleta: mapa de aventura / pergamino envejecido.
+   Tipografía: Cinzel (títulos, look de mapa antiguo) +
+   Cormorant Garamond (recuerdos, romántico) + Space Grotesk (UI).
+   ══════════════════════════════════════════════════════ */
+
+:root{
+  --tierra:#8a6a4a;
+  --tierra-osc:#5e4530;
+  --musgo:#6b8a52;
+  --musgo-osc:#4a6238;
+  --agua:#5a9bb0;
+  --agua-osc:#2f6478;
+  --pergamino:#f2e4c4;
+  --pergamino-osc:#d9c391;
+  --tinta:#3a2a1a;
+  --oro:#c9a227;
+  --rosa:#c0596b;
+  --r-16:16px;--r-24:24px;--r-pill:999px;
+  --t-fast:.2s;--t-base:.4s;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{box-sizing:border-box;}
+html,body{
+  margin:0;padding:0;width:100%;height:100%;
+  background:#1c140c;
+  overflow:hidden;
+  font-family:'Space Grotesk',sans-serif;
+  color:var(--tinta);
+  -webkit-tap-highlight-color:transparent;
+}
+
+#mapaCanvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  display:block;cursor:grab;touch-action:none;
+}
+#mapaCanvas:active{cursor:grabbing;}
+
+/* ══════════════════════════════════
+   INTRO
+   ══════════════════════════════════ */
+#intro{
+  position:fixed;inset:0;z-index:500;
+  background:radial-gradient(ellipse at 50% 40%,#3a2a18,#1c140c 75%);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 1.1s var(--ease),visibility 1.1s;
+}
+#intro.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-content{
+  text-align:center;padding:0 1.5rem;max-width:520px;
+  animation:introRise 1.4s var(--ease) both;
+}
+@keyframes introRise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.intro-kicker{
+  font-family:'Space Grotesk',sans-serif;font-size:.8rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--oro);margin:0 0 1rem;
+}
+.intro-title{
+  font-family:'Cinzel',serif;font-weight:600;
+  font-size:clamp(2.2rem,9vw,3.6rem);
+  color:var(--pergamino);margin:0 0 .8rem;
+  letter-spacing:.02em;
+  text-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+.intro-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1rem,3vw,1.3rem);
+  color:rgba(242,228,196,.8);margin:0 0 2.2rem;
+}
+.btn-entrar{
+  font-family:'Space Grotesk',sans-serif;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--oro),#8a6a1f);
+  border:none;color:#2a1d08;font-weight:600;
+  padding:.9rem 2rem;border-radius:var(--r-pill);cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  transition:transform var(--t-fast);
+}
+.btn-entrar:hover{transform:translateY(-2px);}
+.btn-entrar:active{transform:scale(.96);}
+
+/* ── Botón volver ── */
+.btn-volver{
+  position:fixed;top:1rem;left:1rem;z-index:120;
+  font-family:'Space Grotesk',sans-serif;font-size:.78rem;letter-spacing:.03em;
+  color:rgba(242,228,196,.9);text-decoration:none;
+  background:rgba(30,20,10,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(242,228,196,.2);
+  padding:.55rem 1rem;border-radius:var(--r-pill);
+  transition:background var(--t-fast),transform var(--t-fast);
+}
+.btn-volver:hover{background:rgba(60,42,20,.7);}
+.btn-volver:active{transform:scale(.94);}
+
+/* ── Pista ── */
+.hint{
+  position:fixed;bottom:6.5rem;left:50%;transform:translateX(-50%);
+  font-size:.75rem;color:rgba(242,228,196,.75);
+  background:rgba(30,20,10,.5);backdrop-filter:blur(6px);
+  padding:.5rem 1rem;border-radius:var(--r-pill);
+  border:1px solid rgba(242,228,196,.15);
+  z-index:50;pointer-events:none;
+  animation:hintFade 6s ease forwards;
+}
+@keyframes hintFade{0%{opacity:0;}15%{opacity:1;}80%{opacity:1;}100%{opacity:0;}}
+
+/* ══════════════════════════════════
+   TARJETA DE RECUERDO — estilo pergamino
+   ══════════════════════════════════ */
+.card{
+  position:fixed;inset:0;z-index:300;
+  display:flex;align-items:center;justify-content:center;padding:1.5rem;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t-base) var(--ease);
+}
+.card.open{opacity:1;pointer-events:auto;}
+.card-inner{
+  position:relative;width:100%;max-width:440px;
+  background:linear-gradient(165deg,var(--pergamino),var(--pergamino-osc));
+  border:1px solid rgba(58,42,26,.3);
+  border-radius:var(--r-16);
+  padding:2rem 1.8rem 1.6rem;
+  text-align:center;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);
+  transform:translateY(16px) scale(.97);
+  transition:transform var(--t-base) var(--ease);
+}
+.card.open .card-inner{transform:translateY(0) scale(1);}
+.card-close{
+  position:absolute;top:.8rem;right:.9rem;
+  background:none;border:none;color:rgba(58,42,26,.5);
+  font-size:1.1rem;cursor:pointer;padding:.3rem;
+}
+.card-close:hover{color:var(--tinta);}
+.card-kicker{
+  font-family:'Space Grotesk',sans-serif;font-size:.75rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--rosa);margin:0 0 .3rem;
+}
+.card-fecha{
+  font-family:'Space Grotesk',sans-serif;font-size:.72rem;letter-spacing:.08em;
+  color:rgba(58,42,26,.6);margin:0 0 1rem;
+}
+.card-titulo{
+  font-family:'Cinzel',serif;font-weight:600;font-size:1.3rem;
+  color:var(--tinta);margin:0 0 1rem;
+}
+.card-msg{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.2rem;line-height:1.6;color:#4a3520;margin:0 0 1.6rem;
+}
+.card-nav{display:flex;justify-content:space-between;gap:.7rem;}
+.card-nav button{
+  flex:1;background:rgba(58,42,26,.08);border:1px solid rgba(58,42,26,.2);
+  color:var(--tinta);font-family:'Space Grotesk',sans-serif;font-size:.78rem;
+  padding:.6rem .5rem;border-radius:var(--r-16);cursor:pointer;
+  transition:background var(--t-fast),transform var(--t-fast);
+}
+.card-nav button:hover{background:rgba(58,42,26,.15);}
+.card-nav button:active{transform:scale(.95);}
+
+/* ══════════════════════════════════
+   HUD
+   ══════════════════════════════════ */
+.hud{
+  position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;gap:.4rem;
+  background:rgba(30,20,10,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(242,228,196,.15);
+  border-radius:var(--r-pill);padding:.4rem;
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+  max-width:calc(100vw - 1.5rem);overflow-x:auto;
+}
+.hud button{
+  width:2.6rem;height:2.6rem;flex:0 0 auto;border-radius:50%;
+  background:transparent;border:none;color:var(--pergamino);font-size:1.05rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background var(--t-fast),transform var(--t-fast);
+}
+.hud button:hover{background:rgba(242,228,196,.12);}
+.hud button:active{transform:scale(.88);}
+
+button:focus-visible{outline:2px solid var(--oro);outline-offset:2px;}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════ */
+@media (min-width:700px){
+  .card-inner{max-width:500px;padding:2.4rem 2.2rem 1.8rem;}
+  .card-msg{font-size:1.35rem;}
+  .hud button{width:3rem;height:3rem;font-size:1.15rem;}
+}
+@media (prefers-reduced-motion:reduce){
+  #intro,.card,.card-inner{transition:none;}
+}

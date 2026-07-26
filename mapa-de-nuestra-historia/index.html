@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#e8dcc0"/>
+<meta name="description" content="El mapa de nuestra historia: cada lugar que hemos vivido juntos, marcado y guardado."/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Nuestra Historia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     INTRO
+     ══════════════════════════════════ -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-content">
+    <p class="intro-kicker">✦ 7 de septiembre ✦</p>
+    <h1 class="intro-title">Nuestra Historia</h1>
+    <p class="intro-sub">Cada lugar que hemos vivido juntos, marcado en un mapa para no olvidarlo nunca.</p>
+    <button id="introBtn" class="btn-entrar">Empezar el recorrido ✦</button>
+  </div>
+</div>
+
+<a id="btnVolver" class="btn-volver" href="../index.html" aria-label="Volver a la página principal">← Volver</a>
+
+<!-- ══════════════════════════════════
+     LIENZO DEL MAPA
+     ══════════════════════════════════ -->
+<canvas id="mapaCanvas" aria-label="Mapa interactivo de nuestra historia"></canvas>
+
+<div id="hint" class="hint" aria-hidden="true">Arrastra para explorar · pellizca o usa la rueda para zoom</div>
+
+<!-- ══════════════════════════════════
+     TARJETA DE RECUERDO (estilo pergamino)
+     ══════════════════════════════════ -->
+<div id="card" class="card" role="dialog" aria-modal="true" aria-label="Recuerdo" aria-hidden="true">
+  <div class="card-inner">
+    <button class="card-close" id="cardClose" aria-label="Cerrar">✕</button>
+    <p class="card-kicker" id="cardLugar">Montería</p>
+    <p class="card-fecha" id="cardFecha">7 de septiembre</p>
+    <h2 class="card-titulo" id="cardTitulo">Donde todo empezó</h2>
+    <p class="card-msg" id="cardMsg"></p>
+    <div class="card-nav">
+      <button id="cardPrev">← Anterior</button>
+      <button id="cardNext">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     CONTROLES
+     ══════════════════════════════════ -->
+<nav class="hud" aria-label="Controles del mapa">
+  <button id="btnHome" title="Ver todo el mapa" aria-label="Ver todo el mapa">🗺️</button>
+  <button id="btnZoomOut" title="Alejar" aria-label="Alejar">−</button>
+  <button id="btnZoomIn" title="Acercar" aria-label="Acercar">+</button>
+  <button id="btnPrimero" title="Ir al primer momento" aria-label="Ir al primer momento">⏮</button>
+  <button id="btnUltimo" title="Ir al último momento" aria-label="Ir al último momento">⏭</button>
+  <button id="btnFullscreen" title="Pantalla completa" aria-label="Pantalla completa">⛶</button>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>
