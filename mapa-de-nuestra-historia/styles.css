@@ -133,6 +133,15 @@ html,body{
   font-size:1.1rem;cursor:pointer;padding:.3rem;
 }
 .card-close:hover{color:var(--tinta);}
+.card-foto{
+  display:none;
+  width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;
+  border:6px solid #fff;border-bottom:22px solid #fff;
+  border-radius:2px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  transform:rotate(-2deg);
+  margin:.2rem auto 1.2rem;
+}
 .card-kicker{
   font-family:'Space Grotesk',sans-serif;font-size:.75rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--rosa);margin:0 0 .3rem;
@@ -148,6 +157,7 @@ html,body{
 .card-msg{
   font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:1.2rem;line-height:1.6;color:#4a3520;margin:0 0 1.6rem;
+  white-space:pre-line;text-align:left;max-height:45vh;overflow-y:auto;
 }
 .card-nav{display:flex;justify-content:space-between;gap:.7rem;}
 .card-nav button{
