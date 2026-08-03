@@ -1154,6 +1154,15 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
   <p class="ttl rv">Nuestra playlist</p>
   <p class="sub rv">Canciones que nos recuerdan a nosotros</p>
   <div id="playlistLista" class="pl-lista rv"></div>
+
+  <div class="pl-agregar rv">
+    <input type="text" id="plTitulo" class="pl-input" maxlength="80" placeholder="Nombre de la canción"/>
+    <input type="text" id="plArtista" class="pl-input" maxlength="60" placeholder="Artista"/>
+    <textarea id="plRazon" class="pl-input pl-textarea" maxlength="200" placeholder="¿Por qué es importante esta canción para ustedes?"></textarea>
+    <input type="text" id="plUrl" class="pl-input" maxlength="200" placeholder="Link de Spotify o YouTube (opcional)"/>
+    <button class="pl-btn" id="plAgregar">Agregar canción ✨</button>
+    <p class="pl-estado" id="plEstado"></p>
+  </div>
 </section>
 
 <!-- CUENTA REGRESIVA TIPO ADVIENTO -->
@@ -1174,6 +1183,7 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
       <input type="text" id="snInput" class="sn-input" maxlength="120" placeholder="Escribe un sueño tuyo..."/>
       <button class="sn-btn" id="snAgregar">Agregar ✨</button>
     </div>
+    <p class="sn-estado" id="snEstado"></p>
   </div>
 </section>
 
