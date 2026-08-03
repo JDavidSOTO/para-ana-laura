@@ -1,0 +1,212 @@
+/* ══ LLUVIA DE PÉTALOS ══ */
+#petals-canvas{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:5;
+  opacity:0;
+  transition:opacity var(--t-slower) ease;
+}
+#petals-canvas.activo{opacity:1;}
+
+/* ══ TE AMO MUCHO — OVERLAY ══ */
+#teAmoOverlay{
+  position:fixed;inset:0;z-index:500;
+  display:none;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%,#3a1020 0%,#1a0510 70%,#0d0208 100%);
+  overflow:hidden;
+}
+#teAmoOverlay.show{display:flex;animation:taFadeIn .5s ease both;}
+
+#teAmoCanvas{position:absolute;inset:0;width:100%;height:100%;}
+#teAmoCorazones{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.ta-corazon-fly{
+  position:absolute;font-size:1.4rem;opacity:0;
+  animation:taFly linear forwards;
+  filter:drop-shadow(0 0 6px rgba(255,150,180,.6));
+}
+
+#teAmoContenido{
+  position:relative;z-index:2;text-align:center;padding:2rem 1.5rem;
+  max-width:340px;
+}
+.ta-corazon-grande{
+  font-size:4.5rem;margin-bottom:1rem;
+  animation:taLatir 1.1s ease-in-out infinite, taApareceIco .6s var(--ease-bounce) both;
+  filter:drop-shadow(0 0 24px rgba(255,150,180,.7));
+}
+
+
+.ta-texto{
+  font-family:'Dancing Script',cursive;font-weight:700;
+  font-size:2.6rem;line-height:1.25;color:#fff;
+  text-shadow:0 0 30px rgba(255,150,180,.8),0 2px 12px rgba(var(--black-rgb),.4);
+  min-height:7.5rem;
+}
+.ta-texto .tac{
+  display:inline-block;opacity:0;
+  animation:taCharIn .5s var(--ease-bounce) forwards;
+}
+
+.ta-sub{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:rgba(var(--white-rgb),.65);
+  margin-top:1.3rem;opacity:0;
+  animation:taFadeUp .8s ease 2.6s both;
+}
+
+#taCerrar{
+  position:absolute;top:18px;right:18px;z-index:3;
+  width:38px;height:38px;border-radius:var(--r-circle);
+  background:rgba(var(--white-rgb),.12);border:1px solid rgba(var(--white-rgb),.25);
+  color:white;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(6px);
+  opacity:0;animation:taFadeUp .5s ease 1.2s both;
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--crema);color:var(--txt);font-family:'Lato',sans-serif;overflow-x:hidden;}
+#ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.hp{position:absolute;bottom:-40px;opacity:0;animation:fup linear infinite;}
+
+/* ══════════════════════════════════
+   NAV TABS — sistema de pestañas
+══════════════════════════════════ */
+#mainNav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,248,240,.97);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid rgba(var(--oro-rgb),.18);
+  display:flex;justify-content:space-around;align-items:stretch;
+  padding:0 0 calc(env(safe-area-inset-bottom));
+  z-index:100;height:60px;
+  box-shadow:0 -4px 24px rgba(var(--rosa-d-rgb),.08);
+}
+.ntab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:1px;
+  background:none;border:none;cursor:pointer;
+  padding:.35rem .1rem .5rem;
+  font-size:.52rem;color:rgba(var(--txt-rgb),.45);
+  letter-spacing:.02rem;font-family:'Lato',sans-serif;
+  position:relative;transition:color .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ntab .ico{font-size:1.15rem;line-height:1;transition:transform .25s var(--ease-bounce);}
+.ntab .nlbl{font-size:.52rem;margin-top:1px;transition:color .22s;}
+.ntab::after{
+  content:'';position:absolute;bottom:0;left:25%;right:25%;
+  height:2.5px;border-radius:2px 2px 0 0;
+  background:linear-gradient(90deg,var(--rosa-d),var(--oro));
+  transform:scaleX(0);transition:transform .28s var(--ease-bounce);
+}
+.ntab.activo{color:var(--rosa-d);}
+.ntab.activo .nlbl{color:var(--rosa-d);}
+.ntab.activo .ico{transform:scale(1.22) translateY(-2px);}
+.ntab.activo::after{transform:scaleX(1);}
+.ntab:active .ico{transform:scale(1.1);}
+.mas-btn.activo{color:var(--oro);}
+.mas-btn.activo .nlbl{color:var(--oro);}
+.mas-btn.activo::after{background:linear-gradient(90deg,var(--oro),var(--oro-l));}
+
+/* Drawer "Más" */
+#masOverlay{
+  position:fixed;inset:0;background:rgba(var(--txt-rgb),.45);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t-base) ease;z-index:200;
+}
+#masPanel{
+  position:fixed;left:0;right:0;bottom:-100%;
+  background:linear-gradient(170deg,#fff8f0,#fef6e4);
+  border-radius:var(--r-24) 24px 0 0;
+  padding:1.2rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom));
+  z-index:201;
+  box-shadow:0 -8px 40px rgba(var(--rosa-d-rgb),.18);
+  transition:bottom .38s var(--ease-smooth);
+  border-top:2px solid rgba(var(--oro-rgb),.2);
+}
+#masDrawer.open #masOverlay{opacity:1;pointer-events:auto;}
+#masDrawer.open #masPanel{bottom:0;}
+.mas-titulo{
+  font-family:'Dancing Script',cursive;font-size:1.4rem;
+  color:var(--rosa-d);text-align:center;margin-bottom:1.1rem;
+}
+.mas-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;
+}
+.mas-item{
+  display:flex;flex-direction:column;align-items:center;gap:.35rem;
+  background:white;border:1.5px solid rgba(var(--rosa-rgb),.5);
+  border-radius:var(--r-16);padding:.8rem .3rem .7rem;
+  font-size:.62rem;color:var(--txt);cursor:pointer;
+  font-family:'Lato',sans-serif;
+  box-shadow:0 3px 12px rgba(var(--rosa-d-rgb),.08);
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mas-item span:first-child{font-size:1.5rem;line-height:1;}
+.mas-item:active{transform:scale(.94);box-shadow:0 1px 6px rgba(var(--rosa-d-rgb),.12);}
+
+/* ══ SECCIONES como páginas ══ */
+section{
+  position:fixed;inset:0;bottom:60px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:3rem 1.2rem 2rem;
+  opacity:0;pointer-events:none;
+  transform:translateY(18px) scale(.985);
+  filter:blur(3px);
+  transition:opacity .38s var(--ease-smooth),
+             transform .38s var(--ease-smooth),
+             filter .38s var(--ease-smooth);
+  z-index:1;
+}
+section.visible{ filter:blur(0); }
+section.visible{
+  opacity:1;pointer-events:auto;
+  transform:translateY(0) scale(1);
+}
+section.salida-up{
+  opacity:0;transform:translateY(-20px) scale(.98);
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;
+}
+section.salida-down{
+  opacity:0;transform:translateY(20px) scale(.98);
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;
+}
+/* Portada especial — siempre full */
+#portada{
+  position:fixed;inset:0;bottom:60px;
+  background:linear-gradient(160deg,#fff0f3,#fde8c8 55%,#fce4ec);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  padding:2rem 1.5rem 4rem;
+  z-index:2;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+#portada.visible{opacity:1;pointer-events:auto;transform:none;}
+
+.ttl{text-align:center;font-family:'Dancing Script',cursive;font-size:clamp(2rem,8vw,3rem);color:var(--rosa-d);margin-bottom:.3rem;}
+.sub{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--oro);margin-bottom:2rem;}
+.dvd{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--oro),transparent);margin:1rem auto;}
+.p-orn{font-size:1.4rem;color:var(--oro);letter-spacing:.3rem;margin-bottom:1.2rem;animation:fd 1s ease both;}
+.p-tit{font-family:'Dancing Script',cursive;font-size:clamp(3rem,14vw,5.5rem);color:var(--rosa-d);line-height:1.1;animation:fd 1.2s ease both;text-shadow:0 2px 20px rgba(var(--rosa-d-rgb),.2);}
+.p-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.9rem,3.5vw,1.1rem);color:var(--oro);margin-top:.8rem;animation:fd 1.4s ease both;}
+.p-nom{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,6vw,2.2rem);color:var(--txt);margin-top:1.8rem;animation:fd 1.6s ease both;}
+.p-nom span{color:var(--rosa-d);}
+.p-hint{margin-top:2rem;font-size:.75rem;color:var(--oro);letter-spacing:.12rem;text-transform:uppercase;animation:bnc 2s infinite,fi 2.5s ease both;}
+
+
+
+
+/* ══════════════════════════════════
+   ACCESIBILIDAD — foco visible
+   ══════════════════════════════════ */
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--turq-d);
+  outline-offset: 2px;
+}
