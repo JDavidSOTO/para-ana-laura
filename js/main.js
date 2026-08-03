@@ -494,44 +494,34 @@ if($('carta-futuro')){ cfMostrarEstadoInicial(); }
 
 // ══════════════════════════════════
 // PLAYLIST CON RAZONES
-// Para agregar/quitar canciones, solo edita este arreglo.
-// Cada canción necesita: titulo, artista, razon.
-// El campo "url" es opcional: si le pones un link de Spotify,
-// YouTube o el que sea, aparece un botón para escucharla.
+// Se edita directo en la página (igual que "Sueños"): escribe
+// el nombre, artista y razón, y dale "Agregar canción ✨".
+// Se guarda en este dispositivo con localStorage.
 // ══════════════════════════════════
-const PLAYLIST = [
-  {
-    titulo:'Nombre de la canción 1',
-    artista:'Artista',
-    razon:'Escribe aquí por qué esta canción es importante para ustedes (un momento, un recuerdo, algo que sientan al escucharla).',
-    url:'' // opcional: pega aquí el link de Spotify/YouTube
-  },
-  {
-    titulo:'Nombre de la canción 2',
-    artista:'Artista',
-    razon:'Otra razón o recuerdo asociado a esta canción.',
-    url:''
-  },
-  {
-    titulo:'Nombre de la canción 3',
-    artista:'Artista',
-    razon:'Puede ser una canción que a ella le encante, o una que escucharon juntos en algún momento especial.',
-    url:''
-  },
-  {
-    titulo:'Nombre de la canción 4',
-    artista:'Artista',
-    razon:'No necesita ser perfecta, solo real.',
-    url:''
-  }
-  // Agrega más canciones aquí, copiando el mismo formato de arriba,
-  // con una coma después de cada '}' excepto la última.
-];
+const PL_KEY = 'playlist_razones';
+
+function plCargar(){
+  try{
+    const raw = localStorage.getItem(PL_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(err){ return []; }
+}
+function plGuardar(lista){
+  try{ localStorage.setItem(PL_KEY, JSON.stringify(lista)); }
+  catch(err){ /* si el almacenamiento falla, no rompemos la página */ }
+}
 
 function plRenderizar(){
   const cont = $('playlistLista');
   if(!cont) return;
-  cont.innerHTML = PLAYLIST.map((c,i)=>`
+  const lista = plCargar();
+
+  if(lista.length===0){
+    cont.innerHTML = '<p class="pl-vacio">Todavía no hay canciones. ¡Agrega la primera abajo! 🎵</p>';
+    return;
+  }
+
+  cont.innerHTML = lista.map((c,i)=>`
     <div class="pl-card">
       <div class="pl-num">${i+1}</div>
       <div class="pl-info">
@@ -540,9 +530,65 @@ function plRenderizar(){
         <p class="pl-razon">${c.razon}</p>
       </div>
       ${c.url ? `<a class="pl-link" href="${c.url}" target="_blank" rel="noopener" aria-label="Escuchar ${c.titulo}">▶</a>` : ''}
+      <button class="pl-borrar" data-borrar="${i}" aria-label="Borrar esta canción">🗑</button>
     </div>
   `).join('');
+
+  cont.querySelectorAll('[data-borrar]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const lista2 = plCargar();
+      lista2.splice(Number(btn.dataset.borrar), 1);
+      plGuardar(lista2);
+      plRenderizar();
+    });
+  });
 }
+
+function plMostrarEstado(texto){
+  const el = $('plEstado');
+  if(!el) return;
+  el.textContent = texto;
+  el.classList.add('show');
+}
+
+const plBtnAgregar = $('plAgregar');
+if(plBtnAgregar){
+  plBtnAgregar.addEventListener('click', ()=>{
+    const titulo = $('plTitulo').value.trim();
+    const artista = $('plArtista').value.trim();
+    const razon = $('plRazon').value.trim();
+    const url = $('plUrl').value.trim();
+    if(!titulo || !razon) return; // el título y la razón son obligatorios
+
+    const lista = plCargar();
+    lista.push({ titulo, artista, razon, url });
+    plGuardar(lista);
+
+    $('plTitulo').value=''; $('plArtista').value=''; $('plRazon').value=''; $('plUrl').value='';
+    plRenderizar();
+
+    // Además de guardarla aquí, se la enviamos por correo a Jesús David,
+    // usando el mismo servicio de EmailJS ya configurado en el proyecto.
+    plBtnAgregar.textContent='Enviando… 💫';
+    plBtnAgregar.disabled=true;
+    const cuerpo = `Canción: ${titulo}\nArtista: ${artista||'(sin especificar)'}\nRazón: ${razon}` + (url?`\nLink: ${url}`:'');
+    emailjs.send('service_anajesus','template_anajesus',{
+      to_email:'leanisgaspar@gmail.com',
+      subject:'🎵 Ana Laura agregó una canción a la playlist',
+      message:cuerpo,
+      from_name:'Ana Laura'
+    })
+      .then(()=>{
+        plBtnAgregar.textContent='Agregar canción ✨'; plBtnAgregar.disabled=false;
+        plMostrarEstado('¡Enviada! Jesús David ya la va a recibir 💛');
+      })
+      .catch(()=>{
+        plBtnAgregar.textContent='Agregar canción ✨'; plBtnAgregar.disabled=false;
+        plMostrarEstado('Quedó guardada aquí, aunque el envío por correo falló esta vez.');
+      });
+  });
+}
+
 plRenderizar();
 
 // ══════════════════════════════════
@@ -690,6 +736,13 @@ function snRenderizar(){
   });
 }
 
+function snMostrarEstado(texto){
+  const el = $('snEstado');
+  if(!el) return;
+  el.textContent = texto;
+  el.classList.add('show');
+}
+
 const snBtnAgregar = $('snAgregar');
 if(snBtnAgregar){
   snBtnAgregar.addEventListener('click', ()=>{
@@ -701,6 +754,25 @@ if(snBtnAgregar){
     snGuardarEstado(est);
     input.value='';
     snRenderizar();
+
+    // Además de guardarlo aquí, se lo enviamos por correo a Jesús David,
+    // usando el mismo servicio de EmailJS ya configurado en el proyecto.
+    snBtnAgregar.textContent='Enviando… 💫';
+    snBtnAgregar.disabled=true;
+    emailjs.send('service_anajesus','template_anajesus',{
+      to_email:'leanisgaspar@gmail.com',
+      subject:'⭐ Ana Laura agregó un sueño a la lista',
+      message:texto,
+      from_name:'Ana Laura'
+    })
+      .then(()=>{
+        snBtnAgregar.textContent='Agregar ✨'; snBtnAgregar.disabled=false;
+        snMostrarEstado('¡Enviado! Jesús David ya lo va a recibir 💛');
+      })
+      .catch(()=>{
+        snBtnAgregar.textContent='Agregar ✨'; snBtnAgregar.disabled=false;
+        snMostrarEstado('Quedó guardado aquí, aunque el envío por correo falló esta vez.');
+      });
   });
   $('snInput').addEventListener('keydown', e=>{
     if(e.key==='Enter') snBtnAgregar.click();

@@ -390,6 +390,10 @@
    PLAYLIST CON RAZONES
    ══════════════════════════════════ */
 .pl-lista{max-width:480px;margin:1.5rem auto 0;display:flex;flex-direction:column;gap:.9rem;}
+.pl-vacio{
+  font-family:'Dancing Script',cursive;font-size:1.15rem;
+  color:rgba(var(--txt-rgb),.55);text-align:center;padding:1rem 0;
+}
 .pl-card{
   display:flex;align-items:center;gap:1rem;
   background:linear-gradient(160deg,var(--crema),#fef6e6);
@@ -420,6 +424,32 @@
 }
 .pl-link:hover{background:rgba(var(--rosa-rgb),.5);}
 .pl-link:active{transform:scale(.9);}
+.pl-borrar{
+  flex:0 0 auto;background:none;border:none;color:rgba(var(--txt-rgb),.35);
+  font-size:.85rem;cursor:pointer;padding:.2rem .3rem;
+}
+.pl-borrar:hover{color:var(--rosa-d);}
+
+.pl-agregar{
+  max-width:480px;margin:1.2rem auto 0;
+  display:flex;flex-direction:column;gap:.6rem;
+}
+.pl-input{
+  box-sizing:border-box;background:var(--crema);
+  border:1.5px solid rgba(var(--oro-rgb),.3);border-radius:var(--r-14);
+  padding:.7rem 1rem;font-family:'Lato',sans-serif;font-size:.9rem;color:var(--txt);
+}
+.pl-input:focus{outline:none;border-color:var(--rosa-d);}
+.pl-textarea{resize:vertical;min-height:60px;font-family:'Lato',sans-serif;}
+.pl-btn{
+  background:linear-gradient(135deg,var(--rosa-d),var(--oro));
+  color:#fff;border:none;border-radius:var(--r-pill);
+  padding:.8rem 1.2rem;font-family:'Dancing Script',cursive;font-size:1.15rem;
+  cursor:pointer;transition:transform var(--t-fast);
+}
+.pl-btn:active{transform:scale(.96);}
+.pl-estado{font-size:.8rem;color:var(--rosa-d);margin-top:.6rem;min-height:1.1rem;opacity:0;transition:opacity var(--t-fast);text-align:center;}
+.pl-estado.show{opacity:1;}
 
 /* ══════════════════════════════════
    CUENTA REGRESIVA TIPO ADVIENTO
@@ -497,6 +527,8 @@
   cursor:pointer;transition:transform var(--t-fast);
 }
 .sn-btn:active{transform:scale(.94);}
+.sn-estado{font-size:.8rem;color:var(--rosa-d);margin-top:.8rem;min-height:1.1rem;opacity:0;transition:opacity var(--t-fast);text-align:center;}
+.sn-estado.show{opacity:1;}
 
 /* ══════════════════════════════════
    ÁLBUM / SCRAPBOOK
