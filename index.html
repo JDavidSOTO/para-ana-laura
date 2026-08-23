@@ -78,6 +78,9 @@
   <button onclick="mostrarTeAmo()" style="margin-top:.7rem;background:linear-gradient(135deg,var(--rosa-d),var(--oro));border:none;border-radius:50px;padding:.55rem 1.4rem;font-family:'Dancing Script',cursive;font-size:1.1rem;color:white;cursor:pointer;box-shadow:0 4px 16px rgba(232,129,138,.3);">💛 Te amo mucho</button>
   <button id="btnRegalo11" class="btn-regalo-11" style="display:none;" aria-label="Abrir sorpresa">🎁</button>
   <button id="btnCumple" class="btn-cumple" style="display:none;" aria-label="Abrir sorpresa de cumpleaños">🎂</button>
+  <button id="btnDestello" class="btn-destello" style="display:none;" aria-label="Ver pistas">✨</button>
+  <button id="btnPrimerAno" class="btn-primer-ano" style="display:none;" aria-label="Abrir nuestro primer año">💍</button>
+  <div id="badgePrimerAno" class="badge-primer-ano" style="display:none;">✦ Un año juntos ✦<br/>7 sept 2025 — 7 sept 2026</div>
 </section>
 
 <!-- NAV TABS -->
@@ -97,20 +100,30 @@
   <div id="masOverlay" onclick="cerrarMas()"></div>
   <div id="masPanel">
     <p class="mas-titulo">Descubre más ✨</p>
+
+    <p class="mas-categoria">Nuestra historia</p>
     <div class="mas-grid">
-      <button class="mas-item" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
-      <button class="mas-item" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
       <button class="mas-item" onclick="irA('momentos');cerrarMas()"><span>🌙</span><span>Momentos</span></button>
+      <button class="mas-item" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
+      <button class="mas-item" onclick="irA('album');cerrarMas()"><span>📖</span><span>Álbum</span></button>
+      <button class="mas-item" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
+      <button class="mas-item" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
+    </div>
+
+    <p class="mas-categoria">Sorpresas</p>
+    <div class="mas-grid">
       <button class="mas-item" onclick="irA('cartas-sorpresa');cerrarMas()"><span>💝</span><span>Sorpresas</span></button>
       <button class="mas-item" onclick="irA('carta-viva');cerrarMas()"><span>✍️</span><span>Carta viva</span></button>
-      <button class="mas-item" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
       <button class="mas-item" onclick="irA('secreto');cerrarMas()"><span>🔐</span><span>Secreto</span></button>
+    </div>
+
+    <p class="mas-categoria">Juntos, hoy y siempre</p>
+    <div class="mas-grid">
       <button class="mas-item" onclick="irA('carta-futuro');cerrarMas()"><span>💌</span><span>Carta futura</span></button>
+      <button class="mas-item" onclick="irA('sentimientos');cerrarMas()"><span>💭</span><span>Cómo nos sentimos</span></button>
+      <button class="mas-item" onclick="irA('suenos');cerrarMas()"><span>⭐</span><span>Sueños juntos</span></button>
       <button class="mas-item" onclick="irA('playlist');cerrarMas()"><span>🎵</span><span>Playlist</span></button>
       <button class="mas-item" onclick="irA('adviento');cerrarMas()"><span>🗓️</span><span>Cuenta regresiva</span></button>
-      <button class="mas-item" onclick="irA('suenos');cerrarMas()"><span>⭐</span><span>Sueños juntos</span></button>
-      <button class="mas-item" onclick="irA('album');cerrarMas()"><span>📖</span><span>Álbum</span></button>
-      <button class="mas-item" onclick="irA('sentimientos');cerrarMas()"><span>💭</span><span>Cómo nos sentimos</span></button>
     </div>
   </div>
 </div>
@@ -1333,6 +1346,49 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
     <div class="cu-carta-inner">
       <p class="cu-kicker">✦ Feliz cumpleaños ✦</p>
       <p class="cu-texto" id="cuTexto"></p>
+    </div>
+  </div>
+</div>
+
+<!-- DIARIO DE DESTELLOS -->
+<div id="modalDestellos" class="de-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="de-modal-inner">
+    <button class="de-modal-close" id="cerrarDestellos" aria-label="Cerrar">✕</button>
+    <p class="de-modal-titulo">✨ Diario de destellos</p>
+    <div id="listaDestellos" class="de-lista"></div>
+  </div>
+</div>
+
+<!-- NUESTRO PRIMER AÑO — 4 escenas -->
+<div id="overlayPrimerAno" class="pa-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <canvas id="paFuegos"></canvas>
+
+  <!-- Escena 1: ya cubierta por el canvas de fuegos -->
+
+  <!-- Escena 2: carrete de recuerdos -->
+  <div class="pa-escena" id="paCarrete">
+    <div class="pa-carrete-foto" id="paCarreteFoto"></div>
+    <p class="pa-carrete-fecha" id="paCarreteFecha"></p>
+    <p class="pa-carrete-texto" id="paCarreteTexto"></p>
+  </div>
+
+  <!-- Escena 3: la carta -->
+  <div class="pa-escena" id="paCartaEscena">
+    <div class="pa-carta-inner">
+      <p class="pa-kicker">✦ Un año juntos ✦</p>
+      <p class="pa-carta-texto" id="paCartaTexto"></p>
+      <button class="pa-continuar" id="paBtnContinuar" style="display:none;">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- Escena 4: certificado -->
+  <div class="pa-escena" id="paCertificado">
+    <div class="pa-cert-inner">
+      <p class="pa-cert-orn">✦ ✦ ✦</p>
+      <p class="pa-cert-titulo">Un año juntos</p>
+      <p class="pa-cert-fechas">7 de septiembre de 2025<br/>—<br/>7 de septiembre de 2026</p>
+      <p class="pa-cert-nombres">Jesús David &amp; Ana Laura</p>
+      <button class="pa-cerrar-final" id="paCerrarFinal">Cerrar ✦</button>
     </div>
   </div>
 </div>
