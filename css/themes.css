@@ -17,9 +17,18 @@
   --ease-bounce:var(--ease-bounce);--ease-smooth:var(--ease-smooth);
 
   /* Sombras comunes (color + blur reutilizados) */
+  --shadow-xs:0 3px 12px rgba(var(--rosa-d-rgb),.08);
   --shadow-sm:0 4px 16px rgba(var(--rosa-d-rgb),.3);
+  --shadow-card:0 6px 20px rgba(var(--rosa-d-rgb),.18);
   --shadow-md:0 8px 30px rgba(var(--rosa-d-rgb),.18);
   --shadow-lg:0 20px 60px rgba(var(--rosa-d-rgb),.25);
+  --shadow-modal:0 30px 80px rgba(0,0,0,.5);
+  --shadow-turq-sm:0 4px 14px rgba(var(--turq-rgb),.3);
+  --shadow-turq-md:0 10px 30px rgba(var(--turq-rgb),.2);
+
+  /* Escala tipográfica — texto pequeño (etiquetas, notas, pies) */
+  --fs-label:.72rem;  /* etiquetas en mayúscula: fechas, progreso */
+  --fs-note:.78rem;   /* notas, hints, texto secundario itálico */
 }
 
 /* ══ MODO NOCHE ══ */
@@ -39,6 +48,7 @@ body.noche .pz-tablero{background:#1a0e22!important;}
 body.noche .rec-card,.noche .prom,.noche .foto-card{background:#1a1025!important;border-color:#c97d96!important;}
 body.noche .rres,.noche .mwin,.noche .pzwin-inner{background:#1a1025!important;}
 body.noche .mas-item{background:#1a1025!important;border-color:#c97d96!important;color:#e8d5c4!important;}
+body.noche .mas-categoria{color:rgba(232,213,196,.5)!important;}
 
 /* Estrellas modo noche */
 #estrellas{

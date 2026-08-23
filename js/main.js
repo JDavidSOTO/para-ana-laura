@@ -1294,3 +1294,406 @@ if(cuCerrar){
     $('overlayCumple').setAttribute('aria-hidden','true');
   });
 }
+
+// ══════════════════════════════════
+// DESTELLOS DE EMOCIÓN
+// Pistas cortas que se van desbloqueando solas, cada vez con
+// más frecuencia, hasta el 7 de septiembre.
+// ══════════════════════════════════
+const DESTELLOS = [
+  { fecha:'2026-08-19', msg:'Algo se está preparando... ✨' },
+  { fecha:'2026-08-22', msg:'Cuenta los días. Van a valer la pena.' },
+  { fecha:'2026-08-25', msg:'Falta menos de lo que crees.' },
+  { fecha:'2026-08-28', msg:'Estoy preparando algo que nunca esperarías.' },
+  { fecha:'2026-08-31', msg:'Una semana. Solo una semana más.' },
+  { fecha:'2026-09-01', msg:'6 días. El conteo ya empezó de verdad.' },
+  { fecha:'2026-09-02', msg:'5 días para algo que llevo tiempo guardando.' },
+  { fecha:'2026-09-03', msg:'4 días. No sabes cuánto quiero que llegue ya.' },
+  { fecha:'2026-09-04', msg:'3 días. Prepárate.' },
+  { fecha:'2026-09-05', msg:'2 días. Casi no puedo esperar.' },
+  { fecha:'2026-09-06', msg:'Mañana. Todo lo que hemos construido nos trae hasta aquí.' }
+];
+const DE_KEY = 'destellos_ultimo_visto';
+
+function deFechaValida(fechaStr){
+  const [y,m,d] = fechaStr.split('-').map(Number);
+  return new Date() >= new Date(y,m-1,d);
+}
+function deDisponibles(){ return DESTELLOS.filter(d=>deFechaValida(d.fecha)); }
+
+function deFormatoFecha(fechaStr){
+  const [y,m,d] = fechaStr.split('-').map(Number);
+  const meses=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d} ${meses[m-1]}`;
+}
+
+if($('btnDestello')){
+  const disponibles = deDisponibles();
+  if(disponibles.length>0){
+    $('btnDestello').style.display = 'inline-flex';
+    const ultimoVisto = localStorage.getItem(DE_KEY);
+    const ultimaFecha = disponibles[disponibles.length-1].fecha;
+    if(ultimoVisto !== ultimaFecha){
+      $('btnDestello').classList.add('regalo11Pulso'); // reutiliza el mismo pulso llamativo
+    }
+  }
+}
+
+function deRenderizar(){
+  const cont = $('listaDestellos');
+  if(!cont) return;
+  const disponibles = deDisponibles();
+  const ultimaFecha = disponibles.length ? disponibles[disponibles.length-1].fecha : null;
+  cont.innerHTML = [...disponibles].reverse().map(d=>`
+    <div class="de-item ${d.fecha===ultimaFecha?'nuevo':''}">
+      <p class="de-fecha">${deFormatoFecha(d.fecha)}</p>
+      <p class="de-msg">${d.msg}</p>
+    </div>
+  `).join('');
+  if(ultimaFecha) localStorage.setItem(DE_KEY, ultimaFecha);
+}
+
+const btnDestello = $('btnDestello');
+if(btnDestello){
+  btnDestello.addEventListener('click', ()=>{
+    deRenderizar();
+    $('modalDestellos').classList.add('open');
+    $('modalDestellos').setAttribute('aria-hidden','false');
+  });
+}
+const cerrarDestellos = $('cerrarDestellos');
+if(cerrarDestellos){
+  cerrarDestellos.addEventListener('click', ()=>{
+    $('modalDestellos').classList.remove('open');
+    $('modalDestellos').setAttribute('aria-hidden','true');
+  });
+}
+
+// ══════════════════════════════════
+// NUESTRO PRIMER AÑO — 7 de septiembre
+// La revelación más grande del proyecto: fuegos artificiales,
+// un carrete con los recuerdos reales de su historia, la carta
+// más especial, y un certificado que se queda para siempre.
+// ══════════════════════════════════
+const FECHA_PRIMER_ANO = new Date(2026, 8, 7); // mes 8 = septiembre (0-indexado)
+
+// ⚠️ PENDIENTE: reemplazar este texto por la carta real que Jesús David va a compartir.
+// Carta compartida por Jesús David para el primer año — 7 de septiembre.
+const CARTA_PRIMER_ANO = `Mi amor, mi princesa hermosa:
+
+Hoy me cuesta encontrar las palabras correctas, porque siento que cualquier cosa que escriba se queda pequeña frente a todo lo que siento por ti.
+
+Un año.
+
+Doce meses.
+Tantos días.
+Tantas conversaciones.
+Tantas risas.
+Tantos abrazos que quisiera repetir para siempre.
+Tantos momentos en los que te he extrañado.
+Tantos sueños que hemos compartido.
+
+Y pensar que todo comenzó con un día que, quizás en ese momento, ninguno de los dos imaginaba hasta dónde nos llevaría.
+
+Hoy miro hacia atrás y me doy cuenta de que no solamente estoy celebrando un año de ser tu novio. Estoy celebrando un año de haberte encontrado, de haberte conocido más profundamente, de enamorarme de ti de diferentes maneras y de descubrir que mi corazón puede querer a una persona mucho más de lo que alguna vez imaginé.
+
+Cada día 7 se convirtió en una fecha especial para mí.
+Ya no era simplemente otro día del calendario.
+Era nuestro día.
+El día en el que podía detenerme un momento y pensar: "Otro mes a su lado."
+
+Y ahora llegamos al primer año.
+Y qué bonito se siente poder decir:
+
+Hace un año te elegí y hoy te volvería a elegir. 💛
+
+Te elegiría con todo lo que hemos vivido.
+Con nuestras risas y nuestras diferencias.
+Con los días bonitos y los días difíciles.
+Con la distancia y con los reencuentros.
+Con los momentos en los que nos hemos extrañado hasta sentir que nos faltaba algo.
+Con cada abrazo que me ha hecho sentir que finalmente estaba donde quería estar.
+
+Porque nuestro amor nunca ha sido solamente de momentos perfectos.
+Ha sido real.
+Y precisamente por eso significa tanto para mí.
+
+Hay algo que quiero que sepas.
+
+Muchas veces, cuando estás lejos, me haces falta de una manera que no sé explicar. Te extraño en los momentos más sencillos. Extraño poder tenerte cerca, descansar contigo, abrazarte, escuchar tu voz, mirarte sonreír, quedarme contigo sin necesidad de hacer nada extraordinario.
+
+A veces sueño con esos momentos. Sueño con volver a estar contigo, acostarnos juntos después de un día largo, abrazarnos, reírnos de cualquier tontería y simplemente sentir que por unas horas el mundo somos solamente tú y yo.
+
+Y quizás eso es una de las cosas que más he aprendido durante este año: no necesito grandes cosas para ser feliz contigo.
+
+Me basta tu presencia.
+Me basta un abrazo tuyo.
+Me basta verte sonreír.
+Me basta saber que estás conmigo.
+
+Y después de todo este tiempo, sigo sin alcanzar a dimensionar lo hermosa que eres. No hablo solamente de tu belleza, aunque muchas veces me dejas sin palabras cuando te miro. Hablo de la mujer que eres. De tu forma de querer. De tus detalles. De esa manera tuya de hacerme sentir amado. De todas esas pequeñas cosas que quizás para ti parecen normales, pero que para mí significan muchísimo.
+
+Por eso tantas veces me he preguntado cómo tuve tanta suerte de encontrar una mujer como tú. Y todavía hoy me siento afortunado de poder decir: "Ella es mi novia." 🥹
+
+Pero hay algo más profundo que quiero decirte. Ya no solamente quiero llamarte mi novia. Cuando pienso en ti, pienso en mi compañera. En la mujer con la que quiero seguir creciendo. En la persona con la que quiero compartir mis alegrías, mis preocupaciones, mis logros, mis días malos y mis días felices.
+
+Pienso en un futuro donde ya no tengamos que extrañarnos tanto.
+En despertar contigo.
+En llegar a casa y encontrarte.
+En compartir una comida.
+En reírnos por cualquier cosa.
+En tener nuestras propias costumbres.
+En construir nuestro hogar.
+En mirarnos algún día y recordar todo lo que tuvimos que atravesar para llegar hasta allí.
+
+Ese es uno de los sueños más grandes que tengo contigo. Una vida juntos. No una vida perfecta. Una vida nuestra. 🏡
+
+Y cómo olvidar aquel día en la playa. El mar, nosotros dos, la emoción de volver a encontrarnos después de tanto tiempo y ese momento que quería guardar para siempre. Ese día no solamente celebramos nuestro amor. También dejé en tus manos una pequeña promesa. Un anillo con un infinito.
+
+Y aunque el anillo sea pequeño, para mí representa algo enorme: seguir eligiéndote.
+
+Elegirte cuando todo esté bien.
+Elegirte cuando tengamos días difíciles.
+Elegirte cuando la distancia vuelva a hacernos falta.
+Elegirte cuando necesitemos paciencia.
+Elegirte cuando tengamos que aprender algo nuevo el uno del otro.
+
+Porque para mí el amor no significa prometer que nunca tendremos problemas. Significa prometer que, mientras los dos queramos seguir caminando juntos, vamos a intentar encontrarnos en medio de ellos.
+
+Ese infinito que llevas no representa una historia perfecta. Representa nuestra historia. La que estamos escribiendo nosotros. ♾️
+
+También quiero agradecerte por todos los momentos que me has regalado. Por aquella semana que compartimos y que para mí fue tan feliz. Por cada abrazo. Por cada beso. Por cada sonrisa. Por cada conversación. Por cada vez que me hiciste sentir deseado, querido y amado. Por todas esas veces en las que simplemente estar contigo hizo que el día valiera la pena.
+
+Y también por permitirme conocerte en diferentes versiones.
+La mujer que ríe conmigo.
+La mujer que se pone celosa.
+La mujer que se enoja.
+La mujer que me extraña.
+La mujer que me abraza.
+La mujer que me ama.
+
+Todas esas versiones de ti las quiero. Porque no me enamoré de una versión perfecta de ti. Me enamoré de ti. 💛
+
+Y si algún día vuelves a leer todas aquellas cartas que te he escrito, quiero que recuerdes algo. Cada palabra nació porque hubo un momento en el que te pensé.
+
+A veces porque te extrañaba.
+A veces porque quería hacerte sonreír.
+A veces porque estaba enamorado.
+A veces porque quería disculparme.
+A veces porque simplemente me dieron ganas de decirte que te amo.
+
+Y así fui llenando páginas. Una por una. Como quien intenta guardar el amor en papel para que nunca se pierda. Quizás por eso esta carta significa tanto para mí, porque después de tantas palabras, todavía siento que me faltan muchas por decirte.
+
+Mi amor:
+
+No sé exactamente qué nos traerá el próximo año. No sé cuántas cosas tendremos que aprender. No sé cuántos lugares vamos a conocer. No sé cuántas fotografías vamos a guardar. No sé cuántos cumpleaños, aniversarios, viajes, noches, mañanas y aventuras nos esperan.
+
+Pero sí sé algo. Quiero vivirlos contigo. ✨
+
+Quiero que nuestro próximo aniversario tenga nuevos recuerdos. Quiero que algún día podamos mirar este primer año y decir: "Éramos nosotros comenzando nuestra historia."
+
+Quiero seguir viendo cómo creces.
+Quiero seguir creciendo contigo.
+Quiero seguir celebrando cada 7.
+Quiero seguir sorprendiéndote.
+Quiero seguir escribiéndote cartas.
+Quiero seguir teniendo razones para decirte que te amo.
+
+Y quiero que, cuando pasen muchos años, todavía exista esa mirada que tenemos cuando estamos juntos.
+
+Hoy, después de un año, quiero hacerte nuevamente la misma promesa que te hice con aquel anillo: Te elijo.
+
+No solamente por lo bonito que hemos vivido. Te elijo por todo lo que todavía podemos construir. Te elijo porque contigo quiero intentarlo. Te elijo porque cuando pienso en mi felicidad, tú apareces en ella. Te elijo porque cuando imagino mi hogar, quiero que estés allí. Te elijo porque cuando imagino mis mejores recuerdos del futuro, quiero que tengan tu sonrisa.
+
+Y te elijo porque, después de un año, mi corazón todavía siente esa emoción cuando pienso en ti. Quizás incluso más que al principio. Porque ahora no solamente te amo. Te conozco.
+
+Conozco tus formas de quererme.
+Conozco tus gestos.
+Conozco tus silencios.
+Conozco tus alegrías.
+Conozco tus enojos.
+Conozco tus abrazos.
+
+Y aun conociendo todo eso... te sigo eligiendo. 💍
+
+Mi princesa:
+
+Gracias por este primer año.
+Gracias por llegar a mi vida.
+Gracias por dejarme amarte.
+Gracias por dejarme ser parte de tu mundo.
+Gracias por cada recuerdo.
+Gracias por cada momento en el que me hiciste sentir que nosotros valíamos la pena.
+Y gracias por hacerme soñar con una vida que antes solamente imaginaba.
+
+Hoy no quiero decirte solamente: "Feliz primer aniversario."
+
+Quiero decirte: Gracias por el primer capítulo de nuestra historia. 📖
+
+Porque espero, con todo mi corazón, que este no sea el final de nada. Que sea apenas el comienzo. El comienzo de muchos años. De muchos 7. De muchas cartas. De muchas playas. De muchos abrazos. De muchos sueños cumplidos. De muchas fotografías. De muchas noches juntos. De un hogar. De una vida. De nosotros.
+
+Y cuando algún día tengamos todo aquello que hoy soñamos, quiero volver a mirar este momento y recordar que una vez, después de un año de amor, te escribí estas palabras:
+
+"Mi corazón te eligió hace un año, pero después de todo lo que hemos vivido, te volvería a elegir una y mil veces."
+
+Te amo, mi princesa hermosa.
+Te amo por lo que eres.
+Te amo por lo que somos.
+Te amo por todo lo que hemos vivido.
+Y, sobre todo... te amo por todo lo que todavía nos falta vivir. ❤️
+
+Feliz primer año, mi amor. ❤️
+
+Siempre tú.
+Siempre nosotros.
+Y siempre, un poquito más de amor que ayer.
+
+Con todo mi corazón,
+El hombre que sigue enamorado de ti. ❤️♾️`;
+
+function esPrimerAno(){ return new Date() >= FECHA_PRIMER_ANO; }
+
+if(esPrimerAno()){
+  if($('btnPrimerAno')) $('btnPrimerAno').style.display = 'inline-flex';
+  if($('badgePrimerAno')) $('badgePrimerAno').style.display = 'inline-block';
+  // Una vez llegó el gran día, dejamos de mostrar la estrella de destellos:
+  // ya cumplió su propósito de generar expectativa.
+  if($('btnDestello')) $('btnDestello').style.display = 'none';
+}
+
+/* ── Escena 1: fuegos artificiales ── */
+let paFuegosParticulas = [];
+let paFuegosAnimando = false;
+function paDispararCohete(){
+  const canvas = $('paFuegos');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const x = canvas.width*(0.2+Math.random()*0.6);
+  const y = canvas.height*(0.25+Math.random()*0.35);
+  const colores = ['#ffd98a','#e8818a','#c9a84c','#ff8a65','#fff','#f7c5c5'];
+  const color = colores[Math.floor(Math.random()*colores.length)];
+  for(let i=0;i<70;i++){
+    const ang = Math.random()*Math.PI*2;
+    const vel = 1.5+Math.random()*4;
+    paFuegosParticulas.push({
+      x, y, vx:Math.cos(ang)*vel, vy:Math.sin(ang)*vel,
+      g:0.05, color, vida:1, tam:1.5+Math.random()*2
+    });
+  }
+}
+function paLoopFuegos(){
+  const canvas = $('paFuegos');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(10,4,20,.22)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  paFuegosParticulas = paFuegosParticulas.filter(p=>p.vida>0.02);
+  paFuegosParticulas.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.vida*=0.965;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.tam,0,Math.PI*2);
+    ctx.globalAlpha = p.vida;
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+  if(paFuegosAnimando) requestAnimationFrame(paLoopFuegos);
+}
+
+/* ── Escena 2: carrete de recuerdos (reutiliza ALBUM) ── */
+let paCarreteIndice = 0;
+let paCarreteTimer = null;
+function paMostrarCarreteItem(i){
+  const item = ALBUM[i];
+  if(!item) return;
+  const fotoEl = $('paCarreteFoto');
+  if(item.foto){ fotoEl.style.backgroundImage = `url('${item.foto}')`; fotoEl.textContent=''; }
+  else{ fotoEl.style.backgroundImage=''; fotoEl.textContent='💛'; }
+  $('paCarreteFecha').textContent = item.fecha;
+  $('paCarreteTexto').textContent = item.titulo;
+}
+function paIniciarCarrete(){
+  paCarreteIndice = 0;
+  paMostrarCarreteItem(0);
+  paCarreteTimer = setInterval(()=>{
+    paCarreteIndice++;
+    if(paCarreteIndice >= ALBUM.length){
+      clearInterval(paCarreteTimer);
+      setTimeout(paIrAEscenaCarta, 600);
+      return;
+    }
+    paMostrarCarreteItem(paCarreteIndice);
+  }, 1900);
+}
+
+/* ── Escena 3: la carta (aparece con revelado lento) ── */
+function paEscribirCarta(){
+  const el = $('paCartaTexto');
+  el.textContent = '';
+  let i = 0;
+  const texto = CARTA_PRIMER_ANO;
+  const intervalo = setInterval(()=>{
+    el.textContent = texto.slice(0,i);
+    i += 2;
+    if(i > texto.length){
+      el.textContent = texto;
+      clearInterval(intervalo);
+      $('paBtnContinuar').style.display = 'inline-block';
+    }
+  }, 20);
+}
+
+/* ── Orquestación de las 4 escenas ── */
+function paIrAEscenaFuegos(){
+  paFuegosAnimando = true;
+  const canvas = $('paFuegos');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  paFuegosParticulas = [];
+  paLoopFuegos();
+  const disparos = setInterval(paDispararCohete, 500);
+  paDispararCohete();
+  setTimeout(()=>{
+    clearInterval(disparos);
+    setTimeout(()=>{
+      paFuegosAnimando = false;
+      paIrAEscenaCarrete();
+    }, 1500);
+  }, 4500);
+}
+function paIrAEscenaCarrete(){
+  $('paCarrete').classList.add('visible');
+  paIniciarCarrete();
+}
+function paIrAEscenaCarta(){
+  $('paCarrete').classList.remove('visible');
+  $('paCartaEscena').classList.add('visible');
+  paEscribirCarta();
+}
+function paIrAEscenaCertificado(){
+  $('paCartaEscena').classList.remove('visible');
+  $('paCertificado').classList.add('visible');
+}
+
+const btnPrimerAno = $('btnPrimerAno');
+if(btnPrimerAno){
+  btnPrimerAno.addEventListener('click', ()=>{
+    $('overlayPrimerAno').classList.add('open');
+    $('overlayPrimerAno').setAttribute('aria-hidden','false');
+    $('paCarrete').classList.remove('visible');
+    $('paCartaEscena').classList.remove('visible');
+    $('paCertificado').classList.remove('visible');
+    $('paBtnContinuar').style.display='none';
+    paIrAEscenaFuegos();
+  });
+}
+const paBtnContinuar = $('paBtnContinuar');
+if(paBtnContinuar) paBtnContinuar.addEventListener('click', paIrAEscenaCertificado);
+
+const paCerrarFinal = $('paCerrarFinal');
+if(paCerrarFinal){
+  paCerrarFinal.addEventListener('click', ()=>{
+    paFuegosAnimando = false;
+    clearInterval(paCarreteTimer);
+    $('overlayPrimerAno').classList.remove('open');
+    $('overlayPrimerAno').setAttribute('aria-hidden','true');
+  });
+}

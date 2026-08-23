@@ -132,6 +132,13 @@ body{background:var(--crema);color:var(--txt);font-family:'Lato',sans-serif;over
   font-family:'Dancing Script',cursive;font-size:1.4rem;
   color:var(--rosa-d);text-align:center;margin-bottom:1.1rem;
 }
+.mas-categoria{
+  font-family:'Space Grotesk',sans-serif;font-size:.68rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(var(--txt-rgb),.45);
+  margin:1.1rem 0 .6rem;padding-left:.2rem;
+}
+.mas-categoria:first-of-type{margin-top:0;}
 .mas-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;
 }
@@ -196,7 +203,7 @@ section.salida-down{
 .p-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.9rem,3.5vw,1.1rem);color:var(--oro);margin-top:.8rem;animation:fd 1.4s ease both;}
 .p-nom{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,6vw,2.2rem);color:var(--txt);margin-top:1.8rem;animation:fd 1.6s ease both;}
 .p-nom span{color:var(--rosa-d);}
-.p-hint{margin-top:2rem;font-size:.75rem;color:var(--oro);letter-spacing:.12rem;text-transform:uppercase;animation:bnc 2s infinite,fi 2.5s ease both;}
+.p-hint{margin-top:2rem;font-size:var(--fs-note);color:var(--oro);letter-spacing:.12rem;text-transform:uppercase;animation:bnc 2s infinite,fi 2.5s ease both;}
 
 
 
