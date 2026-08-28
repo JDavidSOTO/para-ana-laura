@@ -34,7 +34,7 @@ async function activarNotificaciones() {
   if (btn) { btn.disabled = true; btn.textContent = 'Activando… 💫'; }
 
   try {
-    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+   const registration = await navigator.serviceWorker.register('/para-ana-laura/firebase-messaging-sw.js');
     const permiso = await Notification.requestPermission();
 
     if (permiso !== 'granted') {
