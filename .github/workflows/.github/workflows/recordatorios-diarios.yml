@@ -1,0 +1,29 @@
+name: Recordatorios diarios
+
+on:
+  schedule:
+    - cron: '0 14 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  revisar-recordatorios:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar dependencias
+        run: npm install
+        working-directory: scripts
+      - name: Revisar y enviar recordatorios de hoy
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/send-reminders.js
+      - name: Guardar reminders.json si cambió
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet reminders.json || (git add reminders.json && git commit -m "chore: marcar recordatorio como enviado" && git push)
