@@ -1,0 +1,8 @@
+{
+  "name": "notificaciones-scripts",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "firebase-admin": "^12.6.0"
+  }
+}
