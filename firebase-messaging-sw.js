@@ -24,8 +24,8 @@ messaging.onBackgroundMessage((payload) => {
   const titulo = (payload.notification && payload.notification.title) || 'Para Ana Laura 💛';
   const opciones = {
     body: (payload.notification && payload.notification.body) || 'Tienes algo nuevo esperándote.',
-    icon: (payload.notification && payload.notification.icon) || '/img/celebracion.jpg',
-    badge: '/img/celebracion.jpg',
+    icon: (payload.notification && payload.notification.icon) || '/para-ana-laura/img/celebracion.jpg', 
+    badge: '/para-ana-laura/img/celebracion.jpg', 
     data: { url: (payload.data && payload.data.url) || '/' },
     vibrate: [200, 100, 200]
   };
