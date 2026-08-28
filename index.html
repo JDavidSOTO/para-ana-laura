@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#f7c5c5"/>
+<title>Para Ana Laura 💛</title>
+<meta name="description" content="Una carta digital y sorpresa interactiva para celebrar nuestro amor, hecha con cariño para Ana Laura."/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta property="og:title" content="Para Ana Laura 💛"/>
+<meta property="og:description" content="Una sorpresa hecha con amor: cartas, juegos y recuerdos para celebrar lo nuestro."/>
+<meta property="og:type" content="website"/>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/themes.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/components.css"/>
+<link rel="stylesheet" href="css/animations.css"/>
+<link rel="stylesheet" href="css/responsive.css"/>
+<link rel="stylesheet" href="css/notifications.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("1ZuHc8hIU3i1Spg-a");</script>
+<!-- Firebase: base de datos compartida en tiempo real -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDkFct75bCDSmQwjTP77AkIPSL0xACt39g",
+    authDomain: "nuestra-historia-f1d9f.firebaseapp.com",
+    projectId: "nuestra-historia-f1d9f",
+    storageBucket: "nuestra-historia-f1d9f.firebasestorage.app",
+    messagingSenderId: "334753780496",
+    appId: "1:334753780496:web:3cf7eb66430f8966d68b95"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+</head>
+<body>
+
+<!-- MODO NOCHE -->
+<button id="btnNoche" onclick="toggleNoche()" title="Modo noche" aria-label="Activar o desactivar modo noche">🌙</button>
+<!-- Estrellas -->
+<div id="estrellas"></div>
+<!-- Canvas pétalos -->
+<canvas id="petals-canvas"></canvas>
+
+<!-- ══ TE AMO MUCHO — OVERLAY ══ -->
+<div id="teAmoOverlay" role="dialog" aria-modal="true" aria-label="Mensaje especial">
+  <canvas id="teAmoCanvas"></canvas>
+  <div id="teAmoCorazones"></div>
+  <div id="teAmoContenido">
+    <div class="ta-corazon-grande">💛</div>
+    <h2 id="taTexto" class="ta-texto"></h2>
+    <p class="ta-sub">— Jesús David</p>
+  </div>
+  <button id="taCerrar" onclick="cerrarTeAmo()" aria-label="Cerrar mensaje">✕</button>
+</div>
+
+<!-- BIENVENIDA -->
+<div id="bienvenida" role="dialog" aria-modal="true" aria-label="Bienvenida">
+  <div class="bv-petals" id="bvPetals"></div>
+  <div class="bv-sobre">💌</div>
+  <h1 class="bv-tit">Hola,<br/>Ana Laura…</h1>
+  <p class="bv-sub">Esto lo hice pensando en ti.<br/>Cada rincón tiene un pedacito de mí<br/>que quiero que sientas.</p>
+  <button class="bv-btn" onclick="abrirPagina()">Abrir mi regalo 🌹</button>
+</div>
+
+<div id="ptc"></div>
+
+<!-- PORTADA -->
+<section id="portada">
+  <div class="p-orn">✦ ✦ ✦</div>
+  <h1 class="p-tit">Para ti,<br/>Ana Laura</h1>
+  <p class="p-sub">Un pequeño mundo construido solo para nosotros</p>
+  <div class="dvd"></div>
+  <p class="p-nom"><span>Jesús David</span> &amp; <span>Ana Laura</span></p>
+  <p class="p-hint" onclick="irA('cuenta')" style="cursor:pointer;">↓ descubre nuestra historia</p>
+  <button onclick="iniciarPetalos()" style="margin-top:1.2rem;background:none;border:1.5px solid var(--rosa-d);border-radius:50px;padding:.45rem 1.2rem;font-family:'Dancing Script',cursive;font-size:1rem;color:var(--rosa-d);cursor:pointer;opacity:.75;">🌸 Lluvia de pétalos</button>
+  <button onclick="mostrarTeAmo()" style="margin-top:.7rem;background:linear-gradient(135deg,var(--rosa-d),var(--oro));border:none;border-radius:50px;padding:.55rem 1.4rem;font-family:'Dancing Script',cursive;font-size:1.1rem;color:white;cursor:pointer;box-shadow:0 4px 16px rgba(232,129,138,.3);">💛 Te amo mucho</button>
+  <button id="btnRegalo11" class="btn-regalo-11" style="display:none;" aria-label="Abrir sorpresa">🎁</button>
+  <button id="btnCumple" class="btn-cumple" style="display:none;" aria-label="Abrir sorpresa de cumpleaños">🎂</button>
+  <button id="btnDestello" class="btn-destello" style="display:none;" aria-label="Ver pistas">✨</button>
+  <button id="btnPrimerAno" class="btn-primer-ano" style="display:none;" aria-label="Abrir nuestro primer año">💍</button>
+  <div id="badgePrimerAno" class="badge-primer-ano" style="display:none;">✦ Un año juntos ✦<br/>7 sept 2025 — 7 sept 2026</div>
+</section>
+
+<!-- NAV TABS -->
+<nav id="mainNav" aria-label="Navegación principal">
+  <button class="ntab" onclick="irA('cuenta')" data-tab="cuenta"><span class="ico">⏳</span><span class="nlbl">Tiempo</span></button>
+  <button class="ntab" onclick="irA('playa')" data-tab="playa"><span class="ico">🏖️</span><span class="nlbl">Playa</span></button>
+  <button class="ntab" onclick="irA('carta')" data-tab="carta"><span class="ico">💌</span><span class="nlbl">Cartas</span></button>
+  <button class="ntab" onclick="irA('fotos')" data-tab="fotos"><span class="ico">📷</span><span class="nlbl">Fotos</span></button>
+  <button class="ntab" onclick="irA('galaxia')" data-tab="galaxia"><span class="ico">🌌</span><span class="nlbl">Galaxia</span></button>
+  <button class="ntab" onclick="irA('jardin')" data-tab="jardin"><span class="ico">🌸</span><span class="nlbl">Jardín</span></button>
+  <button class="ntab" onclick="irA('juegos')" data-tab="juegos"><span class="ico">🎮</span><span class="nlbl">Juegos</span></button>
+  <button class="ntab mas-btn" onclick="toggleMas()" id="masBtn" aria-haspopup="true" aria-controls="masDrawer"><span class="ico">✦</span><span class="nlbl">Más</span></button>
+</nav>
+
+<!-- MÁS OPCIONES (drawer) -->
+<div id="masDrawer" role="dialog" aria-label="Más opciones" aria-hidden="true">
+  <div id="masOverlay" onclick="cerrarMas()"></div>
+  <div id="masPanel">
+    <p class="mas-titulo">Descubre más ✨</p>
+
+    <p class="mas-categoria">Nuestra historia</p>
+    <div class="mas-grid">
+      <button class="mas-item" onclick="irA('momentos');cerrarMas()"><span>🌙</span><span>Momentos</span></button>
+      <button class="mas-item" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
+      <button class="mas-item" onclick="irA('album');cerrarMas()"><span>📖</span><span>Álbum</span></button>
+      <button class="mas-item" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
+      <button class="mas-item" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
+    </div>
+
+    <p class="mas-categoria">Sorpresas</p>
+    <div class="mas-grid">
+      <button class="mas-item" onclick="irA('cartas-sorpresa');cerrarMas()"><span>💝</span><span>Sorpresas</span></button>
+      <button class="mas-item" onclick="irA('carta-viva');cerrarMas()"><span>✍️</span><span>Carta viva</span></button>
+      <button class="mas-item" onclick="irA('secreto');cerrarMas()"><span>🔐</span><span>Secreto</span></button>
+    </div>
+
+    <p class="mas-categoria">Juntos, hoy y siempre</p>
+    <div class="mas-grid">
+      <button class="mas-item" onclick="irA('carta-futuro');cerrarMas()"><span>💌</span><span>Carta futura</span></button>
+      <button class="mas-item" onclick="irA('sentimientos');cerrarMas()"><span>💭</span><span>Cómo nos sentimos</span></button>
+      <button class="mas-item" onclick="irA('suenos');cerrarMas()"><span>⭐</span><span>Sueños juntos</span></button>
+      <button class="mas-item" onclick="irA('playlist');cerrarMas()"><span>🎵</span><span>Playlist</span></button>
+      <button class="mas-item" onclick="irA('adviento');cerrarMas()"><span>🗓️</span><span>Cuenta regresiva</span></button>
+    </div>
+  </div>
+</div>
+
+<main id="contenido-principal">
+<!-- CONTADOR -->
+<section id="cuenta" class="pbn">
+  <p class="ttl rv">Llevamos juntos…</p>
+  <p class="sub rv">Desde el 7 de septiembre de 2025</p>
+  <div class="cnt-g rv">
+    <div class="cnt-i"><div class="cnt-n" id="cd">0</div><div class="cnt-l">Días</div></div>
+    <div class="cnt-i"><div class="cnt-n" id="ch">00</div><div class="cnt-l">Horas</div></div>
+    <div class="cnt-i"><div class="cnt-n" id="cm">00</div><div class="cnt-l">Minutos</div></div>
+    <div class="cnt-i"><div class="cnt-n" id="cs">00</div><div class="cnt-l">Segundos</div></div>
+  </div>
+  <p class="fi-txt rv">📅 7 de septiembre, 2025 — el día que comenzó todo ❤</p>
+</section>
+
+<!-- ══ PLAYA — 10 MESES ══ -->
+<section id="playa" class="pbn">
+  <div class="playa-bg" id="playaBg"></div>
+  <p class="ttl rv" style="color:var(--turq-d);">Nuestros 10 meses 🏖️</p>
+  <p class="sub rv" style="color:var(--turq);">Una escapada solo para nosotros dos</p>
+
+  <!-- Cuenta regresiva -->
+  <div class="pl-cuenta rv">
+    <p class="pl-cuenta-lbl">Faltan para el 7 de julio…</p>
+    <div class="cnt-g pl-cnt-g">
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="pld">0</div><div class="cnt-l pl-l">Días</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="plh">00</div><div class="cnt-l pl-l">Horas</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="plm">00</div><div class="cnt-l pl-l">Min</div></div>
+      <div class="cnt-i pl-i"><div class="cnt-n pl-n" id="pls">00</div><div class="cnt-l pl-l">Seg</div></div>
+    </div>
+  </div>
+
+  <!-- Olas decorativas -->
+  <div class="olas-wrap rv">
+    <svg viewBox="0 0 400 80" class="olas-svg" preserveAspectRatio="none">
+      <path class="ola ola1" d="M0,40 C50,10 100,60 150,35 C200,10 250,55 300,30 C350,8 380,40 400,35 L400,80 L0,80 Z"/>
+      <path class="ola ola2" d="M0,50 C60,25 120,65 180,45 C240,25 300,60 360,40 C380,35 390,42 400,45 L400,80 L0,80 Z"/>
+      <path class="ola ola3" d="M0,60 C70,45 140,70 210,55 C280,42 340,68 400,55 L400,80 L0,80 Z"/>
+    </svg>
+    <!-- Conchas y estrellas de mar -->
+    <div class="conchas">
+      <span class="concha c1">🐚</span>
+      <span class="concha c2">⭐</span>
+      <span class="concha c3">🐚</span>
+      <span class="concha c4">🦀</span>
+      <span class="concha c5">⭐</span>
+      <span class="concha c6">🐚</span>
+    </div>
+  </div>
+
+  <!-- BOLETO / ITINERARIO -->
+  <div class="boleto rv">
+    <div class="boleto-top">
+      <div class="boleto-aero">✈️</div>
+      <div class="boleto-info">
+        <p class="boleto-titulo">Pase de Escapada</p>
+        <p class="boleto-sub">Jesús David &amp; Ana Laura</p>
+      </div>
+      <div class="boleto-sello">10🤍</div>
+    </div>
+    <div class="boleto-divider">
+      <span></span><span class="boleto-circ"></span><span class="boleto-circ"></span><span></span>
+    </div>
+    <div class="boleto-body">
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Destino</span><span class="bd-val">Coveñas, Sucre</span></div>
+        <div class="boleto-dato"><span class="bd-lbl">Sector</span><span class="bd-val">2ª Ensenada</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Hospedaje</span><span class="bd-val">Playa Dorada 🏨</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato"><span class="bd-lbl">Entrada</span><span class="bd-val">7 de julio</span></div>
+        <div class="boleto-dato"><span class="bd-lbl">Salida</span><span class="bd-val">8 de julio</span></div>
+      </div>
+      <div class="boleto-fila">
+        <div class="boleto-dato boleto-full"><span class="bd-lbl">Pasajeros</span><span class="bd-val">2 enamorados ❤️</span></div>
+      </div>
+    </div>
+    <div class="boleto-divider">
+      <span></span><span class="boleto-circ"></span><span class="boleto-circ"></span><span></span>
+    </div>
+    <div class="boleto-footer">
+      <p class="boleto-msg">"Va a ser uno de los mejores días de nuestras vidas. Vamos a disfrutar el sol, el mar, y sobre todo, el estar juntos. 🌅💛"</p>
+      <button class="boleto-btn" onclick="document.getElementById('sorpresasWrap').scrollIntoView({behavior:'smooth'})">🎁 Ver mis sorpresas del viaje</button>
+    </div>
+  </div>
+
+
+  <!-- ══ SORPRESAS CINEMATOGRÁFICAS ══ -->
+  <div class="sorpresas-wrap rv" id="sorpresasWrap">
+    <p class="sorp-titulo">Tengo algo para ti… 🤫</p>
+
+    <!-- FASE 1: Botella en el mar -->
+    <div class="sorp-fase" id="sorpFase1">
+      <div class="sorp-mar">
+        <canvas id="sorpOlasCanvas"></canvas>
+        <div class="sorp-botella" id="sorpBotella" onclick="abrirBotella()">
+          <div class="sorp-bot-inner">
+            <div class="sorp-bot-svg">🍾</div>
+            <div class="sorp-bot-msg">Hay una botella con un mensaje flotando en el mar…<br/><span>Tócala para abrirla</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2: Mensaje aparece -->
+    <div class="sorp-fase" id="sorpFase2" style="display:none;">
+      <div class="sorp-pergamino-wrap">
+        <div class="sorp-pergamino" id="sorpPergamino">
+          <div class="sorp-perg-header">
+            <div class="sorp-perg-deco">～ Para Ana Laura ～</div>
+            <p class="sorp-perg-intro">El 7 de julio va a ser un día que jamás vas a olvidar.<br/>Encontré 3 regalos especiales para ti… pero están escondidos.</p>
+          </div>
+          <div class="sorp-cajas">
+            <div class="sorp-caja" id="sorpCaja0">
+              <canvas class="sorp-scratch-canvas" id="scratch0"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido0">
+                <div class="sorp-reveal-ico">🌅</div>
+                <div class="sorp-reveal-txt">Vamos a ver el atardecer juntos, sentados en la arena, con los pies en el agua. Solo tú y yo.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+            <div class="sorp-caja" id="sorpCaja1" style="opacity:.4;pointer-events:none;">
+              <canvas class="sorp-scratch-canvas" id="scratch1"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido1">
+                <div class="sorp-reveal-ico">🕯️</div>
+                <div class="sorp-reveal-txt">Tengo preparada una cena romántica en la playa, solo para los dos, con velas y todo lo que mereces.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+            <div class="sorp-caja" id="sorpCaja2" style="opacity:.4;pointer-events:none;">
+              <canvas class="sorp-scratch-canvas" id="scratch2"></canvas>
+              <div class="sorp-caja-contenido" id="sorpContenido2">
+                <div class="sorp-reveal-ico">💌</div>
+                <div class="sorp-reveal-txt">Esa noche te voy a leer una carta que escribí con todo lo que siento por ti. Una que nunca olvidarás.</div>
+              </div>
+              <div class="sorp-caja-hint">← Raspa aquí</div>
+            </div>
+          </div>
+          <div class="sorp-final" id="sorpFinal" style="display:none;">
+            <canvas id="sorpFireworks"></canvas>
+            <p class="sorp-final-txt">¡Eso es todo! Va a ser la noche más especial de nuestras vidas. 🌊🕯️💛</p>
+            <p class="sorp-final-firma">— Tu hombre enamorado ❤️</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JUEGO: ENCUENTRA LOS CORAZONES -->
+  <div class="hh-wrap rv">
+    <p class="hh-titulo">🔍 Encuentra los corazones escondidos</p>
+    <p class="hh-sub">Hay 5 corazoncitos escondidos entre las conchas. ¡Encuéntralos todos! <span id="hhCount">0</span>/5</p>
+    <div class="hh-escena" id="hhEscena"></div>
+    <button class="hh-reset" onclick="hhInit()">🔄 Reiniciar</button>
+    <div class="hh-win" id="hhWin">
+      <div class="hh-win-inner">
+        <div class="hh-win-ico">🎉🏖️</div>
+        <h3>¡Los encontraste todos!</h3>
+        <p>Así de bien te conozco… y así de bien te voy a cuidar en cada minuto de nuestra escapada. Te amo. 💛</p>
+        <button onclick="hhInit();document.getElementById('hhWin').classList.remove('show')">Jugar de nuevo 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARTA SELLADA — 10 MESES -->
+  <div class="carta10-wrap rv">
+    <div class="carta10-card" id="carta10Card">
+      <div class="carta10-candado" id="carta10Icon">🔒</div>
+      <p class="carta10-titulo">Una carta para el 7 de julio</p>
+      <p class="carta10-sub" id="carta10Sub">Esta carta se desbloqueará automáticamente el día de nuestros 10 meses, en la playa. 🌅</p>
+      <div class="carta10-cuenta" id="carta10Cuenta"></div>
+      <button class="carta10-btn" id="carta10Btn" onclick="intentarAbrirCarta10()" disabled>Bloqueada hasta el 7 de julio 🔒</button>
+    </div>
+
+    <!-- Contenido de la carta (oculto hasta desbloqueo) -->
+    <div class="carta-pergamino carta10-pergamino" id="carta10Pergamino">
+      <div class="carta-sello" style="background:radial-gradient(circle at 40% 35%,#4dd0e1,#00838f 60%,#005662);">🌅</div>
+      <div class="carta-ornamento" style="color:var(--turq-d);">🐚 · ⭐ · 🐚</div>
+      <p class="carta-fecha" style="color:rgba(0,131,143,.7);">Coveñas, 7 de julio · Nuestros 10 meses</p>
+      <p class="carta-sal" style="color:var(--turq-d);">Mi amor… 🌊</p>
+      <div class="carta-cuerpo">
+        <p><span class="carta-capital" style="color:var(--turq-d);">S</span>i estás leyendo esto, significa que ya estamos aquí… en la playa, celebrando 10 meses juntos. Espero que en este momento el sol esté cayendo, que tengas la arena entre los dedos de los pies y que, sobre todo, estés sonriendo.</p>
+        <p>Quiero que este viaje sea de los mejores recuerdos que tengamos juntos. Que cada ola que veamos romper en la orilla sea un recordatorio de lo afortunado que soy de tenerte a mi lado.</p>
+        <p>Diez meses ya, mi amor… y siento que apenas estamos empezando a escribir esta historia tan hermosa. Gracias por ser mi compañera de aventuras, mi calma y mi alegría.</p>
+        <p>Hoy quiero que disfrutes, que descanses, que te sientas amada como te lo mereces. Esta escapada es para ti, para nosotros, para celebrar lo que somos.</p>
+        <p>Te amo más que ayer, y mañana te amaré aún más. 🌅💛</p>
+      </div>
+      <p class="carta-firma" style="color:var(--turq-d);">Con todo mi amor, en la arena y en el alma,<br/>— Jesús David 🌊</p>
+      <div class="carta-flores-pie">
+        <span class="flor-pie">🐚</span>
+        <span class="flor-pie">⭐</span>
+        <span class="flor-pie">🌅</span>
+        <span class="flor-pie">🌊</span>
+        <span class="flor-pie">🐚</span>
+        <span class="flor-pie">⭐</span>
+        <span class="flor-pie">🐚</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPA -->
+  <div class="pl-mapa rv">
+    <p class="pl-mapa-titulo">📍 A dónde vamos</p>
+    <div id="mapaPlaya"></div>
+  </div>
+</section>
+
+<!-- CARTA -->
+<section id="carta" style="position:relative;">
+  <div class="carta-flores-bg" id="cartaFloresBg"></div>
+  <p class="ttl rv">Mi carta para ti</p>
+  <p class="sub rv">Palabras que salen del alma</p>
+
+  <!-- Sobre animado -->
+  <div class="carta-sobre-wrap rv" id="sobreWrap">
+    <svg class="carta-sobre" id="sobreSvg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" onclick="abrirCarta()" aria-label="Abrir carta">
+      <!-- Fondo sobre -->
+      <defs>
+        <linearGradient id="sgFondo" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#fde8c8"/>
+          <stop offset="100%" style="stop-color:#f7c5c5"/>
+        </linearGradient>
+        <linearGradient id="sgSolapa" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#f0d080"/>
+          <stop offset="100%" style="stop-color:#c9a84c"/>
+        </linearGradient>
+      </defs>
+      <!-- Cuerpo del sobre -->
+      <rect x="2" y="35" width="196" height="92" rx="6" ry="6" fill="url(#sgFondo)" stroke="#c9a84c" stroke-width="1.2"/>
+      <!-- Líneas diagonales interiores -->
+      <line x1="2" y1="127" x2="100" y2="78" stroke="#e8818a" stroke-width=".8" opacity=".4"/>
+      <line x1="198" y1="127" x2="100" y2="78" stroke="#e8818a" stroke-width=".8" opacity=".4"/>
+      <!-- Solapa superior (cerrada) -->
+      <path id="sobreSolapa" d="M2,35 L100,85 L198,35 Z" fill="url(#sgSolapa)" stroke="#c9a84c" stroke-width="1.2"/>
+      <!-- Corazón en el sello -->
+      <circle cx="100" cy="68" r="12" fill="#e8818a" opacity=".9"/>
+      <text x="100" y="73" text-anchor="middle" font-size="13">❤️</text>
+      <!-- Flores pequeñas decorativas -->
+      <text x="18" y="62" font-size="14" opacity=".7">🌹</text>
+      <text x="168" y="62" font-size="14" opacity=".7">🌸</text>
+      <text x="16" y="118" font-size="12" opacity=".6">🌻</text>
+      <text x="170" y="118" font-size="12" opacity=".6">🌺</text>
+    </svg>
+    <p class="sobre-hint">✦ Toca para abrir tu carta ✦</p>
+  </div>
+
+  <!-- Carta pergamino (oculta al inicio) -->
+  <div class="carta-pergamino rv" id="cartaPergamino">
+    <div class="carta-sello">💌</div>
+
+    <!-- Flores SVG esquina superior izquierda -->
+    <svg class="flores-esquina tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rosa -->
+      <g transform="translate(30,55) rotate(-20)">
+        <line x1="0" y1="0" x2="0" y2="28" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <path d="M0,0 C-6,-4 -10,-10 -6,-14 C-2,-18 2,-14 0,-10 C-2,-6 2,-2 0,0Z" fill="#e8818a"/>
+        <path d="M0,0 C6,-4 10,-10 6,-14 C2,-18 -2,-14 0,-10 C2,-6 -2,-2 0,0Z" fill="#f0a0a8"/>
+        <path d="M0,0 C-4,-8 -8,-10 -8,-14 C-8,-18 -2,-18 0,-14 C2,-10 -2,-4 0,0Z" fill="#d06070"/>
+        <path d="M0,0 C4,-8 8,-10 8,-14 C8,-18 2,-18 0,-14 C-2,-10 2,-4 0,0Z" fill="#f5b8be"/>
+        <ellipse cx="-4" cy="14" rx="6" ry="3" fill="#66bb6a" transform="rotate(-30,-4,14)"/>
+        <ellipse cx="4" cy="18" rx="6" ry="3" fill="#4caf50" transform="rotate(20,4,18)"/>
+      </g>
+      <!-- Lirio -->
+      <g transform="translate(58,50) rotate(15)">
+        <line x1="0" y1="0" x2="0" y2="24" stroke="#4caf50" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M0,-18 C-8,-12 -10,-4 0,0 C10,-4 8,-12 0,-18Z" fill="#ce93d8" opacity=".9"/>
+        <path d="M0,-18 C-14,-8 -12,2 0,0 C12,2 14,-8 0,-18Z" fill="#ba68c8" opacity=".85" transform="rotate(60,0,0)"/>
+        <path d="M0,-18 C-14,-8 -12,2 0,0 C12,2 14,-8 0,-18Z" fill="#ab47bc" opacity=".8" transform="rotate(-60,0,0)"/>
+        <circle cx="0" cy="0" r="2.5" fill="#fff176"/>
+      </g>
+      <!-- Pequeñas florecitas -->
+      <circle cx="15" cy="30" r="4" fill="#fff176" opacity=".7"/>
+      <circle cx="15" cy="30" r="2" fill="#fdd835"/>
+      <circle cx="72" cy="70" r="3.5" fill="#f48fb1" opacity=".7"/>
+      <circle cx="72" cy="70" r="1.8" fill="#e91e8c"/>
+    </svg>
+
+    <!-- Flores SVG esquina superior derecha -->
+    <svg class="flores-esquina tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Gerbera -->
+      <g transform="translate(32,52) rotate(10)">
+        <line x1="0" y1="0" x2="0" y2="26" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="0" cy="-2" r="5" fill="#fdd835"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(30,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(60,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(90,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(120,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(150,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(180,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(210,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(240,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(270,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff9eb5" transform="rotate(300,0,-2)"/>
+        <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7bab" transform="rotate(330,0,-2)"/>
+        <circle cx="0" cy="-2" r="5" fill="#fdd835"/>
+        <circle cx="0" cy="-2" r="2.5" fill="#f57f17"/>
+        <ellipse cx="-5" cy="12" rx="6" ry="3" fill="#66bb6a" transform="rotate(-25,-5,12)"/>
+      </g>
+      <!-- Orquídea -->
+      <g transform="translate(60,48) rotate(-18)">
+        <line x1="0" y1="0" x2="0" y2="22" stroke="#4caf50" stroke-width="1.8" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#ce93d8" opacity=".8" transform="rotate(72,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85" transform="rotate(144,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#ce93d8" opacity=".8" transform="rotate(216,0,-5)"/>
+        <ellipse cx="0" cy="-10" rx="7" ry="4" fill="#e040fb" opacity=".85" transform="rotate(288,0,-5)"/>
+        <ellipse cx="0" cy="-5" rx="4" ry="5" fill="#fff" opacity=".6"/>
+        <circle cx="0" cy="-5" r="2" fill="#ffcc02"/>
+        <ellipse cx="4" cy="10" rx="5" ry="2.5" fill="#4caf50" transform="rotate(20,4,10)"/>
+      </g>
+    </svg>
+
+    <!-- Flores SVG esquina inferior izquierda -->
+    <svg class="flores-esquina bl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Girasol -->
+      <g transform="translate(35,32) rotate(5)">
+        <line x1="0" y1="0" x2="0" y2="30" stroke="#4caf50" stroke-width="2.2" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(22.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(45,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(67.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(90,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(112.5,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#fdd835" transform="rotate(135,0,0)"/>
+        <ellipse cx="0" cy="-14" rx="4.5" ry="8" fill="#f9a825" transform="rotate(157.5,0,0)"/>
+        <circle cx="0" cy="0" r="9" fill="#5d4037"/>
+        <circle cx="0" cy="0" r="6.5" fill="#3e2723"/>
+        <!-- Semillas girasol -->
+        <circle cx="-2" cy="-2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="2" cy="-2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="0" cy="2" r="1" fill="#795548" opacity=".6"/>
+        <circle cx="-3" cy="1" r="1" fill="#795548" opacity=".5"/>
+        <circle cx="3" cy="1" r="1" fill="#795548" opacity=".5"/>
+        <ellipse cx="-5" cy="16" rx="7" ry="3.5" fill="#66bb6a" transform="rotate(-30,-5,16)"/>
+        <ellipse cx="5" cy="20" rx="7" ry="3.5" fill="#4caf50" transform="rotate(15,5,20)"/>
+      </g>
+      <circle cx="62" cy="22" r="4" fill="#f48fb1" opacity=".65"/>
+      <circle cx="62" cy="22" r="2" fill="#ad1457"/>
+    </svg>
+
+    <!-- Flores SVG esquina inferior derecha -->
+    <svg class="flores-esquina br" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rosa blanca/crema -->
+      <g transform="translate(30,35) rotate(-8)">
+        <line x1="0" y1="0" x2="0" y2="30" stroke="#4caf50" stroke-width="2" stroke-linecap="round"/>
+        <path d="M0,0 C-6,-4 -10,-10 -6,-15 C-2,-19 2,-15 0,-11 C-2,-7 2,-3 0,0Z" fill="#f0d080"/>
+        <path d="M0,0 C6,-4 10,-10 6,-15 C2,-19 -2,-15 0,-11 C2,-7 -2,-3 0,0Z" fill="#f5e090"/>
+        <path d="M0,0 C-4,-8 -8,-10 -8,-15 C-8,-19 -2,-19 0,-15 C2,-11 -2,-5 0,0Z" fill="#c9a84c"/>
+        <path d="M0,0 C4,-8 8,-10 8,-15 C8,-19 2,-19 0,-15 C-2,-11 2,-5 0,0Z" fill="#f0e0a0"/>
+        <ellipse cx="-4" cy="14" rx="6" ry="3" fill="#66bb6a" transform="rotate(-30,-4,14)"/>
+        <ellipse cx="4" cy="19" rx="6" ry="3" fill="#4caf50" transform="rotate(20,4,19)"/>
+      </g>
+      <!-- Lirio pequeño -->
+      <g transform="translate(60,38) rotate(12)">
+        <line x1="0" y1="0" x2="0" y2="22" stroke="#4caf50" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#b39ddb" opacity=".9"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#9575cd" opacity=".8" transform="rotate(60,0,0)"/>
+        <path d="M0,-15 C-7,-10 -8,-3 0,0 C8,-3 7,-10 0,-15Z" fill="#b39ddb" opacity=".9" transform="rotate(-60,0,0)"/>
+        <circle cx="0" cy="0" r="2" fill="#fff176"/>
+      </g>
+    </svg>
+
+    <!-- Contenido de la carta -->
+    <p class="carta-fecha">Riohacha, 7 de junio de 2026 · 9 meses juntos</p>
+    <div class="carta-ornamento">✦ · ✦ · ✦</div>
+    <p class="carta-sal">Mi amor… 💛</p>
+    <div class="carta-cuerpo">
+      <p><span class="carta-capital">N</span>o sé en qué momento te volviste tan importante para mí, pero hoy siento que ya eres parte de todo lo que soy. Te metiste en mi corazón de una forma tan profunda, tan bonita, que ahora hasta mis días tienen tu nombre.</p>
+      <p>A veces quisiera que pudieras ver cómo te miro desde mi alma… para que entendieras lo mucho que te amo. Porque no eres solo la mujer que amo, eres también mi tranquilidad, mi alegría y ese lugar al que siempre quiero volver.</p>
+      <p>Contigo aprendí que el amor verdadero no hace ruido… se siente. Se siente en la forma en que te extraño, en cómo pienso en ti incluso en medio del día, en las ganas inmensas que tengo de abrazarte y quedarme contigo olvidándome del mundo.</p>
+      <p>Y aunque la vida a veces nos ponga distancia o momentos difíciles, mi corazón siempre termina eligiéndote a ti. Porque contigo encontré algo que nunca quiero perder.</p>
+      <p>Te amo de una forma tan sincera… que incluso mis silencios llevan tu nombre. ❤️</p>
+    </div>
+    <div class="carta-ornamento">· · · · ·</div>
+    <p class="carta-firma">Con todo mi amor,<br/>— Jesús David 💛</p>
+
+    <!-- Ramillete de flores al pie -->
+    <div class="carta-flores-pie">
+      <span class="flor-pie">🌹</span>
+      <span class="flor-pie">🌸</span>
+      <span class="flor-pie">🌻</span>
+      <span class="flor-pie">🌷</span>
+      <span class="flor-pie">🌺</span>
+      <span class="flor-pie">🪷</span>
+      <span class="flor-pie">🌹</span>
+    </div>
+  </div>
+
+  <button class="sobre-btn" id="sobreBtn" onclick="cerrarCarta()">Cerrar carta 💌</button>
+
+  <!-- ══ SEGUNDA CARTA ══ -->
+  <div style="margin-top:2.5rem;">
+    <p class="sub rv" style="margin-bottom:1.2rem;">✦ Una carta de caballero ✦</p>
+
+    <!-- Sobre 2 -->
+    <div class="carta-sobre-wrap rv" id="sobreWrap2">
+      <svg class="carta-sobre" id="sobreSvg2" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" onclick="abrirCarta2()" aria-label="Abrir segunda carta">
+        <defs>
+          <linearGradient id="sg2Fondo" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2c1810"/>
+            <stop offset="50%" style="stop-color:#4a2c1a"/>
+            <stop offset="100%" style="stop-color:#3d1f10"/>
+          </linearGradient>
+          <linearGradient id="sg2Solapa" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#8b2a35"/>
+            <stop offset="100%" style="stop-color:#c0525c"/>
+          </linearGradient>
+        </defs>
+        <!-- Cuerpo oscuro del sobre -->
+        <rect x="2" y="35" width="196" height="92" rx="6" ry="6" fill="url(#sg2Fondo)" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- Marco dorado interior -->
+        <rect x="8" y="41" width="184" height="80" rx="4" ry="4" fill="none" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+        <!-- Líneas V interiores -->
+        <line x1="2" y1="127" x2="100" y2="80" stroke="#c9a84c" stroke-width=".8" opacity=".3"/>
+        <line x1="198" y1="127" x2="100" y2="80" stroke="#c9a84c" stroke-width=".8" opacity=".3"/>
+        <!-- Solapa roja -->
+        <path id="sobreSolapa2" d="M2,35 L100,87 L198,35 Z" fill="url(#sg2Solapa)" stroke="#c9a84c" stroke-width="1.2"/>
+        <!-- Sello de cera con escudo -->
+        <circle cx="100" cy="70" r="14" fill="#8b2a35"/>
+        <circle cx="100" cy="70" r="12" fill="#a33040"/>
+        <circle cx="100" cy="70" r="10" fill="#8b2a35"/>
+        <text x="100" y="75" text-anchor="middle" font-size="13">⚜️</text>
+        <!-- Flores en los lados -->
+        <text x="14" y="65" font-size="13" opacity=".8">🌹</text>
+        <text x="170" y="65" font-size="13" opacity=".8">🌺</text>
+        <text x="14" y="115" font-size="11" opacity=".7">🌻</text>
+        <text x="170" y="115" font-size="11" opacity=".7">🪷</text>
+        <!-- Texto sobre -->
+        <text x="100" y="110" text-anchor="middle" font-family="serif" font-size="9" fill="#c9a84c" opacity=".7" letter-spacing="2">PARA MI PRINCESA</text>
+      </svg>
+      <p class="sobre-hint" style="color:#8b2a35;">⚜️ Toca para leer tu carta especial ⚜️</p>
+    </div>
+
+    <!-- Pergamino 2 — estilo oscuro/antiguo -->
+    <div class="carta-pergamino carta-pergamino-2 rv" id="cartaPergamino2">
+      <div class="carta-sello" style="background:radial-gradient(circle at 40% 35%,#a33040,#6b1e28 60%,#3d0c12);">⚜️</div>
+
+      <!-- Flores esquina sup izq — variante -->
+      <svg class="flores-esquina tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rosa roja oscura -->
+        <g transform="translate(28,58) rotate(-18)">
+          <line x1="0" y1="0" x2="0" y2="28" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,0 C-7,-5 -11,-12 -7,-16 C-3,-20 3,-16 0,-12 C-3,-8 3,-3 0,0Z" fill="#c62828"/>
+          <path d="M0,0 C7,-5 11,-12 7,-16 C3,-20 -3,-16 0,-12 C3,-8 -3,-3 0,0Z" fill="#e53935"/>
+          <path d="M0,0 C-5,-9 -9,-11 -9,-16 C-9,-20 -3,-20 0,-16 C3,-12 -3,-5 0,0Z" fill="#b71c1c"/>
+          <path d="M0,0 C5,-9 9,-11 9,-16 C9,-20 3,-20 0,-16 C-3,-12 3,-5 0,0Z" fill="#ef9a9a"/>
+          <ellipse cx="-4" cy="14" rx="7" ry="3" fill="#388e3c" transform="rotate(-30,-4,14)"/>
+          <ellipse cx="5" cy="19" rx="6" ry="3" fill="#2e7d32" transform="rotate(20,5,19)"/>
+          <!-- Espinas -->
+          <path d="M-1,6 L-5,4" stroke="#2e7d32" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M1,10 L5,8" stroke="#2e7d32" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+        <!-- Girasol pequeño -->
+        <g transform="translate(60,46) rotate(12)">
+          <line x1="0" y1="0" x2="0" y2="20" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#f9a825"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#fdd835" transform="rotate(45,0,0)"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#f9a825" transform="rotate(90,0,0)"/>
+          <ellipse cx="0" cy="-9" rx="3" ry="6" fill="#fdd835" transform="rotate(135,0,0)"/>
+          <circle cx="0" cy="0" r="5.5" fill="#4e342e"/>
+          <circle cx="0" cy="0" r="3.5" fill="#3e2723"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina sup der -->
+      <svg class="flores-esquina tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Orquídea morada intensa -->
+        <g transform="translate(30,50) rotate(8)">
+          <line x1="0" y1="0" x2="0" y2="25" stroke="#2e7d32" stroke-width="1.8" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#9c27b0" opacity=".85" transform="rotate(72,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9" transform="rotate(144,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#9c27b0" opacity=".85" transform="rotate(216,0,-5)"/>
+          <ellipse cx="0" cy="-12" rx="8" ry="5" fill="#7b1fa2" opacity=".9" transform="rotate(288,0,-5)"/>
+          <ellipse cx="0" cy="-6" rx="5" ry="6" fill="#fff" opacity=".5"/>
+          <ellipse cx="0" cy="-6" rx="2.5" ry="3" fill="#e040fb" opacity=".8"/>
+          <circle cx="0" cy="-6" r="1.5" fill="#ffcc02"/>
+          <ellipse cx="4" cy="12" rx="5" ry="2.5" fill="#388e3c" transform="rotate(20,4,12)"/>
+        </g>
+        <!-- Lirio blanco -->
+        <g transform="translate(60,46) rotate(-15)">
+          <line x1="0" y1="0" x2="0" y2="22" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff9c4" opacity=".95"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff59d" opacity=".9" transform="rotate(60,0,0)"/>
+          <path d="M0,-16 C-8,-11 -9,-3 0,0 C9,-3 8,-11 0,-16Z" fill="#fff9c4" opacity=".95" transform="rotate(-60,0,0)"/>
+          <circle cx="0" cy="0" r="2.2" fill="#f57f17"/>
+          <!-- Estambres -->
+          <line x1="0" y1="0" x2="-3" y2="-5" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="3" y2="-5" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="0" y2="-6" stroke="#f57f17" stroke-width="1" stroke-linecap="round"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina inf izq -->
+      <svg class="flores-esquina bl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gerbera coral -->
+        <g transform="translate(32,30) rotate(6)">
+          <line x1="0" y1="0" x2="0" y2="28" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(30,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(60,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(90,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(120,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(150,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(180,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(210,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(240,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(270,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff5722" transform="rotate(300,0,-2)"/>
+          <ellipse cx="0" cy="-14" rx="4" ry="7" fill="#ff7043" transform="rotate(330,0,-2)"/>
+          <circle cx="0" cy="-2" r="5.5" fill="#bf360c"/>
+          <circle cx="0" cy="-2" r="3" fill="#4e342e"/>
+          <ellipse cx="-5" cy="14" rx="6" ry="3" fill="#388e3c" transform="rotate(-25,-5,14)"/>
+        </g>
+        <!-- Rosa pequeña -->
+        <g transform="translate(60,42) rotate(-10)">
+          <line x1="0" y1="0" x2="0" y2="18" stroke="#2e7d32" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M0,0 C-5,-3 -8,-8 -5,-11 C-2,-14 2,-11 0,-8 C-2,-5 2,-2 0,0Z" fill="#e53935"/>
+          <path d="M0,0 C5,-3 8,-8 5,-11 C2,-14 -2,-11 0,-8 C2,-5 -2,-2 0,0Z" fill="#ef9a9a"/>
+          <path d="M0,0 C-3,-6 -6,-7 -6,-11 C-6,-14 -2,-14 0,-11 C2,-8 -2,-4 0,0Z" fill="#c62828"/>
+        </g>
+      </svg>
+
+      <!-- Flores esquina inf der -->
+      <svg class="flores-esquina br" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rosa dorada -->
+        <g transform="translate(28,32) rotate(-6)">
+          <line x1="0" y1="0" x2="0" y2="30" stroke="#2e7d32" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0,0 C-6,-4 -10,-10 -6,-15 C-2,-19 2,-15 0,-11 C-2,-7 2,-3 0,0Z" fill="#f0d080"/>
+          <path d="M0,0 C6,-4 10,-10 6,-15 C2,-19 -2,-15 0,-11 C2,-7 -2,-3 0,0Z" fill="#f5e090"/>
+          <path d="M0,0 C-4,-8 -8,-10 -8,-15 C-8,-19 -2,-19 0,-15 C2,-11 -2,-5 0,0Z" fill="#c9a84c"/>
+          <path d="M0,0 C4,-8 8,-10 8,-15 C8,-19 2,-19 0,-15 C-2,-11 2,-5 0,0Z" fill="#fff9c4"/>
+          <ellipse cx="-4" cy="15" rx="6" ry="3" fill="#388e3c" transform="rotate(-30,-4,15)"/>
+          <ellipse cx="4" cy="20" rx="6" ry="3" fill="#2e7d32" transform="rotate(20,4,20)"/>
+        </g>
+        <!-- Orquídea pequeña -->
+        <g transform="translate(62,44) rotate(14)">
+          <line x1="0" y1="0" x2="0" y2="18" stroke="#2e7d32" stroke-width="1.4" stroke-linecap="round"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#c2185b" opacity=".85" transform="rotate(72,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9" transform="rotate(144,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#c2185b" opacity=".85" transform="rotate(216,0,-4)"/>
+          <ellipse cx="0" cy="-9" rx="6" ry="3.5" fill="#ad1457" opacity=".9" transform="rotate(288,0,-4)"/>
+          <circle cx="0" cy="-4" r="2" fill="#ffcc02"/>
+        </g>
+      </svg>
+
+      <!-- Contenido -->
+      <p class="carta-fecha" style="color:rgba(139,90,43,.7);">Riohacha, 7 de junio de 2026 · Nuestros 9 meses ❤️</p>
+      <div class="carta-ornamento">⚜ · ❧ · ⚜</div>
+      <p class="carta-sal" style="font-size:1.6rem;">Para mi amada,<br/><span style="font-size:1.1rem;color:var(--oro);">en nuestros 9 meses de amor ❤️</span></p>
+      <p class="carta-sal2">Mi querida princesa:</p>
+      <div class="carta-cuerpo">
+        <p><span class="carta-capital" style="color:#8b2a35;">S</span>i los caballeros de antaño escribían cartas para inmortalizar sus sentimientos, hoy tomo prestada esa costumbre para dejar por escrito lo que mi corazón siente por ti en este día tan especial.</p>
+        <p>Hoy celebramos nueve meses de ser novios, nueve meses desde que nuestras vidas comenzaron a caminar de la mano, y no puedo evitar mirar hacia atrás y sonreír al recordar todo lo que hemos vivido juntos.</p>
+        <p>Recuerdo nuestras conversaciones interminables, nuestras risas, nuestros abrazos, nuestros besos y cada uno de esos momentos que fueron construyendo esta historia tan hermosa que hoy compartimos. Recuerdo especialmente los días que pudimos estar juntos, aquellos momentos en los que el tiempo parecía detenerse y donde entendí que la felicidad, para mí, tenía tu nombre.</p>
+        <p>Amor mío, cada día que pasa estoy más seguro de lo que siento por ti. No es una emoción pasajera ni una ilusión momentánea. Es un amor que crece, madura y se fortalece con el paso del tiempo. Un amor que me hace admirarte más, extrañarte más y desear compartir contigo cada capítulo de mi vida.</p>
+        <p>Te amo por tu noble corazón, por tu ternura, por tu paciencia conmigo y por la forma tan especial en que logras iluminar mis días. Te amo porque contigo puedo ser yo mismo, porque me haces sentir amado, escuchado y comprendido. Te amo porque incluso en la distancia logras estar presente en cada uno de mis pensamientos.</p>
+        <p>No hay noche en la que no imagine volver a tenerte entre mis brazos. No hay mañana en la que no despierte pensando en tu sonrisa. Y no hay futuro en el que no aparezcas tú cuando cierro los ojos y sueño con la vida que quiero construir.</p>
+        <p>Si alguna vez me preguntan qué deseo para los próximos años, mi respuesta seguirá siendo la misma: seguir amándote. Seguir celebrando meses, años y momentos a tu lado. Seguir siendo la persona que te tome de la mano cuando la vida sea fácil y también cuando sea difícil.</p>
+        <p>Porque tú no eres solamente la mujer que amo; eres también mi tranquilidad, mi felicidad y uno de los sueños más hermosos que Dios puso en mi camino.</p>
+        <p>Hoy, al cumplir nueve meses juntos, quiero darte las gracias. Gracias por quedarte, por creer en nosotros, por permitirme entrar en tu vida y por regalarme tu amor.</p>
+        <p>Y mientras escribo estas líneas, mi corazón me recuerda una verdad que quiero que nunca olvides:</p>
+      </div>
+      <div class="carta-cita">
+        <span class="carta-cita-comilla">❝</span>
+        De todas las historias que pude vivir, mi favorita sigue siendo aquella en la que apareciste tú.
+        <span class="carta-cita-comilla">❞</span>
+      </div>
+      <div class="carta-cuerpo">
+        <p style="text-align:center;font-style:italic;font-size:1rem;color:#8b2a35;font-weight:bold;">Feliz 9 meses, mi amor. ❤️</p>
+      </div>
+      <div class="carta-ornamento">· · ⚜ · ·</div>
+      <p class="carta-firma" style="color:#8b2a35;">Con todo el amor, la admiración y la ternura<br/>que habitan en mi corazón,<br/><span style="font-size:1.8rem;color:#c9a84c;">Tu hombre enamorado ❤️</span></p>
+
+      <!-- Ramillete pie -->
+      <div class="carta-flores-pie">
+        <span class="flor-pie">🌹</span>
+        <span class="flor-pie">🌺</span>
+        <span class="flor-pie">🌸</span>
+        <span class="flor-pie">🌻</span>
+        <span class="flor-pie">🪷</span>
+        <span class="flor-pie">🌷</span>
+        <span class="flor-pie">🌹</span>
+      </div>
+    </div>
+
+    <button class="sobre-btn" id="sobreBtn2" onclick="cerrarCarta2()" style="background:linear-gradient(135deg,#8b2a35,#c9a84c);">Cerrar carta ⚜️</button>
+  </div>
+</section>
+
+<!-- MOMENTOS -->
+<section id="momentos">
+  <p class="ttl rv">Nuestros momentos</p>
+  <p class="sub rv">Recuerdos que guardo en el corazón</p>
+  <div class="rv">
+    <div class="mom"><div class="mom-ico">🛍️</div><h3 class="mom-tit">Nuestra primera cita</h3><p class="mom-fec">El inicio de todo</p><p class="mom-dsc">Ese día en el centro comercial donde todo comenzó. Una cita que no olvidaré jamás, porque fue ahí donde supe que algo muy especial estaba naciendo entre nosotros.</p></div>
+    <div class="mom"><div class="mom-ico">💌</div><h3 class="mom-tit">La carta que lo cambió todo</h3><p class="mom-fec">7 de septiembre, 2025</p><p class="mom-dsc">El día que te entregué mi carta y con ella, mi corazón. Fue la forma más sincera que encontré para decirte lo que sentía… y tú dijiste que sí. Ese día me volviste el hombre más feliz.</p></div>
+    <div class="mom"><div class="mom-ico">⭐</div><h3 class="mom-tit">Cada día contigo</h3><p class="mom-fec">Desde entonces…</p><p class="mom-dsc">Porque cada momento juntos se convierte en un recuerdo que atesoro. Tu risa, tu mirada, tu forma de ser… son los detalles que hacen que mi vida sea más bonita.</p></div>
+  </div>
+</section>
+
+<!-- FOTOS -->
+<section id="fotos">
+  <p class="ttl rv">Nuestra galería</p>
+  <p class="sub rv">Toca cada foto y descubre lo que siento 💛</p>
+  <div class="fto-g rv">
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-01.jpg" alt="Nuestro primer encuentro 🛍️" loading="lazy"/>
+      <div class="foto-label">Nuestro primer encuentro 🛍️</div>
+      <div class="foto-frase"><span>Esta sonrisa tuya… es el lugar donde más me gusta estar. ❤️</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-02.jpg" alt="Noches que no olvidaré 🌙" loading="lazy"/>
+      <div class="foto-label">Noches que no olvidaré 🌙</div>
+      <div class="foto-frase"><span>Apoyada en mí, y yo sintiéndome el hombre más afortunado del mundo. 🌹</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-03.jpg" alt="Tu arte me enamoró también 🎨" loading="lazy"/>
+      <div class="foto-label">Tu arte me enamoró también 🎨</div>
+      <div class="foto-frase"><span>Pintaste dos cuadritos y sin querer te pintaste en mi corazón para siempre. 🐸🦩</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-04.jpg" alt="Caras y besitos 💋" loading="lazy"/>
+      <div class="foto-label">Caras y besitos 💋</div>
+      <div class="foto-frase"><span>Ese besito tuyo vale más que cualquier cosa en este mundo. 💋</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-05.jpg" alt="Tan cerca… siempre 💫" loading="lazy"/>
+      <div class="foto-label">Tan cerca… siempre 💫</div>
+      <div class="foto-frase"><span>Podría quedarme mirándote así toda la vida… y no me cansaría jamás. 💫</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-06.jpg" alt="Mi beso favorito 🌸" loading="lazy"/>
+      <div class="foto-label">Mi beso favorito 🌸</div>
+      <div class="foto-frase"><span>Te beso la frente porque ahí guardo todos mis te quiero. 🌸</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-07.jpg" alt="Juntos en la noche ✨" loading="lazy"/>
+      <div class="foto-label">Juntos en la noche ✨</div>
+      <div class="foto-frase"><span>Donde sea que estemos juntos, ese lugar se convierte en mi sitio favorito. ✨</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-08.jpg" alt="Esa carita tuya 💕" loading="lazy"/>
+      <div class="foto-label">Esa carita tuya 💕</div>
+      <div class="foto-frase"><span>Cuando me haces esa carita, el mundo desaparece y solo existes tú. 💕</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-09.jpg" alt="Flores para ti 🌻" loading="lazy"/>
+      <div class="foto-label">Flores para ti 🌻</div>
+      <div class="foto-frase"><span>Te di flores, pero eres tú la que más luz le da a mi vida. 🌻</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-10.jpg" alt="Brindando por nosotros 🍊" loading="lazy"/>
+      <div class="foto-label">Brindando por nosotros 🍊</div>
+      <div class="foto-frase"><span>Brindando contigo por todo lo que nos queda por vivir. 🍊</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/optimizadas/galeria-11.jpg" alt="Nuestra primera Navidad 🎄" loading="lazy"/>
+      <div class="foto-label">Nuestra primera Navidad 🎄</div>
+      <div class="foto-frase"><span>Nuestras primeras navidades juntos. Ojalá todas las demás sean así, contigo. 🎄</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/covenas1.jpg" alt="Atardecer en Coveñas" loading="lazy"/>
+      <div class="foto-label">Coveñas, frente al mar 🌅</div>
+      <div class="foto-frase"><span>Ese atardecer se quedó grabado. Ojalá vengan muchos viajes más como ese.</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/playa_sonrisa.jpg" alt="Sonriendo en la playa" loading="lazy"/>
+      <div class="foto-label">Riendo frente al mar 😄</div>
+      <div class="foto-frase"><span>Me encanta esa sonrisa, sobre todo cuando el mar la acompaña.</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/rosas_cena.jpg" alt="Cena con rosas" loading="lazy"/>
+      <div class="foto-label">Una noche especial 🌹</div>
+      <div class="foto-frase"><span>Rosas, velas y tú al frente. No necesito más para un buen recuerdo.</span></div>
+    </div>
+    <div class="foto-card" onclick="toggleFrase(this)">
+      <img src="img/celebracion.jpg" alt="Celebrando juntos" loading="lazy"/>
+      <div class="foto-label">Celebrando juntos 🎈</div>
+      <div class="foto-frase"><span>De esos días que se sienten de película, contigo como protagonista.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTAS SORPRESA -->
+<section id="cartas-sorpresa">
+  <p class="ttl rv">Ábrelo cuando me extrañes</p>
+  <p class="sub rv">Cada vez que toques el botón, tengo algo nuevo para decirte 💌</p>
+  <div class="cs-wrap rv">
+    <p class="cs-momento" id="cs-momento"></p>
+    <p class="cs-texto" id="cs-texto"></p>
+    <p class="cs-firma">— Jesús David 💛</p>
+    <button class="cs-btn" onclick="nuevaCarta()">Nueva carta 💌</button>
+    <p class="cs-contador" id="cs-contador"></p>
+  </div>
+</section>
+
+<!-- CARTA QUE SE ESCRIBE SOLA -->
+<section id="carta-viva">
+  <p class="ttl rv">Una carta que escribí solo para ti…</p>
+  <p class="sub rv">Léela despacio, como si te la estuviera diciendo al oído</p>
+  <div class="cv-wrap rv">
+    <p class="cv-saludo">Mi amor… ❤️</p>
+    <p class="cv-texto" id="cvTexto"><span class="cv-cursor"></span></p>
+    <p class="cv-firma" id="cvFirma">— Jesús David 💛</p>
+    <button class="cv-btn" id="cvBtn" onclick="cvReiniciar()" style="display:none;">Leerla de nuevo 💌</button>
+  </div>
+</section>
+
+<!-- GALAXIA -->
+<section id="galaxia">
+  <p class="ttl rv">Nuestra galaxia</p>
+  <p class="sub rv">Cada estrella guarda un recuerdo nuestro… tócalas ✨</p>
+  <div class="gx-wrap rv"><canvas id="galaxyCanvas"></canvas></div>
+  <p class="gx-hint">Toca las estrellas brillantes para descubrir nuestros recuerdos</p>
+  <a class="gx-btn-full rv" href="galaxia-del-amor/index.html" target="_blank" rel="noopener" aria-label="Abrir la experiencia completa de la galaxia en pantalla completa">
+    Vivir la galaxia completa ✨
+  </a>
+  <a class="mapa-btn-full rv" href="mapa-de-nuestra-historia/index.html" target="_blank" rel="noopener" aria-label="Abrir el mapa interactivo de nuestra historia">
+    Ver el mapa de nuestra historia 🗺️
+  </a>
+</section>
+<div class="gx-popup" id="gxPopup">
+  <div class="gx-popup-inner">
+    <img id="gxImg" src="" alt=""/>
+    <p class="gx-popup-label" id="gxLabel"></p>
+    <p class="gx-popup-txt" id="gxTxt"></p>
+    <button class="gx-popup-close" onclick="document.getElementById('gxPopup').classList.remove('open')">Cerrar ✨</button>
+  </div>
+</div>
+
+<!-- JARDÍN -->
+<section id="jardin">
+  <p class="ttl rv">Nuestro jardín 🌸</p>
+  <p class="sub rv">Cada flor es algo que siento por ti… tócalas</p>
+  <p class="jd-hint rv">🌸 Toca cada flor y descubre su mensaje</p>
+  <canvas id="jardinCanvas" class="rv"></canvas>
+</section>
+<div class="jd-popup" id="jdPopup">
+  <div class="jd-popup-inner">
+    <div class="jd-popup-flor" id="jdFlor"></div>
+    <p class="jd-popup-nombre" id="jdNombre"></p>
+    <p class="jd-popup-txt" id="jdTxt"></p>
+    <button class="jd-popup-close" onclick="document.getElementById('jdPopup').classList.remove('open')">Cerrar 🌸</button>
+  </div>
+</div>
+
+<!-- JUEGOS -->
+<section id="juegos">
+  <p class="ttl rv">Juguemos juntos 🎮</p>
+  <p class="sub rv">Solo para ti, Ana Laura</p>
+  <div class="jtabs rv">
+    <button class="jtab on" onclick="showJ('quiz',this)">🧠 ¿Me conoces?</button>
+    <button class="jtab" onclick="showJ('ruleta',this)">🎯 Ruleta</button>
+    <button class="jtab" onclick="showJ('memoria',this)">📷 Memoria</button>
+    <button class="jtab" onclick="showJ('puzzle',this)">🧩 Puzzle</button>
+    <button class="jtab" onclick="showJ('cuanto',this)">💛 ¿Cuánto?</button>
+  </div>
+  <!-- QUIZ -->
+  <div id="j-quiz" class="jpanel on rv">
+    <div class="qbox">
+      <div id="qcon">
+        <p class="qprog" id="qprog">Pregunta 1 de 8</p>
+        <p class="qpreg" id="qpreg"></p>
+        <div class="qopts" id="qopts"></div>
+        <p class="qfb" id="qfb"></p>
+        <button class="qnxt" id="qnxt" onclick="qNext()">Siguiente ➤</button>
+      </div>
+      <div class="qres" id="qres">
+        <div class="big" id="qemo"></div>
+        <h3 id="qtit"></h3>
+        <p id="qdesc"></p>
+        <button class="qreset" onclick="qInit()">Jugar de nuevo 🔄</button>
+      </div>
+    </div>
+  </div>
+  <!-- RULETA -->
+  <div id="j-ruleta" class="jpanel rv">
+    <div class="rwrap">
+      <div class="rcwrap">
+        <span class="raguja">▼</span>
+        <canvas id="ruletaCanvas" width="300" height="300"></canvas>
+      </div>
+      <button class="rbtn" id="rbtn" onclick="spinR()">¡Girar la ruleta! 🎯</button>
+      <div class="rres" id="rres">
+        <div class="rres-ico">💛</div>
+        <p class="rres-txt">Gira la ruleta para descubrir nuestro próximo plan…</p>
+      </div>
+    </div>
+  </div>
+  <!-- MEMORIA -->
+  <div id="j-memoria" class="jpanel rv">
+    <div class="minfo">
+      <span class="mstat">Intentos: <b id="mint">0</b></span>
+      <span class="mstat">Parejas: <b id="mpar">0</b>/4</span>
+      <button onclick="mInit()" style="background:none;border:1px solid var(--rosa);border-radius:8px;padding:.3rem .6rem;font-size:.8rem;color:var(--rosa-d);cursor:pointer;">🔄</button>
+    </div>
+    <div class="mgrid" id="mgrid"></div>
+    <div class="mwin" id="mwin">
+      <h3>¡Lo lograste! 🎉</h3>
+      <p>Igual que en la vida… cada pieza tuya encaja perfectamente conmigo. ❤️</p>
+      <button class="mreset" onclick="mInit()">Jugar de nuevo 🔄</button>
+    </div>
+  </div>
+  <!-- PUZZLE -->
+  <div id="j-puzzle" class="jpanel rv">
+    <div class="pzwrap">
+      <p class="pzinst">Arrastra las piezas y arma nuestra foto 💛</p>
+      <div class="pz-sel rv">
+        <p class="pzlbl">Elige una foto:</p>
+        <div class="pz-fotos">
+          <div class="pz-opcion activa" onclick="selPuzzle(0,this)">🌹 Foto 1</div>
+          <div class="pz-opcion" onclick="selPuzzle(1,this)">💛 Foto 2</div>
+          <div class="pz-opcion" onclick="selPuzzle(2,this)">✨ Foto 3</div>
+        </div>
+      </div>
+      <div class="pz-area">
+        <div class="pz-tablero" id="pzTablero"></div>
+      </div>
+      <div class="pz-stats">
+        <span id="pzMovs">Movimientos: 0</span>
+        <button onclick="pzInit()" class="pzreset">🔀 Mezclar</button>
+        <button onclick="pzVer()" class="pzver" id="pzVerBtn">👁 Ver foto</button>
+      </div>
+      <div class="pz-preview" id="pzPreview">
+        <div class="pz-prev-inner">
+          <p>La foto original 💛</p>
+          <canvas id="pzPrevCanvas"></canvas>
+          <button onclick="cerrarPrev()">Cerrar ✕</button>
+        </div>
+      </div>
+      <div class="pzwin" id="pzWin">
+        <div class="pzwin-inner">
+          <div class="pzwin-ico">🎉</div>
+          <h3>¡Lo lograste, amor!</h3>
+          <p>Igual que nosotros… cada pieza en su lugar perfecto. 💛</p>
+          <canvas id="pzWinCanvas" style="border-radius:12px;margin:.8rem 0;max-width:200px;"></canvas>
+          <button onclick="pzInit();document.getElementById('pzWin').classList.remove('show')" class="pzreset" style="background:var(--rosa-d);">Jugar de nuevo 🔄</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUÁNTO ME AMAS -->
+  <div id="j-cuanto" class="jpanel rv">
+    <div class="ctbox">
+      <div id="ctjuego">
+        <div class="ct-corazon" id="ctCorazon">❤️</div>
+        <p class="ct-prog" id="ctProg">Pregunta 1 de 10</p>
+        <div class="ct-barra-wrap"><div class="ct-barra" id="ctBarra"></div></div>
+        <p class="ct-preg" id="ctPreg"></p>
+        <div class="ct-opts" id="ctOpts"></div>
+        <div class="ct-fb" id="ctFb"></div>
+        <button class="ct-nxt" id="ctNxt" onclick="ctNext()" style="display:none">Siguiente 💛</button>
+      </div>
+      <div class="ct-res" id="ctRes">
+        <div class="ct-res-corazon" id="ctResCorazon"></div>
+        <h3 id="ctResTit"></h3>
+        <p id="ctResDesc"></p>
+        <div class="ct-puntos" id="ctPuntos"></div>
+        <button class="ct-reset" onclick="ctInit()">Jugar de nuevo 💛</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMESAS -->
+<section id="promesas">
+  <p class="ttl rv">Mis promesas para ti</p>
+  <p class="sub rv">Palabras que te doy con el corazón</p>
+  <div class="rv">
+    <div class="prom"><div class="prom-n">I</div><p class="prom-t">Siempre estar</p><p class="prom-d">Te prometo que en los días difíciles no te dejaré sola. Estaré ahí, aunque sea en silencio, porque mi lugar favorito es a tu lado.</p></div>
+    <div class="prom"><div class="prom-n">II</div><p class="prom-t">Hacerte reír</p><p class="prom-d">Te prometo buscar siempre esa sonrisa tuya que me roba el aliento. Haré lo que sea por escuchar tu risa al menos una vez al día.</p></div>
+    <div class="prom"><div class="prom-n">III</div><p class="prom-t">Nunca darte por sentada</p><p class="prom-d">Te prometo recordar cada día que tenerte es un regalo, y que elegirte no es una obligación sino la decisión más bonita que tomo.</p></div>
+    <div class="prom"><div class="prom-n">IV</div><p class="prom-t">Respetarte siempre</p><p class="prom-d">Te prometo tratar tu corazón con cuidado, tus sueños con respeto y tus miedos con ternura. Nunca usaré en tu contra lo que me confíes.</p></div>
+    <div class="prom"><div class="prom-n">V</div><p class="prom-t">Crecer contigo</p><p class="prom-d">Te prometo no detenerme. Quiero ser mejor cada día, no solo por mí, sino porque mereces a alguien que lucha por ser digno de tu amor.</p></div>
+    <div class="prom"><div class="prom-n">VI</div><p class="prom-t">Amarte sin condiciones</p><p class="prom-d">Te prometo un amor que no depende de los buenos momentos. Te prometo quererte también en los días nublados, en los errores y en las distancias.</p></div>
+  </div>
+</section>
+
+<!-- RAZONES -->
+<section id="razones">
+  <p class="ttl rv">Razones por las que te amo</p>
+  <p class="sub rv">Solo algunas… la lista es infinita</p>
+  <ul class="rlist rv">
+    <li><span class="rt">Porque tu sonrisa puede cambiar cualquier día gris en el más luminoso.</span></li>
+    <li><span class="rt">Porque me enseñaste que el amor verdadero se siente más de lo que se dice.</span></li>
+    <li><span class="rt">Porque contigo el tiempo pasa diferente… mejor.</span></li>
+    <li><span class="rt">Porque eres mi tranquilidad en medio del caos.</span></li>
+    <li><span class="rt">Porque elegirte a ti es la decisión más fácil que tomo cada día.</span></li>
+    <li><span class="rt">Porque incluso en el silencio, tu presencia lo llena todo.</span></li>
+    <li><span class="rt">Porque me haces querer ser mejor persona, solo por si un día lo mereces más.</span></li>
+  </ul>
+</section>
+
+<!-- RECUERDOS -->
+<section id="recuerdos">
+  <p class="ttl rv">¿Qué recuerdas tú?</p>
+  <p class="sub rv">Este espacio es tuyo, Ana Laura</p>
+  <p style="text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--txt);opacity:.7;margin-bottom:1.8rem;line-height:1.7;" class="rv">Cuéntame cómo lo viviste tú… porque quiero saber qué guardas en el corazón.</p>
+  <div class="rv">
+    <div class="rec-card">
+      <p class="rec-preg">🛍️ ¿Qué recuerdas de nuestra primera cita?</p>
+      <textarea class="rec-input" id="r1" placeholder="Cuéntame cómo lo viviste tú…" oninput="guardarRec('r1','g1')"></textarea>
+      <p class="rec-saved" id="g1">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💌 ¿Cómo te sentiste cuando leíste mi carta?</p>
+      <textarea class="rec-input" id="r2" placeholder="Lo que sentiste en ese momento…" oninput="guardarRec('r2','g2')"></textarea>
+      <p class="rec-saved" id="g2">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">⭐ ¿Cuál es tu momento favorito de los dos?</p>
+      <textarea class="rec-input" id="r3" placeholder="El que más guardas en el corazón…" oninput="guardarRec('r3','g3')"></textarea>
+      <p class="rec-saved" id="g3">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌸 ¿Qué fue lo primero que pensaste de mí?</p>
+      <textarea class="rec-input" id="r4" placeholder="Tu primera impresión de Jesús David…" oninput="guardarRec('r4','g4')"></textarea>
+      <p class="rec-saved" id="g4">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">❤️ ¿En qué momento supiste que te gustaba?</p>
+      <textarea class="rec-input" id="r5" placeholder="Ese instante en que lo sentiste…" oninput="guardarRec('r5','g5')"></textarea>
+      <p class="rec-saved" id="g5">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">✨ ¿Qué es lo que más amas de nosotros?</p>
+      <textarea class="rec-input" id="r6" placeholder="Lo que más te gusta de lo que tenemos…" oninput="guardarRec('r6','g6')"></textarea>
+      <p class="rec-saved" id="g6">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌙 ¿Cuál es ese pensamiento que tienes de mí y nunca me has dicho?</p>
+      <textarea class="rec-input" id="r7" placeholder="Ese que guardas para ti…" oninput="guardarRec('r7','g7')"></textarea>
+      <p class="rec-saved" id="g7">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💭 ¿Qué es lo que más miedo te da de lo que sentimos?</p>
+      <textarea class="rec-input" id="r8" placeholder="Puedes ser honesta, aquí estás segura…" oninput="guardarRec('r8','g8')"></textarea>
+      <p class="rec-saved" id="g8">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌸 ¿Cómo te imaginas nuestra vida en unos años?</p>
+      <textarea class="rec-input" id="r9" placeholder="Cuéntame ese sueño que tienes…" oninput="guardarRec('r9','g9')"></textarea>
+      <p class="rec-saved" id="g9">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🔥 ¿Hay algo que quisieras que yo hiciera más seguido?</p>
+      <textarea class="rec-input" id="r10" placeholder="Algo que te haga sentir especial…" oninput="guardarRec('r10','g10')"></textarea>
+      <p class="rec-saved" id="g10">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💔 ¿Ha habido algún momento en que te haya fallado sin darme cuenta?</p>
+      <textarea class="rec-input" id="r11" placeholder="Quiero saberlo para no repetirlo…" oninput="guardarRec('r11','g11')"></textarea>
+      <p class="rec-saved" id="g11">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌟 ¿Qué fue lo que te hizo confiar en mí?</p>
+      <textarea class="rec-input" id="r12" placeholder="Ese instante en que algo cambió…" oninput="guardarRec('r12','g12')"></textarea>
+      <p class="rec-saved" id="g12">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🤍 ¿Qué parte de ti sientes que solo yo conozco?</p>
+      <textarea class="rec-input" id="r13" placeholder="Esa parte que no muestras fácilmente…" oninput="guardarRec('r13','g13')"></textarea>
+      <p class="rec-saved" id="g13">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🎯 ¿Qué es lo que más valoras de lo que tenemos?</p>
+      <textarea class="rec-input" id="r14" placeholder="Lo que no cambiarías por nada…" oninput="guardarRec('r14','g14')"></textarea>
+      <p class="rec-saved" id="g14">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">🌊 ¿Cómo te sientes cuando estamos en silencio juntos?</p>
+      <textarea class="rec-input" id="r15" placeholder="Ese silencio que no necesita palabras…" oninput="guardarRec('r15','g15')"></textarea>
+      <p class="rec-saved" id="g15">💛 Guardado</p>
+    </div>
+    <div class="rec-card">
+      <p class="rec-preg">💛 Si pudieras decirme algo que nunca te has atrevido, ¿qué sería?</p>
+      <textarea class="rec-input" id="r16" placeholder="Este es tu momento, aquí no hay miedo…" oninput="guardarRec('r16','g16')"></textarea>
+      <p class="rec-saved" id="g16">💛 Guardado</p>
+    </div>
+    <div class="send-wrap">
+      <button class="send-btn" id="sbtn" onclick="enviar()">Enviar mis recuerdos 💌</button>
+      <p class="send-status" id="sstatus"></p>
+    </div>
+  </div>
+</section>
+
+<!-- SECRETO -->
+<section id="secreto">
+  <p class="ttl rv">Hay algo escondido aquí…</p>
+  <p class="sub rv">Solo tú sabes cómo abrirlo</p>
+  <div class="sbox rv">
+    <div class="slock">🔐</div>
+    <p class="shint">Escribe la palabra que nos une para descubrir el mensaje secreto que guardé solo para ti…</p>
+    <input type="password" class="sinput" id="sinput" placeholder="✦ tu contraseña ✦" maxlength="30"/>
+    <button class="sbtn" onclick="chkS()">Abrir el mensaje 💛</button>
+    <p class="serr" id="serr">Esa no es la palabra… búscala en tu corazón 🌸</p>
+    <div id="smsg">
+      <div class="dvd" style="margin:1.5rem auto;"></div>
+      <p class="smtxt">Ana Laura…
+
+Si llegaste hasta aquí, es porque llevas en el corazón la misma palabra que llevo yo.
+
+Quiero que sepas algo que pocas veces sé decir en voz alta: desde el día que apareciste en mi vida, el mundo se ve diferente. Mejor. Más lleno de sentido.
+
+Hay momentos en que te miro y pienso que no merezco tanto… y luego recuerdo que tú me elegiste a mí, y eso me da fuerzas para ser todo lo que necesitas.
+
+Este mensaje lo escribí pensando en la versión de ti que lee esto sola, quizás de noche, quizás sonriendo sin querer…
+
+Y quiero que sepas que en ese exacto momento, donde sea que esté yo, estoy pensando en ti.
+
+Gracias por ser mi lugar favorito en el mundo.
+Te amo más de lo que las palabras alcanzan a decir.</p>
+      <p class="sfirm">— Jesús David 💛</p>
+      <div class="sstar">💫</div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA PARA EL FUTURO -->
+<section id="carta-futuro">
+  <p class="ttl rv">Una carta para el futuro</p>
+  <p class="sub rv">Este espacio es tuyo: escríbeme algo que quieras que recuerde</p>
+
+  <p class="st-quien-label">¿Quién escribe?</p>
+  <div class="st-quien" id="cfQuien">
+    <button class="st-quien-btn activo" data-autor="Ana Laura">Ana Laura</button>
+    <button class="st-quien-btn" data-autor="Jesús David">Jesús David</button>
+  </div>
+
+  <div class="cf-wrap rv">
+    <!-- Estado: escribiendo -->
+    <div id="cfEscribir">
+      <textarea id="cfTexto" class="cf-papel" maxlength="2000"
+        placeholder="Escribe aquí lo que quieras decirme... puede ser un recuerdo, una promesa, algo que sientas hoy, lo que quieras 💌"></textarea>
+      <p class="cf-nota">Se guarda solo en este dispositivo. Cuando termines, también puedes copiarla para enviármela tú misma 💛</p>
+      <button class="cf-btn" id="cfGuardar">Sellar carta 💌</button>
+    </div>
+
+    <!-- Estado: ya sellada -->
+    <div id="cfSellada" style="display:none;">
+      <div class="cf-sello">💌</div>
+      <p class="cf-fecha" id="cfFechaGuardada"></p>
+      <p class="cf-guardado-txt" id="cfTextoGuardado"></p>
+      <div class="cf-acciones">
+        <button class="cf-btn-sec" id="cfEditar">✏️ Editar</button>
+        <button class="cf-btn-sec" id="cfCopiar">📋 Copiar para enviarla</button>
+      </div>
+      <p class="cf-estado" id="cfEstado"></p>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYLIST CON RAZONES -->
+<section id="playlist">
+  <p class="ttl rv">Nuestra playlist</p>
+  <p class="sub rv">Canciones que nos recuerdan a nosotros</p>
+
+  <p class="st-quien-label">¿Quién agrega?</p>
+  <div class="st-quien" id="plQuien">
+    <button class="st-quien-btn activo" data-autor="Ana Laura">Ana Laura</button>
+    <button class="st-quien-btn" data-autor="Jesús David">Jesús David</button>
+  </div>
+
+  <div id="playlistLista" class="pl-lista rv"></div>
+
+  <div class="pl-agregar rv">
+    <input type="text" id="plTitulo" class="pl-input" maxlength="80" placeholder="Nombre de la canción"/>
+    <input type="text" id="plArtista" class="pl-input" maxlength="60" placeholder="Artista"/>
+    <textarea id="plRazon" class="pl-input pl-textarea" maxlength="200" placeholder="¿Por qué es importante esta canción para ustedes?"></textarea>
+    <input type="text" id="plUrl" class="pl-input" maxlength="200" placeholder="Link de Spotify o YouTube (opcional)"/>
+    <button class="pl-btn" id="plAgregar">Agregar canción ✨</button>
+    <p class="pl-estado" id="plEstado"></p>
+  </div>
+</section>
+
+<!-- CUENTA REGRESIVA TIPO ADVIENTO -->
+<section id="adviento">
+  <p class="ttl rv">Cuenta regresiva a nuestro año</p>
+  <p class="sub rv">Un mensajito nuevo cada semana, hasta el 7 de septiembre</p>
+  <div id="advientoLista" class="ad-lista rv"></div>
+</section>
+
+<!-- LISTA DE SUEÑOS JUNTOS -->
+<section id="suenos">
+  <p class="ttl rv">Nuestra lista de sueños</p>
+  <p class="sub rv">Cosas que quiero cumplir contigo — y espacio para los tuyos también</p>
+
+  <p class="st-quien-label">¿Quién agrega?</p>
+  <div class="st-quien" id="snQuien">
+    <button class="st-quien-btn activo" data-autor="Ana Laura">Ana Laura</button>
+    <button class="st-quien-btn" data-autor="Jesús David">Jesús David</button>
+  </div>
+
+  <div class="sn-wrap rv">
+    <div id="snLista" class="sn-lista"></div>
+    <div class="sn-agregar">
+      <input type="text" id="snInput" class="sn-input" maxlength="120" placeholder="Escribe un sueño tuyo..."/>
+      <button class="sn-btn" id="snAgregar">Agregar ✨</button>
+    </div>
+    <p class="sn-estado" id="snEstado"></p>
+  </div>
+</section>
+
+<!-- ÁLBUM / SCRAPBOOK -->
+<section id="album">
+  <p class="ttl rv">Nuestro álbum</p>
+  <p class="sub rv">Página por página, como un diario compartido</p>
+
+  <div class="al-libro rv">
+    <div class="al-pagina" id="alPagina">
+      <div class="al-foto-wrap">
+        <div class="al-cinta al-cinta-1"></div>
+        <img id="alFoto" class="al-foto" src="" alt=""/>
+        <div class="al-foto-placeholder" id="alFotoPlaceholder">📷</div>
+      </div>
+      <p class="al-fecha" id="alFecha"></p>
+      <h3 class="al-titulo" id="alTitulo"></h3>
+      <p class="al-texto" id="alTexto"></p>
+      <p class="al-nota" id="alNota"></p>
+    </div>
+
+    <div class="al-controles">
+      <button id="alAnterior" aria-label="Página anterior">← Anterior</button>
+      <span class="al-contador" id="alContador">1 / 8</span>
+      <button id="alSiguiente" aria-label="Página siguiente">Siguiente →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO NOS SENTIMOS -->
+<section id="sentimientos">
+  <p class="ttl rv">Cómo nos sentimos</p>
+  <p class="sub rv">Un espacio para hablar con calma, no para pelear</p>
+
+  <div class="st-wrap rv">
+    <p class="st-quien-label">¿Quién escribe?</p>
+    <div class="st-quien" id="stQuien">
+      <button class="st-quien-btn activo" data-autor="Jesús David">Jesús David</button>
+      <button class="st-quien-btn" data-autor="Ana Laura">Ana Laura</button>
+    </div>
+
+    <div class="st-form">
+      <label class="st-label">Me siento…</label>
+      <input type="text" id="stEmocion" class="st-input" maxlength="60" placeholder="triste, molesto/a, ignorado/a, ansioso/a..."/>
+
+      <label class="st-label">Cuando…</label>
+      <textarea id="stCuando" class="st-input st-textarea" maxlength="300" placeholder="Describe la situación, sin culpar, solo contando qué pasó"></textarea>
+
+      <label class="st-label">Y necesito…</label>
+      <textarea id="stNecesito" class="st-input st-textarea" maxlength="300" placeholder="¿Qué te ayudaría a sentirte mejor? Sé concreto/a"></textarea>
+
+      <button class="st-btn" id="stEnviar">Compartir cómo me siento</button>
+      <p class="st-estado" id="stEstado"></p>
+    </div>
+
+    <div class="st-filtros">
+      <button class="st-filtro activo" data-filtro="todas">Todas</button>
+      <button class="st-filtro" data-filtro="pendientes">Pendientes</button>
+      <button class="st-filtro" data-filtro="habladas">Ya hablamos</button>
+    </div>
+
+    <div id="stLista" class="st-lista"></div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section id="final">
+  <div class="big-h">❤️</div>
+  <h2 class="fin-tit">Te amo,<br/>Ana Laura</h2>
+  <p class="fin-txt">Esta página es solo una pequeña muestra de todo lo que siento.<br/>Cada rincón la hice pensando en ti, porque mereces saber que eres lo más especial que me ha pasado.</p>
+  <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--oro);">— Para siempre tuyo, Jesús David 💛</p>
+</section>
+</main>
+
+<footer>✦ Hecho con amor por Jesús David, para Ana Laura ✦ 7 · 09 · 2025 ✦</footer>
+
+<!-- SORPRESA 11 MESES -->
+<div id="overlayRegalo11" class="or11-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <canvas id="or11Confeti"></canvas>
+  <button class="or11-cerrar" id="or11Cerrar" aria-label="Cerrar">✕</button>
+  <div class="or11-caja" id="or11Caja">
+    <div class="or11-caja-emoji">🎁</div>
+    <p class="or11-caja-hint">Toca para abrir</p>
+  </div>
+  <div class="or11-carta" id="or11Carta">
+    <div class="or11-carta-inner">
+      <p class="or11-kicker">✦ 11 meses juntos ✦</p>
+      <p class="or11-texto" id="or11Texto"></p>
+    </div>
+  </div>
+</div>
+
+<!-- SORPRESA CUMPLEAÑOS -->
+<div id="overlayCumple" class="cu-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="cu-globos" id="cuGlobos"></div>
+  <canvas id="cuConfeti"></canvas>
+  <button class="or11-cerrar" id="cuCerrar" aria-label="Cerrar">✕</button>
+
+  <div class="cu-pastel" id="cuPastel">
+    <div class="cu-velas" id="cuVelas">
+      <span class="cu-vela">🕯️</span>
+      <span class="cu-vela">🕯️</span>
+      <span class="cu-vela">🕯️</span>
+    </div>
+    <div class="cu-pastel-emoji">🎂</div>
+    <p class="cu-pastel-hint">Toca para apagar las velitas</p>
+  </div>
+
+  <div class="cu-carta" id="cuCarta">
+    <div class="cu-carta-inner">
+      <p class="cu-kicker">✦ Feliz cumpleaños ✦</p>
+      <p class="cu-texto" id="cuTexto"></p>
+    </div>
+  </div>
+</div>
+
+<!-- DIARIO DE DESTELLOS -->
+<div id="modalDestellos" class="de-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="de-modal-inner">
+    <button class="de-modal-close" id="cerrarDestellos" aria-label="Cerrar">✕</button>
+    <p class="de-modal-titulo">✨ Diario de destellos</p>
+    <div id="listaDestellos" class="de-lista"></div>
+  </div>
+</div>
+
+<!-- NUESTRO PRIMER AÑO — 4 escenas -->
+<div id="overlayPrimerAno" class="pa-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <canvas id="paFuegos"></canvas>
+
+  <!-- Escena 1: ya cubierta por el canvas de fuegos -->
+
+  <!-- Escena 2: carrete de recuerdos -->
+  <div class="pa-escena" id="paCarrete">
+    <div class="pa-carrete-foto" id="paCarreteFoto"></div>
+    <p class="pa-carrete-fecha" id="paCarreteFecha"></p>
+    <p class="pa-carrete-texto" id="paCarreteTexto"></p>
+  </div>
+
+  <!-- Escena 3: la carta -->
+  <div class="pa-escena" id="paCartaEscena">
+    <div class="pa-carta-inner">
+      <p class="pa-kicker">✦ Un año juntos ✦</p>
+      <p class="pa-carta-texto" id="paCartaTexto"></p>
+      <button class="pa-continuar" id="paBtnContinuar" style="display:none;">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- Escena 4: certificado -->
+  <div class="pa-escena" id="paCertificado">
+    <div class="pa-cert-inner">
+      <p class="pa-cert-orn">✦ ✦ ✦</p>
+      <p class="pa-cert-titulo">Un año juntos</p>
+      <p class="pa-cert-fechas">7 de septiembre de 2025<br/>—<br/>7 de septiembre de 2026</p>
+      <p class="pa-cert-nombres">Jesús David &amp; Ana Laura</p>
+      <button class="pa-cerrar-final" id="paCerrarFinal">Cerrar ✦</button>
+    </div>
+  </div>
+</div>
+
+<div id="notifWidget" class="notif-widget">
+  <button id="btnNotif" class="notif-btn" type="button">🔔 Activar notificaciones</button>
+  <p id="notifEstado" class="notif-estado"></p>
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/games.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/main.js"></script>
+<script src="js/notifications.js"></script>
+</body>
+</html>
