@@ -7,7 +7,7 @@
 // que generas en Firebase Console → Configuración del proyecto
 // → Cloud Messaging → Certificados push web → Generar par de claves.
 // ══════════════════════════════════════════════════════
-const VAPID_KEY = 'BHtaaPR5UIDjkTKEYFa9rQ0PDdZHM_6c4AgUFy_-y5vNRV1kVrTFzOtqqOlYQuFe2QAs_qV5EodoEowcuSY9fUABHtaaPR5UIDjkTKEYFa9rQ0PDdZHM_6c4AgUFy_-y5vNRV1kVrTFzOtqqOlYQuFe2QAs_qV5EodoEowcuSY9fUA';
+const VAPID_KEY = 'BHtaaPR5UIDjkTKEYFa9rQ0PDdZHM_6c4AgUFy_-y5vNRV1kVrTFzOtqqOlYQuFe2QAs_qV5EodoEowcuSY9fUA';
 
 let messaging = null;
 try {
