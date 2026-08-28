@@ -1,0 +1,26 @@
+name: Notificar actualización
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - 'scripts/**'
+      - 'reminders.json'
+      - '*.md'
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar dependencias
+        run: npm install
+        working-directory: scripts
+      - name: Enviar notificación
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/send-notification.js "Actualicé nuestra página 💛" "Hay algo nuevo esperándote, ven a verlo."
