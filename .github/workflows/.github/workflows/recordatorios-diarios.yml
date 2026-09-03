@@ -2,6 +2,9 @@ name: Recordatorios diarios
 
 on:
   schedule:
+    # 05:00 hora de Colombia (UTC-5) = 10:00 UTC — solo para recordatorios especiales
+    - cron: '0 10 * * *'
+    # 09:00 hora de Colombia (UTC-5) = 14:00 UTC — horario normal
     - cron: '0 14 * * *'
   workflow_dispatch: {}
 
@@ -18,9 +21,18 @@ jobs:
       - name: Instalar dependencias
         run: npm install
         working-directory: scripts
+      - name: Determinar a qué hora corresponde esta ejecución
+        id: hora
+        run: |
+          if [ "${{ github.event.schedule }}" == "0 10 * * *" ]; then
+            echo "hora=05:00" >> "$GITHUB_OUTPUT"
+          else
+            echo "hora=09:00" >> "$GITHUB_OUTPUT"
+          fi
       - name: Revisar y enviar recordatorios de hoy
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          HORA_EJECUTAR: ${{ steps.hora.outputs.hora }}
         run: node scripts/send-reminders.js
       - name: Guardar reminders.json si cambió
         run: |
