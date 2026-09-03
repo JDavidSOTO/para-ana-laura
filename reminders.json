@@ -75,6 +75,8 @@
     "fecha": "2026-09-07",
     "titulo": "🎉 ¡Hoy es el día! 💛",
     "mensaje": "Nuestro primer año. Entra ahora, tengo algo muy especial esperándote.",
-    "enviado": false
+    "enviado": false,
+    "hora": "05:00",
+    "especial": true
   }
 ]
