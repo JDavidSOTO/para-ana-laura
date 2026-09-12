@@ -1705,3 +1705,57 @@ if(paCerrarFinal){
     cerrarModalAccesible('overlayPrimerAno', btnPrimerAno);
   });
 }
+
+/* ══════════════════════════════════════════════════════
+   FLORES AMARILLAS — 21 de septiembre
+   Se abre SOLA (sin que nadie toque nada) la primera vez que
+   se entra a la página ese día o después. Después queda un
+   botón flotante 🌼 para volver a verla cuando quiera.
+   ══════════════════════════════════════════════════════ */
+const FECHA_FLORES = new Date(2026, 8, 21); // mes 8 = septiembre (0-indexado)
+const FA_VISTO_KEY = 'floresAmarillas_visto';
+
+const FA_CARTA = `Mi amor, 🌼
+
+Hoy es 21 de septiembre — el día de las flores amarillas. Dicen que quien las recibe será feliz para siempre, y yo no necesito ninguna tradición para saber que quiero eso para ti todos los días de mi vida.
+
+Este ramo no es solo una costumbre bonita que vi por ahí. Es mi forma de decirte, una vez más, que contigo todo se siente distinto — más simple, más cálido, más real.
+
+Quiero que cada 21 de septiembre, cada fecha pequeña o grande, la sigamos celebrando así: juntos, inventando razones para hacernos felices el uno al otro.
+
+Feliz día de las flores amarillas, mi princesa. Que esta sea la primera de muchas que te voy a regalar. 💛
+
+Con todo mi amor,
+Jesús David ❤️♾️`;
+
+function esDiaDeFlores(){ return new Date() >= FECHA_FLORES; }
+
+function abrirFlores(){
+  const texto = $('faCartaTexto');
+  if(texto) texto.textContent = FA_CARTA;
+  const overlay = $('overlayFlores');
+  if(overlay){
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+  }
+}
+
+if(esDiaDeFlores()){
+  const btnFlores = $('btnFlores');
+  if(btnFlores) btnFlores.style.display = 'inline-flex';
+
+  // La primera vez que entra ese día (o después), se abre sola.
+  if(localStorage.getItem(FA_VISTO_KEY) !== '1'){
+    localStorage.setItem(FA_VISTO_KEY, '1');
+    setTimeout(abrirFlores, 400); // pequeña pausa para que cargue la página primero
+  }
+
+  if(btnFlores) btnFlores.addEventListener('click', abrirFlores);
+}
+
+const faCerrar = $('faCerrar');
+if(faCerrar){
+  faCerrar.addEventListener('click', ()=>{
+    cerrarModalAccesible('overlayFlores', $('btnFlores'));
+  });
+}

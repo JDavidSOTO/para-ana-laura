@@ -8,6 +8,25 @@ function $(id){ return document.getElementById(id); }
 /** Vibración táctil segura (no rompe si el navegador no la soporta) */
 function vibrar(patron){ if(navigator.vibrate) navigator.vibrate(patron); }
 
+/**
+ * Cierra un modal de forma accesible: primero quita el foco de
+ * cualquier botón/elemento que esté enfocado DENTRO del modal
+ * (ej. el botón de cerrar que se acaba de tocar), y solo después
+ * le pone aria-hidden="true". Evita la advertencia del navegador
+ * "Blocked aria-hidden on an element because its descendant
+ * retained focus" y hace que los lectores de pantalla funcionen bien.
+ */
+function cerrarModalAccesible(idModal, elementoDisparador){
+  const modal = $(idModal);
+  if(!modal) return;
+  if(document.activeElement && modal.contains(document.activeElement)){
+    document.activeElement.blur();
+  }
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  if(elementoDisparador) elementoDisparador.focus();
+}
+
 // ══════════════════════════════════
 // MODO NOCHE 🌙
 // ══════════════════════════════════

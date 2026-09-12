@@ -7,7 +7,7 @@
 // que generas en Firebase Console → Configuración del proyecto
 // → Cloud Messaging → Certificados push web → Generar par de claves.
 // ══════════════════════════════════════════════════════
-const VAPID_KEY = 'BHtaaPR5UIDjkTKEYFa9rQ0PDdZHM_6c4AgUFy_-y5vNRV1kVrTFzOtqqOlYQuFe2QAs_qV5EodoEowcuSY9fUA';
+const VAPID_KEY = 'VAPID_KEY_AQUI';
 
 let messaging = null;
 try {
@@ -34,7 +34,7 @@ async function activarNotificaciones() {
   if (btn) { btn.disabled = true; btn.textContent = 'Activando… 💫'; }
 
   try {
-   const registration = await navigator.serviceWorker.register('/para-ana-laura/firebase-messaging-sw.js');
+    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
     const permiso = await Notification.requestPermission();
 
     if (permiso !== 'granted') {
