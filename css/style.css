@@ -224,3 +224,28 @@ a:focus-visible,
   outline: 2px solid var(--turq-d);
   outline-offset: 2px;
 }
+
+/* ══════════════════════════════════════════════════════
+   BARRIDO DE TRANSICIÓN entre secciones
+   Una cortina con degradé de marca cruza toda la pantalla
+   mientras se cambia el contenido, dando una transición
+   dinámica en vez del simple desvanecer anterior.
+   ══════════════════════════════════════════════════════ */
+.barrido{
+  position:fixed;inset:0;z-index:500;
+  background:linear-gradient(115deg, var(--oro), var(--rosa-d) 55%, var(--oro));
+  clip-path:inset(0 100% 0 0);
+  pointer-events:none;
+}
+.barrido.ltr{ animation:barridoLTR .64s cubic-bezier(.65,0,.35,1) forwards; }
+.barrido.rtl{ animation:barridoRTL .64s cubic-bezier(.65,0,.35,1) forwards; }
+@keyframes barridoLTR{
+  0%{clip-path:inset(0 100% 0 0);}
+  50%{clip-path:inset(0 0% 0 0);}
+  100%{clip-path:inset(0 0 0 100%);}
+}
+@keyframes barridoRTL{
+  0%{clip-path:inset(0 0 0 100%);}
+  50%{clip-path:inset(0 0% 0 0);}
+  100%{clip-path:inset(0 100% 0 0);}
+}
