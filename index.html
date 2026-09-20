@@ -10,7 +10,7 @@
 <meta property="og:title" content="Para Ana Laura 💛"/>
 <meta property="og:description" content="Una sorpresa hecha con amor: cartas, juegos y recuerdos para celebrar lo nuestro."/>
 <meta property="og:type" content="website"/>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/themes.css"/>
 <link rel="stylesheet" href="css/style.css"/>
 <link rel="stylesheet" href="css/components.css"/>
@@ -728,7 +728,7 @@
 <section id="momentos">
   <p class="ttl rv">Nuestros momentos</p>
   <p class="sub rv">Recuerdos que guardo en el corazón</p>
-  <div class="rv">
+  <div class="rv mom-timeline">
     <div class="mom"><div class="mom-ico">🛍️</div><h3 class="mom-tit">Nuestra primera cita</h3><p class="mom-fec">El inicio de todo</p><p class="mom-dsc">Ese día en el centro comercial donde todo comenzó. Una cita que no olvidaré jamás, porque fue ahí donde supe que algo muy especial estaba naciendo entre nosotros.</p></div>
     <div class="mom"><div class="mom-ico">💌</div><h3 class="mom-tit">La carta que lo cambió todo</h3><p class="mom-fec">7 de septiembre, 2025</p><p class="mom-dsc">El día que te entregué mi carta y con ella, mi corazón. Fue la forma más sincera que encontré para decirte lo que sentía… y tú dijiste que sí. Ese día me volviste el hombre más feliz.</p></div>
     <div class="mom"><div class="mom-ico">⭐</div><h3 class="mom-tit">Cada día contigo</h3><p class="mom-fec">Desde entonces…</p><p class="mom-dsc">Porque cada momento juntos se convierte en un recuerdo que atesoro. Tu risa, tu mirada, tu forma de ser… son los detalles que hacen que mi vida sea más bonita.</p></div>
@@ -849,12 +849,12 @@
   <p class="sub rv">Cada estrella guarda un recuerdo nuestro… tócalas ✨</p>
   <div class="gx-wrap rv"><canvas id="galaxyCanvas"></canvas></div>
   <p class="gx-hint">Toca las estrellas brillantes para descubrir nuestros recuerdos</p>
-  <a class="gx-btn-full rv" href="galaxia-del-amor/index.html" target="_blank" rel="noopener" aria-label="Abrir la experiencia completa de la galaxia en pantalla completa">
+  <button type="button" class="gx-btn-full rv" onclick="abrirExperiencia('galaxia-del-amor/index.html','Galaxia del amor')" aria-label="Abrir la experiencia completa de la galaxia en pantalla completa">
     Vivir la galaxia completa ✨
-  </a>
-  <a class="mapa-btn-full rv" href="mapa-de-nuestra-historia/index.html" target="_blank" rel="noopener" aria-label="Abrir el mapa interactivo de nuestra historia">
+  </button>
+  <button type="button" class="mapa-btn-full rv" onclick="abrirExperiencia('mapa-de-nuestra-historia/index.html','Mapa de nuestra historia')" aria-label="Abrir el mapa interactivo de nuestra historia">
     Ver el mapa de nuestra historia 🗺️
-  </a>
+  </button>
 </section>
 <div class="gx-popup" id="gxPopup">
   <div class="gx-popup-inner">
@@ -867,6 +867,8 @@
 
 <!-- JARDÍN -->
 <section id="jardin">
+  <span class="botanica-esquina botanica-esquina--tl" aria-hidden="true"></span>
+  <span class="botanica-esquina botanica-esquina--br" aria-hidden="true"></span>
   <p class="ttl rv">Nuestro jardín 🌸</p>
   <p class="sub rv">Cada flor es algo que siento por ti… tócalas</p>
   <p class="jd-hint rv">🌸 Toca cada flor y descubre su mensaje</p>
@@ -1397,6 +1399,8 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
 
 <!-- FLORES AMARILLAS — 21 de septiembre -->
 <div id="overlayFlores" class="fa-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <span class="botanica-esquina botanica-esquina--tl" aria-hidden="true"></span>
+  <span class="botanica-esquina botanica-esquina--br" aria-hidden="true"></span>
   <div class="fa-contenido">
     <div class="fa-ramo" aria-hidden="true">
       <div class="fa-hojas">🌿</div>
@@ -1421,6 +1425,16 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
 <button id="btnFlores" class="btn-flores" style="display:none;" aria-label="Ver el ramo de flores amarillas">🌼</button>
 
 <div id="barridoTransicion" class="barrido" aria-hidden="true"></div>
+
+<!-- EXPERIENCIA INTEGRADA — galaxia y mapa se abren aquí, a pantalla
+     completa, en vez de saltar a otra pestaña. Botón de volver
+     funciona con clic/tap y también con el botón físico "atrás" -->
+<div id="experienciaOverlay" class="experiencia-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <button type="button" id="experienciaVolver" class="experiencia-volver" aria-label="Volver a la página principal">
+    ← Volver
+  </button>
+  <iframe id="experienciaIframe" class="experiencia-iframe" title="Experiencia completa" loading="eager"></iframe>
+</div>
 
 <div id="notifWidget" class="notif-widget">
   <button id="btnNotif" class="notif-btn" type="button">🔔 Activar notificaciones</button>
