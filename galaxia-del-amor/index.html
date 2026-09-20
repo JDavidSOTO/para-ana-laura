@@ -101,5 +101,22 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+  // Si esta página está embebida dentro de la experiencia integrada
+  // de la página principal (mismo sitio, en un iframe), el botón
+  // "Volver" cierra esa experiencia en vez de navegar dentro del iframe.
+  (function(){
+    const btn = document.getElementById('btnVolver');
+    if(!btn) return;
+    try{
+      if(window.top !== window.self && typeof window.top.cerrarExperiencia === 'function'){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          window.top.cerrarExperiencia(false);
+        });
+      }
+    }catch(e){ /* distinto origen: se deja el comportamiento normal del enlace */ }
+  })();
+</script>
 </body>
 </html>
