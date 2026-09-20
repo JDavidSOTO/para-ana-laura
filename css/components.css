@@ -1,9 +1,17 @@
 /* CONTADOR */
 #cuenta{background:linear-gradient(135deg,#fce4ec,#fff8e1);}
-.cnt-g{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;max-width:320px;margin:0 auto;}
-.cnt-i{background:var(--w);border:2px solid var(--oro-l);border-radius:var(--r-16);padding:1.2rem 1rem;text-align:center;box-shadow:0 6px 20px rgba(var(--oro-rgb),.12);}
-.cnt-n{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,10vw,3.5rem);color:var(--rosa-d);line-height:1;}
-.cnt-l{font-size:var(--fs-label);letter-spacing:.1rem;text-transform:uppercase;color:var(--oro);margin-top:.3rem;}
+.cnt-g{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;max-width:340px;margin:0 auto;}
+.cnt-i{
+  border-radius:var(--r-24);padding:1.4rem 1rem;text-align:center;
+  box-shadow:var(--shadow-soft-md);
+  transform:rotate(var(--wrap-tilt,0deg));
+}
+.cnt-i:nth-child(1){background:linear-gradient(150deg,var(--rosa-d),#c85f6c);--wrap-tilt:-1.2deg;}
+.cnt-i:nth-child(2){background:linear-gradient(150deg,var(--oro),#a9812f);--wrap-tilt:1deg;}
+.cnt-i:nth-child(3){background:linear-gradient(150deg,#e0935a,var(--coral));--wrap-tilt:1.3deg;}
+.cnt-i:nth-child(4){background:linear-gradient(150deg,#8a3a4a,#5c2430);--wrap-tilt:-.9deg;}
+.cnt-n{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(2.1rem,10vw,3.2rem);color:#fff;line-height:1;letter-spacing:-.02em;}
+.cnt-l{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:var(--fs-label);letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-top:.35rem;}
 .fi-txt{text-align:center;margin-top:1.5rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--txt);font-size:.9rem;opacity:.7;}
 /* CARTA */
 #carta{background:radial-gradient(ellipse at 50% 0%,#fdf0f5 0%,#fef9f0 50%,#fdf5ec 100%);}
@@ -198,19 +206,73 @@
 
 /* MOMENTOS */
 #momentos{background:linear-gradient(180deg,#fff0f3,var(--crema));}
-.mom{background:var(--w);border-radius:var(--r-18);padding:1.5rem;box-shadow:0 8px 30px rgba(var(--rosa-d-rgb),.1);border-left:4px solid var(--rosa-d);margin-bottom:1.2rem;}
-.mom-ico{font-size:2rem;margin-bottom:.6rem;}
+.mom-timeline{position:relative;padding-left:2.6rem;}
+.mom-timeline::before{
+  content:'';position:absolute;left:1.15rem;top:.4rem;bottom:.4rem;width:2px;
+  background:linear-gradient(var(--rosa-d),var(--oro));opacity:.35;
+}
+.mom{position:relative;background:var(--w);border-radius:var(--r-18);padding:1.3rem 1.4rem;box-shadow:var(--shadow-soft-sm);margin-bottom:1.6rem;}
+.mom-ico{
+  position:absolute;left:-2.6rem;top:1.15rem;
+  width:2.3rem;height:2.3rem;border-radius:50%;
+  background:var(--w);border:2px solid var(--rosa-d);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;margin-bottom:0;
+  box-shadow:0 2px 10px rgba(var(--rosa-d-rgb),.3);
+}
 .mom-tit{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--rosa-d);margin-bottom:.3rem;}
-.mom-fec{font-size:var(--fs-label);letter-spacing:.1rem;text-transform:uppercase;color:var(--oro);margin-bottom:.6rem;}
+/* ══════════════════════════════════════════════════════
+   PILL-TAG — etiqueta pequeña estilo "eyebrow label", pastel
+   cálido, para fechas, estados o categorías cortas.
+   Reutilizable: <span class="pill-tag">texto</span> o con
+   modificador de color: pill-tag--oro / pill-tag--rosa
+   ══════════════════════════════════════════════════════ */
+.pill-tag{
+  display:inline-flex;align-items:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:var(--fs-label);font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:var(--r-pill);
+  background:var(--wash-oro);color:#8a6a1f;
+}
+.pill-tag--rosa{ background:var(--wash-rosa); color:var(--rosa-d); }
+
+.mom-fec{
+  display:inline-flex;align-items:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:var(--fs-label);font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:var(--r-pill);
+  background:var(--wash-oro);color:#8a6a1f;
+  margin-bottom:.6rem;
+}
 .mom-dsc{font-family:'Playfair Display',serif;font-style:italic;font-size:.93rem;line-height:1.7;color:var(--txt);opacity:.85;}
 /* FOTOS */
 #fotos{background:#fff8f0;}
-.fto-g{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;}
-.foto-card{position:relative;border-radius:var(--r-16);overflow:hidden;aspect-ratio:1;cursor:pointer;box-shadow:var(--shadow-card);}
-.foto-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--t-slow);}
+.fto-g{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem 1rem;padding:.4rem .2rem;}
+.foto-card{
+  position:relative;border-radius:var(--r-24);overflow:hidden;aspect-ratio:1;cursor:pointer;
+  background:var(--w);
+  padding:.45rem .45rem 1.1rem;
+  border:var(--hairline);
+  box-shadow:var(--shadow-soft-md);
+  transform:rotate(var(--tilt,0deg));
+  transition:transform var(--t-base) ease, box-shadow var(--t-base) ease;
+}
+/* Inclinación tipo Polaroid, alternada — se endereza al tocar */
+.fto-g .foto-card:nth-child(4n+1){--tilt:-3deg;}
+.fto-g .foto-card:nth-child(4n+2){--tilt:2.5deg;}
+.fto-g .foto-card:nth-child(4n+3){--tilt:-2deg;}
+.fto-g .foto-card:nth-child(4n+4){--tilt:3deg;}
+.foto-card:active{ --tilt:0deg; box-shadow:var(--shadow-soft-sm); }
+.foto-card img{
+  width:100%;height:calc(100% - .65rem);object-fit:cover;display:block;
+  border-radius:calc(var(--r-24) - .45rem);
+  transition:transform var(--t-slow);
+}
 .foto-card:active img{transform:scale(1.04);}
-.foto-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(var(--txt-rgb),.72));color:white;font-family:'Dancing Script',cursive;font-size:.95rem;padding:1.2rem .7rem .6rem;transition:opacity var(--t-base);}
-.foto-frase{position:absolute;inset:0;background:linear-gradient(160deg,rgba(var(--rosa-d-rgb),.94),rgba(var(--oro-rgb),.9));display:flex;align-items:center;justify-content:center;padding:1rem .8rem;text-align:center;opacity:0;transform:scale(.92);transition:opacity .35s,transform .35s;border-radius:var(--r-16);pointer-events:none;}
+.foto-label{position:absolute;bottom:1.1rem;left:.45rem;right:.45rem;border-radius:0 0 calc(var(--r-24) - .45rem) calc(var(--r-24) - .45rem);background:linear-gradient(transparent,rgba(var(--txt-rgb),.72));color:white;font-family:'Dancing Script',cursive;font-size:.95rem;padding:1.2rem .7rem .6rem;transition:opacity var(--t-base);}
+.foto-frase{position:absolute;top:.45rem;left:.45rem;right:.45rem;bottom:1.1rem;background:linear-gradient(160deg,rgba(var(--rosa-d-rgb),.94),rgba(var(--oro-rgb),.9));display:flex;align-items:center;justify-content:center;padding:1rem .8rem;text-align:center;opacity:0;transform:scale(.92);transition:opacity .35s,transform .35s;border-radius:calc(var(--r-24) - .45rem);pointer-events:none;}
 .foto-frase span{font-family:'Dancing Script',cursive;font-size:clamp(.9rem,3.8vw,1.15rem);color:white;line-height:1.5;text-shadow:0 1px 4px rgba(var(--black-rgb),.2);}
 .foto-card.active .foto-frase{opacity:1;transform:scale(1);pointer-events:auto;}
 .foto-card.active .foto-label{opacity:0;}
@@ -732,7 +794,7 @@ footer{text-align:center;padding:1rem;font-size:var(--fs-label);color:var(--oro)
   display:inline-block;margin-top:1.4rem;
   font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;
   color:#fff;text-decoration:none;letter-spacing:.03em;
-  padding:.85rem 1.8rem;border-radius:var(--r-pill);
+  padding:.85rem 1.8rem;border-radius:var(--r-pill);border:none;cursor:pointer;
   background:linear-gradient(135deg,#2a1352,#6b3fa0,var(--rosa-d));
   box-shadow:0 8px 26px rgba(var(--rosa-d-rgb),.35);
   transition:transform var(--t-fast),box-shadow var(--t-fast);
@@ -744,7 +806,7 @@ footer{text-align:center;padding:1rem;font-size:var(--fs-label);color:var(--oro)
   display:inline-block;margin-top:.9rem;
   font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;
   color:#2a1d08;text-decoration:none;letter-spacing:.03em;
-  padding:.85rem 1.8rem;border-radius:var(--r-pill);
+  padding:.85rem 1.8rem;border-radius:var(--r-pill);border:none;cursor:pointer;
   background:linear-gradient(135deg,#e8dcc0,#c9a227,#8a6a1f);
   box-shadow:0 8px 26px rgba(139,90,43,.35);
   transition:transform var(--t-fast),box-shadow var(--t-fast);
@@ -1434,13 +1496,30 @@ button{transition:transform var(--t-fast);}
   font-family:'Dancing Script',cursive;font-size:1.1rem;cursor:pointer;
 }
 
-/* Escena 4: certificado */
+/* Escena 4: certificado — marco doble tipo invitación + sello de cera */
 .pa-cert-inner{
+  position:relative;
   max-width:420px;background:linear-gradient(170deg,#fff8e0,#fef0d0);
   border:2px solid var(--oro);border-radius:var(--r-16);
   padding:2.6rem 2rem;box-shadow:0 30px 90px rgba(0,0,0,.6);
 }
-.pa-cert-orn{color:var(--oro);font-size:1rem;letter-spacing:.4em;margin-bottom:1rem;}
+.pa-cert-inner::before{
+  content:'';position:absolute;inset:9px;
+  border:1px solid rgba(201,168,76,.55);
+  border-radius:calc(var(--r-16) - 5px);
+  pointer-events:none;
+}
+.pa-cert-inner::after{
+  content:'J ♡ A';
+  position:absolute;top:-30px;left:50%;transform:translateX(-50%) rotate(-7deg);
+  width:60px;height:60px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#c0392b,#7a1f1f 70%,#4d1010);
+  box-shadow:0 4px 12px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.25),inset 0 -3px 6px rgba(0,0,0,.45);
+  display:flex;align-items:center;justify-content:center;
+  color:#f3d9a8;font-family:'Playfair Display',serif;font-weight:700;font-size:.7rem;
+  letter-spacing:.03em;
+}
+.pa-cert-orn{color:var(--oro);font-size:1rem;letter-spacing:.4em;margin-bottom:1rem;margin-top:.6rem;}
 .pa-cert-titulo{
   font-family:'Playfair Display',serif;font-weight:700;font-size:1.8rem;
   color:#7a5a1a;margin-bottom:1.2rem;
@@ -1573,3 +1652,17 @@ button{transition:transform var(--t-fast);}
   box-shadow:0 0 28px rgba(242,183,5,.7);
   animation:primerAnoPulso 1.8s ease-in-out infinite;
 }
+
+/* ══════════════════════════════════════════════════════
+   ACENTOS BOTÁNICOS — ramitas de líneas finas estilo "flor
+   prensada", en las esquinas del Jardín y del ramo de flores
+   amarillas. Puramente decorativo, muy baja opacidad.
+   ══════════════════════════════════════════════════════ */
+.botanica-esquina{
+  position:absolute;width:90px;height:130px;
+  pointer-events:none;opacity:.28;z-index:0;
+  background-repeat:no-repeat;background-size:contain;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140'><g fill='none' stroke='%238a9b78' stroke-width='2' stroke-linecap='round'><path d='M50 138 C 48 100, 55 78, 48 40 C 44 22, 52 10, 50 2'/><path d='M49 108 C 38 100, 26 96, 16 100'/><path d='M49 108 C 60 100, 72 97, 82 102'/><path d='M48 78 C 38 72, 28 70, 20 75'/><path d='M48 78 C 58 71, 68 69, 78 74'/><path d='M49 48 C 41 42, 33 40, 26 44'/><path d='M49 48 C 57 41, 66 40, 74 45'/></g></svg>");
+}
+.botanica-esquina--tl{top:6px;left:6px;transform:rotate(-14deg) scaleX(-1);}
+.botanica-esquina--br{bottom:6px;right:6px;transform:rotate(-14deg);}

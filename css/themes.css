@@ -26,6 +26,32 @@
   --shadow-turq-sm:0 4px 14px rgba(var(--turq-rgb),.3);
   --shadow-turq-md:0 10px 30px rgba(var(--turq-rgb),.2);
 
+  /* Sombras suaves "en capas" (varias capas finas y muy tenues,
+     en vez de un solo golpe de sombra) — para tarjetas que deben
+     verse pulidas y flotar sobre el papel, sin el brillo de color
+     de --shadow-card/--shadow-md. Inspiradas en sistemas de diseño
+     tipo "editorial" pero manteniendo tinte cálido en vez de negro puro. */
+  --shadow-soft-sm:
+    0 10px 10px -6px rgba(139,90,43,.06),
+    0 4px 6px -3px rgba(139,90,43,.05),
+    0 1px 2px -1px rgba(139,90,43,.05);
+  --shadow-soft-md:
+    0 16px 16px -8px rgba(139,90,43,.06),
+    0 10px 10px -5px rgba(139,90,43,.05),
+    0 5px 5px -2.5px rgba(139,90,43,.04),
+    0 2px 2px -1px rgba(139,90,43,.03);
+
+  /* Borde "hairline" cálido — para dar separación sutil sin sombra */
+  --hairline:1px solid rgba(139,90,43,.14);
+
+  /* Fondos pastel cálidos para etiquetas tipo "pill" (equivalentes
+     cálidos a los washes menta/cielo/durazno de sistemas neutros) */
+  --wash-rosa:#ffe4e8;--wash-oro:#fff2d1;--wash-crema:#fff8ec;
+
+  /* Verde salvia muy suave — solo para los acentos botánicos de línea
+     fina (Jardín, flores amarillas), nunca como color de marca */
+  --salvia:#8a9b78;--salvia-rgb:138,155,120;
+
   /* Escala tipográfica — texto pequeño (etiquetas, notas, pies) */
   --fs-label:.72rem;  /* etiquetas en mayúscula: fechas, progreso */
   --fs-note:.78rem;   /* notas, hints, texto secundario itálico */

@@ -65,3 +65,59 @@ function crearEstrellas(){
   }
 }
 
+// ══════════════════════════════════════════════════════
+// EXPERIENCIA INTEGRADA (galaxia / mapa de la historia)
+// Abre esas experiencias dentro de la misma página, a pantalla
+// completa, sin saltar a otra pestaña. El botón "Volver" y el
+// botón físico/gesto "atrás" del celular o de la computadora
+// hacen lo mismo: cerrar y regresar a donde estaba.
+// ══════════════════════════════════════════════════════
+function abrirExperiencia(url, titulo){
+  const overlay = $('experienciaOverlay');
+  const iframe = $('experienciaIframe');
+  if(!overlay || !iframe) return;
+
+  iframe.src = url;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+
+  // Empuja un estado al historial: así el botón/gesto "atrás"
+  // del navegador cierra la experiencia en vez de salir de la página.
+  history.pushState({experiencia: true}, '', '#' + encodeURIComponent(titulo || 'experiencia'));
+}
+
+function cerrarExperiencia(vieneDelHistorial){
+  const overlay = $('experienciaOverlay');
+  const iframe = $('experienciaIframe');
+  if(!overlay) return;
+
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  if(iframe) iframe.src = ''; // libera memoria y detiene animaciones/audio de adentro
+
+  // Si cerramos por el botón (no por el back del navegador),
+  // deshacemos el estado que empujamos al abrir.
+  if(!vieneDelHistorial && history.state && history.state.experiencia){
+    history.back();
+  }
+}
+
+const experienciaVolver = $('experienciaVolver');
+if(experienciaVolver){
+  experienciaVolver.addEventListener('click', () => cerrarExperiencia(false));
+}
+
+window.addEventListener('popstate', (e) => {
+  const overlay = $('experienciaOverlay');
+  if(overlay && overlay.classList.contains('open') && !(e.state && e.state.experiencia)){
+    cerrarExperiencia(true);
+  }
+});
+
+// Esc en computador también cierra
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    const overlay = $('experienciaOverlay');
+    if(overlay && overlay.classList.contains('open')) cerrarExperiencia(false);
+  }
+});
