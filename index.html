@@ -88,7 +88,6 @@
 <!-- NAV TABS -->
 <nav id="mainNav" aria-label="Navegación principal">
   <button class="ntab" onclick="irA('cuenta')" data-tab="cuenta"><span class="ico">⏳</span><span class="nlbl">Tiempo</span></button>
-  <button class="ntab" onclick="irA('playa')" data-tab="playa"><span class="ico">🏖️</span><span class="nlbl">Playa</span></button>
   <button class="ntab" onclick="irA('carta')" data-tab="carta"><span class="ico">💌</span><span class="nlbl">Cartas</span></button>
   <button class="ntab" onclick="irA('fotos')" data-tab="fotos"><span class="ico">📷</span><span class="nlbl">Fotos</span></button>
   <button class="ntab" onclick="irA('galaxia')" data-tab="galaxia"><span class="ico">🌌</span><span class="nlbl">Galaxia</span></button>
@@ -105,27 +104,28 @@
 
     <p class="mas-categoria">Nuestra historia</p>
     <div class="mas-grid">
-      <button class="mas-item" onclick="irA('momentos');cerrarMas()"><span>🌙</span><span>Momentos</span></button>
-      <button class="mas-item" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
-      <button class="mas-item" onclick="irA('album');cerrarMas()"><span>📖</span><span>Álbum</span></button>
-      <button class="mas-item" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
-      <button class="mas-item" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
+      <button class="mas-item" data-preview="🏖️ Nuestra playa" onclick="irA('playa');cerrarMas()"><span>🏖️</span><span>Playa</span></button>
+      <button class="mas-item" data-preview="🌙 Momentos que guardo" onclick="irA('momentos');cerrarMas()"><span>🌙</span><span>Momentos</span></button>
+      <button class="mas-item" data-preview="📝 Nuestros recuerdos" onclick="irA('recuerdos');cerrarMas()"><span>📝</span><span>Recuerdos</span></button>
+      <button class="mas-item" data-preview="📖 Nuestro álbum" onclick="irA('album');cerrarMas()"><span>📖</span><span>Álbum</span></button>
+      <button class="mas-item" data-preview="💛 Razones para amarte" onclick="irA('razones');cerrarMas()"><span>💛</span><span>Razones</span></button>
+      <button class="mas-item" data-preview="🌹 Mis promesas" onclick="irA('promesas');cerrarMas()"><span>🌹</span><span>Promesas</span></button>
     </div>
 
     <p class="mas-categoria">Sorpresas</p>
     <div class="mas-grid">
-      <button class="mas-item" onclick="irA('cartas-sorpresa');cerrarMas()"><span>💝</span><span>Sorpresas</span></button>
-      <button class="mas-item" onclick="irA('carta-viva');cerrarMas()"><span>✍️</span><span>Carta viva</span></button>
-      <button class="mas-item" onclick="irA('secreto');cerrarMas()"><span>🔐</span><span>Secreto</span></button>
+      <button class="mas-item" data-preview="💝 Cartas sorpresa" onclick="irA('cartas-sorpresa');cerrarMas()"><span>💝</span><span>Sorpresas</span></button>
+      <button class="mas-item" data-preview="✍️ Una carta viva" onclick="irA('carta-viva');cerrarMas()"><span>✍️</span><span>Carta viva</span></button>
+      <button class="mas-item" data-preview="🔐 Algo secreto" onclick="irA('secreto');cerrarMas()"><span>🔐</span><span>Secreto</span></button>
     </div>
 
     <p class="mas-categoria">Juntos, hoy y siempre</p>
     <div class="mas-grid">
-      <button class="mas-item" onclick="irA('carta-futuro');cerrarMas()"><span>💌</span><span>Carta futura</span></button>
-      <button class="mas-item" onclick="irA('sentimientos');cerrarMas()"><span>💭</span><span>Cómo nos sentimos</span></button>
-      <button class="mas-item" onclick="irA('suenos');cerrarMas()"><span>⭐</span><span>Sueños juntos</span></button>
-      <button class="mas-item" onclick="irA('playlist');cerrarMas()"><span>🎵</span><span>Playlist</span></button>
-      <button class="mas-item" onclick="irA('adviento');cerrarMas()"><span>🗓️</span><span>Cuenta regresiva</span></button>
+      <button class="mas-item" data-preview="💌 Una carta al futuro" onclick="irA('carta-futuro');cerrarMas()"><span>💌</span><span>Carta futura</span></button>
+      <button class="mas-item" data-preview="💭 Cómo nos sentimos" onclick="irA('sentimientos');cerrarMas()"><span>💭</span><span>Cómo nos sentimos</span></button>
+      <button class="mas-item" data-preview="⭐ Nuestros sueños" onclick="irA('suenos');cerrarMas()"><span>⭐</span><span>Sueños juntos</span></button>
+      <button class="mas-item" data-preview="🎵 Nuestra playlist" onclick="irA('playlist');cerrarMas()"><span>🎵</span><span>Playlist</span></button>
+      <button class="mas-item" data-preview="🗓️ Cuenta regresiva" onclick="irA('adviento');cerrarMas()"><span>🗓️</span><span>Cuenta regresiva</span></button>
     </div>
   </div>
 </div>
