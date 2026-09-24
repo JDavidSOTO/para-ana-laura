@@ -150,6 +150,7 @@ img,video,canvas,iframe,svg{max-width:100%;height:auto;}
   display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;
 }
 .mas-item{
+  position:relative;
   display:flex;flex-direction:column;align-items:center;gap:.35rem;
   background:white;border:1.5px solid rgba(var(--rosa-rgb),.5);
   border-radius:var(--r-16);padding:.8rem .3rem .7rem;
@@ -159,8 +160,47 @@ img,video,canvas,iframe,svg{max-width:100%;height:auto;}
   transition:transform .2s,box-shadow .2s,border-color .2s;
   -webkit-tap-highlight-color:transparent;
 }
-.mas-item span:first-child{font-size:1.5rem;line-height:1;}
+.mas-item span:first-child{font-size:1.5rem;line-height:1;transition:transform .25s var(--ease-bounce);}
 .mas-item:active{transform:scale(.94);box-shadow:0 1px 6px rgba(var(--rosa-d-rgb),.12);}
+
+/* ══════════════════════════════════════════════════════
+   EFECTO DOCK (estilo macOS/Apple) — solo en computadores con
+   mouse real. Al pasar el cursor, el botón crece y aparece una
+   vista previa flotante arriba. En celular no pasa nada raro:
+   esta regla no aplica a pantallas táctiles.
+   ══════════════════════════════════════════════════════ */
+@media (hover:hover) and (pointer:fine){
+  .mas-item:hover{
+    transform:translateY(-4px) scale(1.1);
+    z-index:6;
+    border-color:var(--rosa-d);
+    box-shadow:var(--shadow-soft-md);
+  }
+  .mas-item:hover span:first-child{transform:scale(1.15);}
+  .mas-item::after{
+    content:attr(data-preview);
+    position:absolute;bottom:calc(100% + 12px);left:50%;
+    transform:translateX(-50%) translateY(6px) scale(.9);
+    background:rgba(30,15,25,.92);color:#fff;
+    padding:.5rem .85rem;border-radius:var(--r-12);
+    font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:500;
+    white-space:nowrap;opacity:0;pointer-events:none;
+    transition:opacity .2s ease,transform .25s var(--ease-bounce);
+    box-shadow:0 10px 24px rgba(0,0,0,.35);z-index:20;
+  }
+  .mas-item::before{
+    content:'';position:absolute;bottom:calc(100% + 6px);left:50%;
+    transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:rgba(30,15,25,.92);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:20;
+  }
+  .mas-item:hover::after{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+  .mas-item:hover::before{opacity:1;}
+
+  /* La barra de navegación principal también se agranda un poco al pasar el cursor */
+  .ntab .ico{transition:transform .28s var(--ease-bounce);}
+  .ntab:hover .ico{transform:scale(1.32) translateY(-3px);}
+}
 
 /* ══ SECCIONES como páginas ══ */
 section{
