@@ -683,13 +683,33 @@
 .big-h{font-size:4rem;animation:ph 1.5s ease-in-out infinite;display:inline-block;}
 
 /* REVEAL */
-.rv{opacity:0;transform:translateY(30px);filter:blur(4px);transition:opacity .7s ease,transform .7s ease,filter .7s ease;}
-.rv.vis{opacity:1;transform:translateY(0);filter:blur(0);}
+.rv{
+  opacity:0;
+  transform:translateY(34px) scale(.96);
+  filter:blur(6px);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1),
+             transform 1s cubic-bezier(.16,1,.3,1),
+             filter 1s cubic-bezier(.16,1,.3,1);
+}
+.rv.vis{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
 .rv:nth-child(2).vis{transition-delay:.06s;}
 .rv:nth-child(3).vis{transition-delay:.12s;}
 .rv:nth-child(4).vis{transition-delay:.18s;}
 .rv:nth-child(5).vis{transition-delay:.24s;}
 .rv:nth-child(6).vis{transition-delay:.3s;}
+
+/* Los títulos de sección llevan una versión más dramática: más
+   escala de partida que el resto del contenido — pero SIN desenfoque,
+   porque el texto con filter:blur() puede quedar borroso de forma
+   permanente en algunos navegadores incluso después de terminar la
+   animación. Escala + movimiento solos dan igual la sensación de
+   "entrar en foco" sin ese riesgo. */
+.ttl.rv{
+  filter:none !important;
+  transform:translateY(40px) scale(.88);
+  transition-duration:1.15s;
+}
+.ttl.rv.vis{transform:translateY(0) scale(1);}
 footer{text-align:center;padding:1rem;font-size:var(--fs-label);color:var(--oro);letter-spacing:.07rem;background:var(--crema);border-top:1px solid rgba(var(--oro-rgb),.2);padding-bottom:calc(1rem + env(safe-area-inset-bottom));}
 
 /* BIENVENIDA */
@@ -1076,14 +1096,26 @@ button{transition:transform var(--t-fast);}
   font-family:'Lato',sans-serif;font-size:var(--fs-note);color:rgba(var(--txt-rgb),.6);
   margin:0 0 .5rem;text-align:center;
 }
-.st-quien{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.4rem;}
-.st-quien-btn{
-  background:var(--calma-bg);border:1.5px solid rgba(139,147,201,.3);
-  color:var(--calma-d);font-family:'Lato',sans-serif;font-size:.85rem;font-weight:600;
-  padding:.55rem 1.1rem;border-radius:var(--r-pill);cursor:pointer;
-  transition:background var(--t-fast),color var(--t-fast);
+.st-quien{
+  position:relative;display:flex;gap:0;justify-content:center;
+  background:var(--calma-bg);border-radius:var(--r-pill);
+  padding:3px;max-width:280px;margin:0 auto 1.4rem;
 }
-.st-quien-btn.activo{background:var(--calma);color:#fff;border-color:transparent;}
+.st-quien::before{
+  content:'';position:absolute;top:3px;bottom:3px;left:3px;
+  width:calc(50% - 3px);background:var(--calma);border-radius:var(--r-pill);
+  transition:transform .35s var(--ease-bounce);
+  box-shadow:0 2px 8px rgba(107,115,168,.35);
+}
+.st-quien:has(.st-quien-btn:nth-child(2).activo)::before{transform:translateX(100%);}
+.st-quien-btn{
+  position:relative;z-index:1;flex:1;
+  background:transparent;border:none;
+  color:var(--calma-d);font-family:'Lato',sans-serif;font-size:.85rem;font-weight:600;
+  padding:.6rem .8rem;border-radius:var(--r-pill);cursor:pointer;
+  transition:color var(--t-fast);
+}
+.st-quien-btn.activo{color:#fff;}
 
 .st-form{
   background:linear-gradient(165deg,#fafaff,var(--calma-bg));
@@ -1640,18 +1672,8 @@ button{transition:transform var(--t-fast);}
   box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-/* Botón flotante para volver a abrir el ramo cualquier día después del 21 */
-.btn-flores{
-  position:fixed;
-  left:18px;
-  bottom:calc(60px + env(safe-area-inset-bottom) + 14px);
-  z-index:140;
-  width:3.6rem;height:3.6rem;border-radius:50%;
-  border:none;font-size:1.7rem;cursor:pointer;
-  background:linear-gradient(135deg,#fff4cc,#f2b705 60%,var(--rosa-d));
-  box-shadow:0 0 28px rgba(242,183,5,.7);
-  animation:primerAnoPulso 1.8s ease-in-out infinite;
-}
+/* (el botón de flores ahora vive en css/notifications.css como .accion-item,
+   dentro del botón flotante único junto a las notificaciones) */
 
 /* ══════════════════════════════════════════════════════
    ACENTOS BOTÁNICOS — ramitas de líneas finas estilo "flor
