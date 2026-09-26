@@ -39,7 +39,9 @@
 <body>
 
 <!-- MODO NOCHE -->
-<button id="btnNoche" onclick="toggleNoche()" title="Modo noche" aria-label="Activar o desactivar modo noche">🌙</button>
+<button id="btnNoche" onclick="toggleNoche()" title="Modo noche" aria-label="Activar o desactivar modo noche" role="switch" aria-checked="false">
+  <span class="switch-track"><span class="switch-thumb"></span></span>
+</button>
 <!-- Estrellas -->
 <div id="estrellas"></div>
 <!-- Canvas pétalos -->
