@@ -35,7 +35,7 @@ let nocheActivo=false;
 function toggleNoche(){
   nocheActivo=!nocheActivo;
   document.body.classList.toggle('noche',nocheActivo);
-  $('btnNoche').textContent=nocheActivo?'☀️':'🌙';
+  $('btnNoche').setAttribute('aria-checked', nocheActivo ? 'true' : 'false');
   if(nocheActivo){
     crearEstrellas();
     $('estrellas').style.opacity='1';
@@ -120,4 +120,59 @@ window.addEventListener('keydown', (e) => {
     const overlay = $('experienciaOverlay');
     if(overlay && overlay.classList.contains('open')) cerrarExperiencia(false);
   }
+});
+// ══════════════════════════════════════════════════════
+// BOTÓN FLOTANTE ÚNICO (notificaciones + flores amarillas)
+// Antes eran 2 botones flotantes separados compitiendo por
+// espacio en las esquinas; ahora es uno solo que se abre
+// hacia arriba mostrando solo las acciones disponibles.
+// ══════════════════════════════════════════════════════
+function actualizarAccionesFlotantes(){
+  const wrap = $('accionesFlotantes');
+  const fab = $('btnAccionesToggle');
+  if(!wrap) return;
+  const items = wrap.querySelectorAll('.accion-item');
+  let hayAlguno = false, hayNovedad = false;
+  items.forEach(it=>{
+    if(it.style.display !== 'none') hayAlguno = true;
+    if(it.classList.contains('tiene-novedad')) hayNovedad = true;
+  });
+  wrap.style.display = hayAlguno ? 'flex' : 'none';
+  if(fab) fab.classList.toggle('tiene-novedad', hayNovedad);
+}
+
+function cerrarAcciones(){
+  const wrap = $('accionesFlotantes');
+  if(!wrap) return;
+  wrap.classList.remove('abierto');
+  const fab = $('btnAccionesToggle');
+  if(fab) fab.setAttribute('aria-expanded','false');
+  const lista = $('accionesLista');
+  if(lista) lista.setAttribute('aria-hidden','true');
+}
+
+function toggleAcciones(){
+  const wrap = $('accionesFlotantes');
+  if(!wrap) return;
+  if(wrap.classList.contains('abierto')){ cerrarAcciones(); return; }
+  wrap.classList.add('abierto');
+  const fab = $('btnAccionesToggle');
+  if(fab) fab.setAttribute('aria-expanded','true');
+  const lista = $('accionesLista');
+  if(lista) lista.setAttribute('aria-hidden','false');
+}
+
+const btnAccionesToggle = $('btnAccionesToggle');
+if(btnAccionesToggle) btnAccionesToggle.addEventListener('click', toggleAcciones);
+
+// Toca fuera del menú → se cierra
+document.addEventListener('click', (e) => {
+  const wrap = $('accionesFlotantes');
+  if(wrap && wrap.classList.contains('abierto') && !wrap.contains(e.target)) cerrarAcciones();
+});
+// Esc también cierra
+window.addEventListener('keydown', (e) => { if(e.key === 'Escape') cerrarAcciones(); });
+// Tocar cualquier acción de adentro cierra el menú después
+document.querySelectorAll('#accionesLista .accion-item').forEach(it=>{
+  it.addEventListener('click', cerrarAcciones);
 });
