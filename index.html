@@ -90,8 +90,6 @@
   <button class="ntab" onclick="irA('cuenta')" data-tab="cuenta"><span class="ico">⏳</span><span class="nlbl">Tiempo</span></button>
   <button class="ntab" onclick="irA('carta')" data-tab="carta"><span class="ico">💌</span><span class="nlbl">Cartas</span></button>
   <button class="ntab" onclick="irA('fotos')" data-tab="fotos"><span class="ico">📷</span><span class="nlbl">Fotos</span></button>
-  <button class="ntab" onclick="irA('galaxia')" data-tab="galaxia"><span class="ico">🌌</span><span class="nlbl">Galaxia</span></button>
-  <button class="ntab" onclick="irA('jardin')" data-tab="jardin"><span class="ico">🌸</span><span class="nlbl">Jardín</span></button>
   <button class="ntab" onclick="irA('juegos')" data-tab="juegos"><span class="ico">🎮</span><span class="nlbl">Juegos</span></button>
   <button class="ntab mas-btn" onclick="toggleMas()" id="masBtn" aria-haspopup="true" aria-controls="masDrawer"><span class="ico">✦</span><span class="nlbl">Más</span></button>
 </nav>
@@ -101,6 +99,12 @@
   <div id="masOverlay" onclick="cerrarMas()"></div>
   <div id="masPanel">
     <p class="mas-titulo">Descubre más ✨</p>
+
+    <p class="mas-categoria">Explorar</p>
+    <div class="mas-grid">
+      <button class="mas-item" data-preview="🌌 Nuestra galaxia" onclick="irA('galaxia');cerrarMas()"><span>🌌</span><span>Galaxia</span></button>
+      <button class="mas-item" data-preview="🌸 Nuestro jardín" onclick="irA('jardin');cerrarMas()"><span>🌸</span><span>Jardín</span></button>
+    </div>
 
     <p class="mas-categoria">Nuestra historia</p>
     <div class="mas-grid">
@@ -1422,8 +1426,6 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
   </div>
 </div>
 
-<button id="btnFlores" class="btn-flores" style="display:none;" aria-label="Ver el ramo de flores amarillas">🌼</button>
-
 <div id="barridoTransicion" class="barrido" aria-hidden="true"></div>
 
 <!-- EXPERIENCIA INTEGRADA — galaxia y mapa se abren aquí, a pantalla
@@ -1436,9 +1438,22 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
   <iframe id="experienciaIframe" class="experiencia-iframe" title="Experiencia completa" loading="eager"></iframe>
 </div>
 
-<div id="notifWidget" class="notif-widget">
-  <button id="btnNotif" class="notif-btn" type="button">🔔 Activar notificaciones</button>
+<!-- BOTÓN FLOTANTE ÚNICO — agrupa notificaciones y flores amarillas
+     en vez de tener varios botones flotantes compitiendo por espacio.
+     Solo aparece si hay al menos una acción disponible. -->
+<div id="accionesFlotantes" class="acciones-flotantes" style="display:none;">
+  <div id="accionesLista" class="acciones-lista" aria-hidden="true">
+    <button id="btnFlores" class="accion-item" style="display:none;" aria-label="Ver el ramo de flores amarillas">
+      <span class="accion-ico">🌼</span><span class="accion-lbl">Flores amarillas</span>
+    </button>
+    <button id="btnNotif" class="accion-item" type="button">
+      <span class="accion-ico">🔔</span><span class="accion-lbl">Activar notificaciones</span>
+    </button>
+  </div>
   <p id="notifEstado" class="notif-estado"></p>
+  <button id="btnAccionesToggle" class="fab-principal" type="button" aria-label="Más acciones" aria-expanded="false" aria-controls="accionesLista">
+    <span id="fabIcono">✦</span>
+  </button>
 </div>
 
 <script src="js/theme.js"></script>
