@@ -2,8 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#f7c5c5"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" href="img/icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Para Ana"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <title>Para Ana Laura 💛</title>
 <meta name="description" content="Una carta digital y sorpresa interactiva para celebrar nuestro amor, hecha con cariño para Ana Laura."/>
 <meta name="robots" content="noindex, nofollow"/>
@@ -17,6 +24,7 @@
 <link rel="stylesheet" href="css/animations.css"/>
 <link rel="stylesheet" href="css/responsive.css"/>
 <link rel="stylesheet" href="css/notifications.css"/>
+<link rel="stylesheet" href="css/bento.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("1ZuHc8hIU3i1Spg-a");</script>
 <!-- Firebase: base de datos compartida en tiempo real -->
@@ -77,14 +85,47 @@
   <p class="p-sub">Un pequeño mundo construido solo para nosotros</p>
   <div class="dvd"></div>
   <p class="p-nom"><span>Jesús David</span> &amp; <span>Ana Laura</span></p>
-  <p class="p-hint" onclick="irA('cuenta')" style="cursor:pointer;">↓ descubre nuestra historia</p>
-  <button onclick="iniciarPetalos()" class="btn-petalos">🌸 Lluvia de pétalos</button>
-  <button onclick="mostrarTeAmo()" class="btn-te-amo">💛 Te amo mucho</button>
-  <button id="btnRegalo11" class="btn-regalo-11" style="display:none;" aria-label="Abrir sorpresa">🎁</button>
-  <button id="btnCumple" class="btn-cumple" style="display:none;" aria-label="Abrir sorpresa de cumpleaños">🎂</button>
-  <button id="btnDestello" class="btn-destello" style="display:none;" aria-label="Ver pistas">✨</button>
-  <button id="btnPrimerAno" class="btn-primer-ano" style="display:none;" aria-label="Abrir nuestro primer año">💍</button>
+  <!-- TABLERO — resumen del día, estilo widgets -->
+  <div class="bento rv" id="bento">
+    <button type="button" class="bt bt-dias" onclick="irA('cuenta')" aria-label="Ver cuánto llevamos juntos">
+      <span class="bt-lbl">Llevamos juntos</span>
+      <span class="bt-num" id="btDias">—</span>
+      <span class="bt-sub" id="btDiasSub">días de historia 💛</span>
+    </button>
+    <button type="button" class="bt bt-foto" onclick="irA('fotos')" aria-label="Ver nuestras fotos">
+      <img id="btFotoImg" src="img/optimizadas/galeria-01.jpg" alt="" loading="lazy"/>
+      <span class="bt-foto-tag">Recuerdo del día</span>
+      <span class="bt-foto-cap" id="btFotoCap"></span>
+    </button>
+    <button type="button" class="bt bt-mes" onclick="irA('adviento')" aria-label="Ver la cuenta regresiva">
+      <span class="bt-lbl" id="btMesLbl">Próximo mesiversario</span>
+      <span class="bt-num bt-num-sm" id="btMesNum">—</span>
+      <span class="bt-sub" id="btMesSub"></span>
+    </button>
+    <button type="button" class="bt bt-galaxia" onclick="abrirExperiencia('galaxia-del-amor/index.html','Galaxia del amor')" aria-label="Abrir nuestra galaxia">
+      <span class="bt-ico">🌌</span>
+      <span class="bt-sub">Nuestra galaxia<br/>de recuerdos</span>
+    </button>
+    <div class="bt bt-msg" role="note">
+      <span class="bt-lbl">Mensaje de hoy</span>
+      <p class="bt-msg-txt" id="btMsg"></p>
+    </div>
+  </div>
+
+  <div class="p-sorpresas">
+    <button id="btnRegalo11" class="btn-regalo-11" style="display:none;" aria-label="Abrir sorpresa">🎁</button>
+    <button id="btnCumple" class="btn-cumple" style="display:none;" aria-label="Abrir sorpresa de cumpleaños">🎂</button>
+    <button id="btnDestello" class="btn-destello" style="display:none;" aria-label="Ver pistas">✨</button>
+    <button id="btnPrimerAno" class="btn-primer-ano" style="display:none;" aria-label="Abrir nuestro primer año">💍</button>
+  </div>
   <div id="badgePrimerAno" class="badge-primer-ano" style="display:none;">✦ Un año juntos ✦<br/>7 sept 2025 — 7 sept 2026</div>
+
+  <div class="p-acciones">
+    <button onclick="iniciarPetalos()" class="btn-petalos">🌸 Lluvia de pétalos</button>
+    <button onclick="mostrarTeAmo()" class="btn-te-amo">💛 Te amo mucho</button>
+  </div>
+
+  <p class="p-hint" onclick="irA('cuenta')" style="cursor:pointer;">↓ descubre nuestra historia</p>
 </section>
 
 <!-- NAV TABS -->
@@ -1451,12 +1492,17 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
     <button id="btnNotif" class="accion-item" type="button">
       <span class="accion-ico">🔔</span><span class="accion-lbl">Activar notificaciones</span>
     </button>
+    <button id="btnInstalar" class="accion-item" type="button" style="display:none;">
+      <span class="accion-ico">📲</span><span class="accion-lbl">Instalar como app</span>
+    </button>
   </div>
   <p id="notifEstado" class="notif-estado"></p>
   <button id="btnAccionesToggle" class="fab-principal" type="button" aria-label="Más acciones" aria-expanded="false" aria-controls="accionesLista">
     <span id="fabIcono">✦</span>
   </button>
 </div>
+
+<div id="toastGestos" class="toast-gestos" role="status" aria-live="polite"></div>
 
 <script src="js/theme.js"></script>
 <script src="js/navigation.js"></script>
@@ -1465,5 +1511,8 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
 <script src="js/gallery.js"></script>
 <script src="js/main.js"></script>
 <script src="js/notifications.js"></script>
+<script src="js/pwa.js"></script>
+<script src="js/bento.js"></script>
+<script src="js/gestos.js"></script>
 </body>
 </html>
