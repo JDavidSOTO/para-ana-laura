@@ -7,6 +7,7 @@
  * hacia la izquierda (rtl) si retrocede.
  * ══════════════════════════════════════════════════════ */
 const BARRIDO_DURACION = 640; // ms — debe coincidir con la animación en CSS
+let seccionAnterior = 'portada'; // sirve para volver deslizando hacia la derecha
 
 /** Inicializa el contenido especial de cada sección al entrar (canvases, mapas, etc.) */
 function inicializarContenidoSeccion(id){
@@ -24,9 +25,14 @@ function irA(id,desde){
   const secNueva=$(id);
   if(!secNueva){transicionando=false;return;}
 
+  const idAnterior=tabActual;
   const iActual=ORDEN.indexOf(tabActual);
   const iNueva=ORDEN.indexOf(id);
-  const avanzando=iNueva>iActual;
+  let avanzando=iNueva>iActual;
+  // Si el cambio viene de un gesto, la cortina sigue al dedo:
+  // dedo hacia la izquierda → la cortina cruza hacia la izquierda, y viceversa.
+  if(desde==='swipe-izq')avanzando=false;
+  if(desde==='swipe-der')avanzando=true;
 
   const barrido=$('barridoTransicion');
   if(barrido){
@@ -43,6 +49,7 @@ function irA(id,desde){
     secNueva.style.transform='';
     secNueva.style.opacity='';
     secNueva.scrollTop=0;
+    seccionAnterior=idAnterior;
     tabActual=id;
     actualizarTabs();
   },BARRIDO_DURACION/2);
@@ -53,6 +60,7 @@ function irA(id,desde){
     transicionando=false;
     secNueva.querySelectorAll('.rv:not(.vis)').forEach(r=>r.classList.add('vis'));
     inicializarContenidoSeccion(id);
+    if(typeof mostrarPistaGestos==='function')mostrarPistaGestos(id);
   },BARRIDO_DURACION+20);
 }
 

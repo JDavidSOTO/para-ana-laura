@@ -1743,6 +1743,7 @@ function abrirFlores(){
 if(esDiaDeFlores()){
   const btnFlores = $('btnFlores');
   if(btnFlores) btnFlores.style.display = 'inline-flex';
+  actualizarAccionesFlotantes();
 
   // La primera vez que entra ese día (o después), se abre sola.
   if(localStorage.getItem(FA_VISTO_KEY) !== '1'){
