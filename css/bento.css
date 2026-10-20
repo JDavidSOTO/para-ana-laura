@@ -1,0 +1,111 @@
+/* ══════════════════════════════════════════════════════
+   TABLERO (bento) de la portada — tarjetas de distintos
+   tamaños, estilo "widgets" de iOS. Reutiliza los tokens de
+   css/themes.css (sombras suaves, bordes finos, colores).
+   ══════════════════════════════════════════════════════ */
+.bento{
+  display:grid;grid-template-columns:1fr 1fr;gap:.75rem;
+  width:100%;max-width:420px;margin:1.4rem auto 0;
+  text-align:left;
+}
+.bt{
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:.35rem;
+  min-height:112px;padding:1rem 1.05rem;
+  background:#fff;color:var(--txt);
+  border:var(--hairline);border-radius:var(--r-24);
+  box-shadow:var(--shadow-soft-md);
+  font-family:'Space Grotesk',sans-serif;text-align:left;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .3s var(--ease-bounce), box-shadow .3s ease;
+}
+.bt:active{transform:scale(.96);}
+@media (hover:hover) and (pointer:fine){
+  .bt:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft-md),0 14px 28px rgba(139,90,43,.14);}
+}
+
+.bt-lbl{font-size:.64rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.78;}
+.bt-num{display:block;font-weight:800;font-size:clamp(2.8rem,14vw,3.8rem);line-height:1;letter-spacing:-.03em;}
+.bt-num-sm{font-size:clamp(2.2rem,10.5vw,2.9rem);}
+.bt-sub{font-size:.82rem;line-height:1.35;opacity:.9;}
+
+/* Tarjeta ancha: días juntos */
+.bt-dias{
+  grid-column:1/-1;min-height:150px;color:#fff;
+  background:linear-gradient(140deg,var(--rosa-d),#c85f6c);
+}
+.bt-dias::after{
+  content:'💛';position:absolute;right:-.4rem;bottom:-1.2rem;
+  font-size:6.5rem;opacity:.16;transform:rotate(-12deg);pointer-events:none;
+}
+
+/* Tarjeta alta: foto del día */
+.bt-foto{grid-row:span 2;min-height:236px;padding:0;background:#e9d9cf;}
+.bt-foto img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease-smooth);
+}
+.bt-foto:active img{transform:scale(1.05);}
+.bt-foto-tag{
+  position:absolute;top:.7rem;left:.7rem;z-index:1;
+  font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.28rem .6rem;border-radius:var(--r-pill);
+  background:rgba(255,255,255,.88);color:#8a6a1f;
+}
+.bt-foto-cap{
+  position:relative;z-index:1;margin-top:auto;
+  padding:2.4rem .9rem .85rem;
+  background:linear-gradient(transparent,rgba(30,12,18,.62));
+  color:#fff;font-family:'Dancing Script',cursive;font-size:1.25rem;line-height:1.15;
+}
+
+.bt-mes{color:#fff;background:linear-gradient(140deg,var(--oro),#a9812f);}
+.bt-galaxia{
+  color:#fff;justify-content:flex-end;
+  background:linear-gradient(140deg,#2a1352,#6b3fa0);
+}
+.bt-galaxia .bt-ico{font-size:1.9rem;line-height:1;margin-bottom:auto;}
+
+/* Tarjeta ancha: mensaje del día */
+.bt-msg{
+  grid-column:1/-1;cursor:default;justify-content:flex-start;gap:.5rem;min-height:0;
+  background:linear-gradient(140deg,var(--wash-crema),var(--wash-oro));
+}
+.bt-msg-txt{
+  margin:0;font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;line-height:1.5;color:var(--txt);
+}
+
+/* Filas de botones de la portada (antes estaban apilados uno por uno) */
+.p-sorpresas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;}
+.p-sorpresas > button{
+  margin:1.1rem .4rem 0;padding:0;
+  width:clamp(3.8rem,16vw,4.6rem);height:clamp(3.8rem,16vw,4.6rem);
+  font-size:clamp(1.8rem,7vw,2.3rem);line-height:1;
+  align-items:center;justify-content:center;   /* emoji centrado dentro del círculo */
+}
+.p-acciones{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.2rem .8rem;}
+
+/* Modo noche */
+body.noche .bt{background:#1a1025;border-color:rgba(201,125,150,.4);color:#e8d5c4;}
+body.noche .bt-dias{background:linear-gradient(140deg,#8a3a4a,#5c2430);color:#fff;}
+body.noche .bt-mes{background:linear-gradient(140deg,#8a6a1f,#5a4412);color:#fff;}
+body.noche .bt-galaxia{background:linear-gradient(140deg,#2a1352,#4a2a80);color:#fff;}
+body.noche .bt-foto{background:#1a1025;}
+body.noche .bt-msg{background:#1a1025;}
+body.noche .bt-msg-txt{color:#e8d5c4;}
+
+/* Aviso flotante breve (pistas de gestos) */
+.toast-gestos{
+  position:fixed;left:50%;
+  bottom:calc(60px + env(safe-area-inset-bottom) + 18px);
+  transform:translate(-50%,12px);
+  z-index:160;max-width:min(320px,calc(100vw - 40px));
+  padding:.7rem 1.1rem;border-radius:var(--r-pill);
+  background:rgba(30,15,25,.9);color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-size:.8rem;text-align:center;line-height:1.35;
+  box-shadow:0 10px 24px rgba(0,0,0,.3);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease, transform .4s var(--ease-bounce);
+}
+.toast-gestos.visible{opacity:1;transform:translate(-50%,0);}

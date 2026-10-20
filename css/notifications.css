@@ -1,65 +1,81 @@
 /* ══════════════════════════════════════════════════════
-   NOTIFICACIONES — widget flotante
-   Usa las variables de css/themes.css para quedar en tono
-   con el resto del sitio.
+   BOTÓN FLOTANTE ÚNICO — reemplaza lo que antes eran 2
+   botones flotantes distintos (notificaciones + flores)
+   compitiendo por espacio en las esquinas. Ahora es uno
+   solo que se expande hacia arriba, estilo "speed dial".
    ══════════════════════════════════════════════════════ */
-.notif-widget{
+.acciones-flotantes{
   position:fixed;
   right:18px;
   bottom:calc(60px + env(safe-area-inset-bottom) + 14px);
   z-index:150;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:8px;
-  max-width:min(300px, calc(100vw - 36px));
+  display:flex;flex-direction:column;align-items:flex-end;gap:10px;
 }
 
-.notif-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:12px 20px;
-  border:none;
-  border-radius:var(--r-pill);
-  background:linear-gradient(135deg, var(--rosa-d), var(--oro));
-  color:var(--w);
-  font-family:inherit;
-  font-size:.85rem;
-  font-weight:600;
-  letter-spacing:.02em;
-  cursor:pointer;
-  box-shadow:var(--shadow-sm);
+.fab-principal{
+  width:3.6rem;height:3.6rem;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--rosa-d),var(--oro));
+  color:#fff;font-size:1.5rem;
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s var(--ease-bounce), box-shadow var(--t-fast) ease;
+  position:relative;
+}
+.fab-principal:active{ transform:scale(.92); }
+#fabIcono{ display:inline-block; transition:transform .3s var(--ease-bounce); }
+.acciones-flotantes.abierto .fab-principal{ box-shadow:var(--shadow-lg); }
+.acciones-flotantes.abierto #fabIcono{ transform:rotate(135deg); }
+
+/* Punto de novedad agregado — se enciende si CUALQUIER acción
+   de adentro tiene algo nuevo sin ver */
+.fab-principal.tiene-novedad::after{
+  content:'';position:absolute;top:-2px;right:-2px;
+  width:14px;height:14px;border-radius:50%;
+  background:#ff3b5c;border:2.5px solid var(--crema);
+  box-shadow:0 0 8px rgba(255,59,92,.6);
+  animation:puntoNovedadPulso 1.4s ease-in-out infinite;
+}
+
+.acciones-lista{
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  opacity:0;pointer-events:none;transform:translateY(12px) scale(.9);
+  transform-origin:bottom right;
+  transition:opacity .25s ease, transform .3s var(--ease-bounce);
+}
+.acciones-flotantes.abierto .acciones-lista{
+  opacity:1;pointer-events:auto;transform:translateY(0) scale(1);
+}
+
+.accion-item{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;border:none;border-radius:var(--r-pill);
+  background:#fff;color:var(--txt);
+  font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:600;
+  cursor:pointer;box-shadow:var(--shadow-soft-sm);
+  white-space:nowrap;
   transition:transform var(--t-fast) ease, box-shadow var(--t-fast) ease, opacity var(--t-fast) ease;
 }
-.notif-btn:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md); }
-.notif-btn:active{ transform:translateY(0); }
-.notif-btn:disabled{ opacity:.7; cursor:default; transform:none; }
+.accion-item:hover{ transform:translateY(-2px); box-shadow:var(--shadow-soft-md); }
+.accion-item:active{ transform:translateY(0) scale(.97); }
+.accion-item:disabled{ opacity:.7; cursor:default; transform:none; }
+.accion-ico{ font-size:1.1rem; }
 
 .notif-estado{
-  margin:0;
-  padding:10px 16px;
-  border-radius:var(--r-14);
-  background:rgba(var(--white-rgb),.95);
-  color:var(--txt);
-  font-size:.78rem;
-  line-height:1.4;
-  box-shadow:var(--shadow-xs);
-  opacity:0;
-  max-width:100%;
-  transform:translateY(6px);
+  margin:0;max-width:min(260px, calc(100vw - 90px));
+  padding:10px 16px;border-radius:var(--r-14);
+  background:rgba(var(--white-rgb),.97);color:var(--txt);
+  font-size:.78rem;line-height:1.4;box-shadow:var(--shadow-xs);
+  opacity:0;transform:translateY(6px);
   transition:opacity var(--t-base) ease, transform var(--t-base) ease;
 }
 .notif-estado:empty{ display:none; }
 .notif-estado.notif-ok,
-.notif-estado.notif-info{
-  opacity:1;
-  transform:translateY(0);
-}
+.notif-estado.notif-info{ opacity:1; transform:translateY(0); }
 .notif-estado.notif-ok{ border-left:3px solid var(--rosa-d); }
 .notif-estado.notif-info{ border-left:3px solid var(--oro); }
 
 @media (max-width:480px){
-  .notif-widget{ right:12px; bottom:12px; }
-  .notif-btn{ padding:10px 16px; font-size:.8rem; }
+  .acciones-flotantes{ right:12px; }
+  .fab-principal{ width:3.3rem;height:3.3rem;font-size:1.35rem; }
+  .accion-item{ padding:10px 16px; font-size:.8rem; }
 }

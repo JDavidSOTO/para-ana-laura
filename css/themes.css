@@ -67,6 +67,8 @@ body.noche{
 }
 body.noche{background:#0d0812;}
 body.noche #mainNav{background:rgba(13,8,18,.96);border-top:1px solid rgba(212,96,122,.2);}
+body.noche .ntab{color:rgba(232,213,196,.62);}
+body.noche .ntab.activo,body.noche .ntab.activo .nlbl{color:var(--rosa-d);}
 body.noche #masPanel{background:linear-gradient(170deg,#1a1025,#120e1e);}
 body.noche section{background:none!important;}
 body.noche .carta-pergamino{background:linear-gradient(170deg,#1e1430,#180f2a,#1a1230)!important;color:#e8d5c4;}
