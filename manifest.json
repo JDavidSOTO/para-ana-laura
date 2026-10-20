@@ -1,0 +1,17 @@
+{
+  "name": "Para Ana Laura 💛",
+  "short_name": "Para Ana",
+  "description": "Un pequeño mundo construido solo para nosotros.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fde8c8",
+  "theme_color": "#f7c5c5",
+  "icons": [
+    { "src": "img/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
