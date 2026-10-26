@@ -38,6 +38,22 @@ function resolverUrl(u) {
 
 // Notificación mostrada cuando la pestaña está cerrada o en segundo plano
 messaging.onBackgroundMessage((payload) => {
+  // Mensajes "solo datos" (p. ej. el mensaje del día): no traen "notification", así que
+  // el SDK no muestra nada por su cuenta y la notificación la armamos aquí.
+  if (!payload.notification) {
+    const d = payload.data || {};
+    return self.registration.showNotification(d.titulo || 'Para Ana Laura 💛', {
+      body: d.mensaje || 'Tienes algo nuevo esperándote.',
+      icon: ICONO,
+      badge: ICONO,
+      tag: d.tag || undefined,
+      renotify: !!d.tag,          // si reemplaza a una anterior sin leer, igual suena
+      data: { url: resolverUrl(d.url) },
+      vibrate: [200, 100, 200]
+    });
+  }
+
+  // Notificaciones normales (actualizaciones y recordatorios): sin cambios
   const titulo = (payload.notification && payload.notification.title) || 'Para Ana Laura 💛';
   const opciones = {
     body: (payload.notification && payload.notification.body) || 'Tienes algo nuevo esperándote.',
