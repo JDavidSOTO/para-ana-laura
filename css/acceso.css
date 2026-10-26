@@ -1,0 +1,96 @@
+/* ══════════════════════════════════════════════════════
+   CANDADO — pantalla de "palabra secreta"
+   Mismo lenguaje visual que la pantalla de bienvenida.
+   ══════════════════════════════════════════════════════ */
+body.bloqueado{overflow:hidden;}
+
+.candado{
+  position:fixed;inset:0;z-index:3000;
+  background:linear-gradient(160deg,#fff0f3,#fde8c8 55%,#fce4ec);
+  display:flex;align-items:center;justify-content:center;
+  padding:max(1.5rem, env(safe-area-inset-top)) 1.5rem max(1.5rem, env(safe-area-inset-bottom));
+  overflow-y:auto;
+  transition:opacity .6s var(--ease-smooth), visibility .6s;
+}
+.candado.oculto{opacity:0;visibility:hidden;pointer-events:none;}
+
+.candado-caja{width:100%;max-width:340px;text-align:center;}
+.candado-ico{font-size:3.2rem;line-height:1;animation:candadoLatido 2.6s ease-in-out infinite;}
+.candado-titulo{
+  font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,10vw,2.8rem);
+  color:var(--rosa-d);margin:.5rem 0 .1rem;line-height:1.1;
+}
+.candado-sub{
+  font-family:'Playfair Display',serif;font-style:italic;color:var(--oro);
+  font-size:1rem;margin:0 0 1.5rem;
+}
+
+/* Estados: cargando (revisando si ya está desbloqueado) / pedir (muestra el formulario) */
+.candado-latido{font-size:2rem;animation:candadoLatido 1.2s ease-in-out infinite;}
+.candado.pedir .candado-latido{display:none;}
+.candado.cargando .candado-form{display:none;}
+
+.candado-campo{position:relative;}
+.candado-campo input{
+  width:100%;box-sizing:border-box;
+  padding:.95rem 3rem .95rem 1.2rem;
+  border-radius:var(--r-pill);border:1.5px solid rgba(var(--oro-rgb),.45);
+  background:#fff;color:var(--txt);
+  font-family:'Space Grotesk',sans-serif;font-size:1rem;letter-spacing:.04em;text-align:center;
+  box-shadow:var(--shadow-soft-sm);outline:none;
+  transition:border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+}
+.candado-campo input:focus{border-color:var(--rosa-d);box-shadow:var(--shadow-soft-md),0 0 0 3px rgba(var(--rosa-d-rgb),.18);}
+.candado-campo input::placeholder{color:rgba(var(--txt-rgb),.4);letter-spacing:0;}
+.candado-ojo{
+  position:absolute;right:.45rem;top:50%;transform:translateY(-50%);
+  width:2.4rem;height:2.4rem;border:none;background:none;border-radius:50%;
+  font-size:1.1rem;cursor:pointer;opacity:.7;-webkit-tap-highlight-color:transparent;
+}
+.candado-ojo:active{opacity:1;transform:translateY(-50%) scale(.92);}
+
+.candado-error{
+  min-height:1.4rem;margin:.8rem 0 .6rem;
+  font-family:'Space Grotesk',sans-serif;font-size:.85rem;line-height:1.4;color:#b83a4b;
+}
+.candado-btn{
+  width:100%;border:none;cursor:pointer;
+  padding:.95rem 1.5rem;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,var(--rosa-d),var(--oro));color:#fff;
+  font-family:'Dancing Script',cursive;font-size:1.35rem;
+  box-shadow:0 6px 20px rgba(232,129,138,.35);
+  transition:transform .3s var(--ease-bounce), opacity var(--t-fast) ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.candado-btn:active{transform:scale(.97);}
+.candado-btn:disabled{opacity:.7;cursor:default;transform:none;}
+
+/* Campo de usuario invisible: solo existe para que el celular ofrezca recordar la palabra */
+.candado-fantasma{
+  position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;padding:0;
+}
+
+.candado-form.sacudir{animation:candadoSacude .45s ease;}
+@keyframes candadoSacude{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-9px);} 40%{transform:translateX(8px);}
+  60%{transform:translateX(-6px);} 80%{transform:translateX(4px);}
+}
+@keyframes candadoLatido{
+  0%,100%{transform:scale(1);} 50%{transform:scale(1.12);}
+}
+
+/* Botón de bloquear dispositivo (menú Más) */
+.mas-salir{
+  display:block;margin:1.4rem auto .4rem;padding:.6rem 1.2rem;
+  background:none;border:none;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:rgba(var(--txt-rgb),.55);
+  text-decoration:underline;text-underline-offset:3px;-webkit-tap-highlight-color:transparent;
+}
+.mas-salir:active{color:var(--rosa-d);}
+
+/* Modo noche */
+body.noche .candado{background:linear-gradient(160deg,#150d1f,#1a1025 60%,#0d0812);}
+body.noche .candado-campo input{background:#1a1025;color:#e8d5c4;border-color:rgba(201,125,150,.45);}
+body.noche .candado-sub{color:#c9a84c;}
+body.noche .candado-error{color:#ff8fa0;}
