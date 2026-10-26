@@ -5,37 +5,18 @@
 //  · Recuerdo del día (rota entre las fotos de la galería)
 //  · Mensaje del día (rota entre los mensajes de abajo)
 //
-// ✏️ Puedes editar libremente los MENSAJES y las FOTOS:
-//    cada día se elige uno distinto, en orden, y al llegar
-//    al final vuelve a empezar.
+// ✏️ Los MENSAJES se editan en el archivo mensajes-del-dia.txt (una línea = un mensaje).
+//    Las FOTOS se editan aquí abajo. Cada día se elige una distinta, en orden,
+//    y al llegar al final vuelve a empezar.
 // ══════════════════════════════════════════════════════
 (function(){
   const INICIO = new Date('2025-09-07T00:00:00');   // mismo inicio que el contador de "Tiempo"
   const DIA_MES = 7;                                 // los mesiversarios son cada día 7
 
-  const MENSAJES = [
-    'Hoy me acordé de ti en lo más pequeño, y sonreí solo.',
-    'Eres mi lugar favorito, esté donde esté.',
-    'Gracias por quedarte en los días buenos y también en los difíciles.',
-    'Si hoy fue pesado, recuerda que mañana también estoy aquí.',
-    'Contigo hasta lo más sencillo se vuelve especial.',
-    'No te lo digo siempre, pero pienso en ti más de lo que imaginas.',
-    'Tu risa es mi sonido favorito.',
-    'Lo mejor de mi día siempre tiene tu nombre.',
-    'Gracias por ser tan tú. Así fue como me enamoré.',
-    'Que hoy te trate tan bien como tú me tratas a mí.',
-    'Un día más eligiéndote, y lo volvería a hacer.',
-    'Eres mi calma y mi aventura al mismo tiempo.',
-    'Ojalá pudieras verte como te veo yo.',
-    'Cada día contigo es un día que no cambiaría por nada.',
-    'Estoy orgulloso de la mujer que eres y de todo lo que construyes.',
-    'Abrázate fuerte de mi parte hoy 🤍',
-    'Lo nuestro se escribe despacio, y me encanta cada página.',
-    'Si el mundo se complica, ven aquí: aquí siempre hay paz.',
-    'Te quiero hoy, mañana y todos los días que vengan después.',
-    'Gracias por existir en mi vida, mi princesa.',
-    'No hay distancia que le gane a lo que siento por ti.'
-  ];
+  // Los mensajes viven en mensajes-del-dia.txt (un mensaje por línea). Mientras se descargan,
+  // o si no se pudieran leer, se muestra este.
+  const MENSAJE_RESPALDO = 'Hoy, como siempre, pienso en ti 💛';
+  let MENSAJES = [];
 
   const FOTOS = [
     ['galeria-01','Nuestro primer encuentro 🛍️'],
@@ -55,10 +36,19 @@
   const plural = (n, uno, varios) => n + ' ' + (n === 1 ? uno : varios);
   const inicioDeDia = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
-  // Número de día estable (para rotar mensajes/fotos de a uno por día)
+  // Número de día estable (para rotar mensajes/fotos de a uno por día).
+  // Se calcula con la fecha de COLOMBIA, no la del dispositivo: así la tarjeta de la portada
+  // y la notificación de la mañana (que se arma en un servidor) siempre eligen el mismo mensaje.
   function indiceDelDia(){
-    const hoy = inicioDeDia(new Date());
-    return Math.floor((hoy - new Date(2025, 0, 1)) / 86400000);
+    const hoy = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    const p = hoy.split('-').map(Number);                      // [año, mes, día]
+    return Math.floor((Date.UTC(p[0], p[1] - 1, p[2]) - Date.UTC(2025, 0, 1)) / 86400000);
+  }
+
+  // Lee mensajes-del-dia.txt: una línea = un mensaje; se ignoran líneas vacías y las que empiezan con #
+  function leerMensajes(texto){
+    return String(texto).split(/\r?\n/).map(function(l){ return l.trim(); })
+      .filter(function(l){ return l && l.charAt(0) !== '#'; });
   }
 
   // "1 año, 2 meses y 5 días" (con calendario real, no con aproximaciones)
@@ -104,10 +94,26 @@
     }
   }
 
+  function pintarMensaje(){
+    const msg = $b('btMsg');
+    if(!msg) return;
+    const n = MENSAJES.length;
+    msg.textContent = n ? MENSAJES[((indiceDelDia() % n) + n) % n] : MENSAJE_RESPALDO;
+  }
+
+  function cargarMensajes(){
+    fetch('mensajes-del-dia.txt', { cache: 'no-cache' })
+      .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(texto){
+        const lista = leerMensajes(texto);
+        if(lista.length){ MENSAJES = lista; pintarMensaje(); }
+      })
+      .catch(function(e){ console.warn('No se pudo leer mensajes-del-dia.txt:', e); });
+  }
+
   function pintarDelDia(){
     const i = indiceDelDia();
-    const msg = $b('btMsg');
-    if(msg) msg.textContent = MENSAJES[i % MENSAJES.length];
+    pintarMensaje();
 
     const foto = FOTOS[i % FOTOS.length];
     const img = $b('btFotoImg'), cap = $b('btFotoCap');
@@ -118,6 +124,7 @@
   function pintarTodo(){ pintarDias(); pintarMesiversario(); pintarDelDia(); }
 
   pintarTodo();
+  cargarMensajes();
   // se actualiza solo si la app queda abierta de un día para otro
   setInterval(pintarTodo, 60 * 1000);
   document.addEventListener('visibilitychange', function(){ if(!document.hidden) pintarTodo(); });
