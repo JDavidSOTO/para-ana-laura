@@ -25,11 +25,13 @@
 <link rel="stylesheet" href="css/responsive.css"/>
 <link rel="stylesheet" href="css/notifications.css"/>
 <link rel="stylesheet" href="css/bento.css"/>
+<link rel="stylesheet" href="css/acceso.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("1ZuHc8hIU3i1Spg-a");</script>
 <!-- Firebase: base de datos compartida en tiempo real -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyDkFct75bCDSmQwjTP77AkIPSL0xACt39g",
@@ -40,11 +42,34 @@
     appId: "1:334753780496:web:3cf7eb66430f8966d68b95"
   };
   firebase.initializeApp(firebaseConfig);
+  try{ firebase.auth(); }catch(e){ console.warn('Firebase Auth no cargó:', e); }   // se crea ya, para que Firestore use la sesión guardada desde su primera consulta
   const db = firebase.firestore();
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 </head>
-<body>
+<body class="bloqueado">
+
+<!-- CANDADO — la página y sus datos solo se abren con la palabra secreta.
+     Se pide una sola vez por dispositivo; después el dispositivo la recuerda. -->
+<div id="candado" class="candado cargando" role="dialog" aria-modal="true" aria-label="Acceso">
+  <div class="candado-caja">
+    <div class="candado-ico" aria-hidden="true">🔒</div>
+    <p class="candado-titulo">Solo para dos</p>
+    <p class="candado-sub">Escribe nuestra palabra secreta</p>
+    <div class="candado-latido" aria-hidden="true">💛</div>
+    <form id="candadoForm" class="candado-form" autocomplete="on" novalidate>
+      <input id="candadoUsuario" class="candado-fantasma" type="email" name="username" autocomplete="username" tabindex="-1" aria-hidden="true" readonly/>
+      <div class="candado-campo">
+        <input id="candadoClave" type="password" name="password" autocomplete="current-password"
+               autocapitalize="none" autocorrect="off" spellcheck="false"
+               placeholder="Palabra secreta" aria-label="Palabra secreta" required/>
+        <button type="button" id="candadoOjo" class="candado-ojo" aria-label="Mostrar u ocultar la palabra" aria-pressed="false">👁</button>
+      </div>
+      <p id="candadoError" class="candado-error" role="alert"></p>
+      <button type="submit" id="candadoBtn" class="candado-btn">Entrar 💛</button>
+    </form>
+  </div>
+</div>
 
 <!-- MODO NOCHE -->
 <button id="btnNoche" onclick="toggleNoche()" title="Modo noche" aria-label="Activar o desactivar modo noche" role="switch" aria-checked="false">
@@ -174,6 +199,8 @@
       <button class="mas-item" data-preview="🎵 Nuestra playlist" onclick="irA('playlist');cerrarMas()"><span>🎵</span><span>Playlist</span></button>
       <button class="mas-item" data-preview="🗓️ Cuenta regresiva" onclick="irA('adviento');cerrarMas()"><span>🗓️</span><span>Cuenta regresiva</span></button>
     </div>
+
+    <button type="button" class="mas-salir" onclick="cerrarMas();cerrarSesion()">🔒 Bloquear en este dispositivo</button>
   </div>
 </div>
 
@@ -1514,5 +1541,6 @@ Te amo más de lo que las palabras alcanzan a decir.</p>
 <script src="js/pwa.js"></script>
 <script src="js/bento.js"></script>
 <script src="js/gestos.js"></script>
+<script src="js/acceso.js"></script>
 </body>
 </html>
