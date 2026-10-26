@@ -135,6 +135,7 @@
     if(el && el.isContentEditable) return;
     if(document.querySelector(CAPAS_ABIERTAS)) return;
     if(bienvenidaVisible()) return;
+    if(document.body.classList.contains('bloqueado')) return;   // el candado sigue puesto
     if(typeof transicionando !== 'undefined' && transicionando) return;
     cambiarPorGesto(e.key === 'ArrowRight' ? 'izq' : 'der');
   });
