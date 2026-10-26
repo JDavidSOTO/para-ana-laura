@@ -1,0 +1,37 @@
+name: Mensaje del día
+
+# Cada mañana envía a los dispositivos suscritos el mismo mensaje que muestra la
+# tarjeta "Mensaje de hoy" de la portada (sale de mensajes-del-dia.txt).
+# Para pausarlo: Actions → "Mensaje del día" → ··· → Disable workflow.
+on:
+  schedule:
+    - cron: '0 13 * * *'   # 8:00 a. m. hora de Colombia (GitHub puede demorarse unos minutos)
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Enviar aunque hoy haya un recordatorio especial (para probar)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install
+        working-directory: scripts
+
+      - name: Enviar el mensaje de hoy
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FORZAR: ${{ inputs.forzar }}
+        run: node scripts/send-mensaje-diario.js
